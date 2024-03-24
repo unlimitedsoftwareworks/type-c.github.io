@@ -1,0 +1,475 @@
+# Type-C Basics
+
+In this chapter, we introduce the basics of Type-C, such as identifiers,
+keywords, literals, program structure, etc. Some of the things we go
+through here are more in-depth as others, this is for simplicity reasons
+as things such as datatypes also have a chapter dedicated to them.
+
+## Identifiers
+
+Identifiers in Type-C serve as names for variables, functions, types,
+and other entities. An identifier is a sequence of letters, digits, and
+underscores, starting with a letter or an underscore. Here are the exact
+rules of variable names:
+-   Must start with a letter (either uppercase or lowercase) or an underscore (\_).
+-   Can contain letters, numbers, and underscores.
+-   Cannot contain special characters like `#, \$, %, etc`.
+-   Cannot be a reserved keyword.
+-   Are case-sensitive; for example, `myVariable` and `myvariable` are
+distinct identifiers.
+
+-   Follows the following regular expression pattern:
+`^[a-zA-Z_][a-zA-Z0-9_]*$`
+
+
+**Examples of Valid Identifiers:**
+
+```tc
+let myVar = 10
+let _temp = "temporary"
+let SomeValue = true
+let PI_value = 3.14159
+```
+
+**Examples of Invalid Identifiers:**
+
+```tc
+let 9lives = 9 // Starts with a number
+let my-var = 10 // Contains a special character
+let for = "loop" // Reserved keyword
+```
+
+Note that Type-C is case-sensitive, which means `myVar` and `myvar`
+would be considered different identifiers.
+
+### Naming Conventions
+
+In Type-C, clear and consistent naming conventions are essential for
+code readability and maintenance. The following conventions are
+established:
+
+-   **Variables:** Employ camelCase for variable names. For instance,
+`localVariable`.
+-   **Constants:** Use uppercase with underscores for constants,
+typically global compile-time constants. Example: `MAX_SIZE`.
+-   **Methods:** Adopt camelCase for method names. When a method is
+overloaded for different types, use an underscore to separate the
+method name from the type descriptor, then continue in camelCase.
+For general methods: `calculateTotal()`, and for type-specific
+methods: `add_u8()`, `add_u16()`, `add_Object()`.
+-   **Types:** Utilize PascalCase for type names. For example,
+`UserDetails`. This is important especially for algebraic types
+(variants), which when used with pattern matching, a capital letter symbol will match to a datatype.
+-   **Modules and Packages:** Maintain lowercase letters and concatenate
+words. For example, `networkutils`.
+
+## Keywords
+
+The following words are reserved keywords in Type-C and cannot be used
+as identifiers: `as`, `as?`, `as!`, `await`, `break`, `extern`, `this`,
+`class`, `continue`, `const`, `variant`, `do`, `else`, `extern`, `mut`,
+`enum`, `false`, `from`, `for`, `foreach`, `fn`, `if`, `import`, `in`,
+`is`, `interface`, `i8`, `i16`, `i32`, `i64`, `u8`, `u16`, `u32`, `u64`,
+`f32`, `f64`, `bool`, `void`, `string`, `char`, `process`, `spawn`,
+`let`, `new`, `null`, `return`, `this`, `static`, `strict`, `struct`,
+`match`, `true`, `type`, `while`.
+
+## Punctuation
+
+Type-C doesn't require semicolons. The compiler will complain if it find
+a semi-colon unless it is part of the grammar, in cases such as for
+loops.
+
+## Operators and Symbols
+
+In Type-C, operators are fundamental constructs that perform various
+types of operations on variables and values. Symbols, on the other hand,
+serve as special characters that are part of the language's syntax.
+Below, we categorize and describe these elements.
+
+### Arithmetic Operators
+-   `+` Addition
+-   `-` Subtraction
+-   `*` Multiplication
+-   `/` Division
+-   `%` Modulus
+
+### Comparison Operators
+
+-   `==` Equal to
+-   `!=` Not equal to
+-   `<` Less than
+-   `<=` Less than or equal to
+-   `>` Greater than
+-   `>=` Greater than or equal to
+
+### Logical Operators
+-   `&&` Logical AND
+-   `||` Logical OR
+-   `!` Logical NOT
+
+### Bitwise Operators
+
+-   `&` Bitwise AND
+-   `|` Bitwise OR
+-   `^` Bitwise XOR
+-   `<<` Bitwise left shift
+-   `>>` Bitwise right shift
+-   `~` Bitwise NOT
+
+### Assignment Operators
+
+-   `=` Assignment
+-   `+=` Add and assign
+-   `-=` Subtract and assign
+-   `*=` Multiply and assign
+-   `/=` Divide and assign
+
+### Keyword Operators
+
+-   `spawn` Spawning a process
+-   `await` Await a Promise
+-   `new` Class/Process allocator and consturctor
+-   `is` Type checking
+-   `as` Type casting
+
+### Other Operators
+
+-   `!` Denull operator, returns a non-nullable version of a nullable
+type.
+-   `?.` Nullable member access operator.
+-   `++` Increment
+-   `--` Decrement
+
+### Special Symbols
+
+-   `;`, `:`, `,`, `.`, `...`, `(`, `)`, `[`, `]`, `{`, `}` Punctuation
+and delimiters
+
+-   `=>` Arrow for pattern matching
+-   `->` Arrow used in type signatures
+-   `_` Underscore, used in pattern matching (wild card) and as a
+discard symbol
+
+As for whitespace, including spaces, tabs, and newline characters, are
+used to separate tokens and are generally ignored by the compiler. A
+practice in type-c is to use whitespaces instead of tabs, 4 whitespaces
+is the recommended value of indentation.
+
+## Comments
+
+Comments in type-c follows same rules as C-family language like Java, C
+and C++. They come in two types:
+
+-   Single line comments: They start with `//` and spans for the rest of
+the line.
+
+-   Multi-line comments: They start with two characters `/*` and end at
+the very first occurrence of the enclosing comments `*/`. Multiline
+comments cannot be nested.
+
+Additionally, comments are a robust source of documentation if used
+properly. Even though Type-C currently lacks a Doxygen-style parser for
+automated documentation, a standard commenting style for code
+documentation is encouraged. This helps in maintaining readability and
+lays the foundation for future automated documentation parsing. The
+recommended style is as follows:
+```tc
+/**
+ * @brief: A short description of the function's purpose.
+ * @param x: Description of the parameter x.
+ * @return: What the function returns.
+ */
+```
+
+**Example:**
+
+```tc
+/**
+ * @brief: Computes the factorial of a given number.
+ * @param x: The integer input for which factorial is computed.
+ * @return: Returns the factorial of the input as an integer.
+ */
+fn factorial(x: u32) -> u32 {
+    if x == 0 {
+        return 1
+    }
+    return x * factorial(x - 1)
+}
+```
+
+
+## Literals
+
+Literals represent constant values such as numbers or strings. Strings
+start with double quotes `"Hello, world!"` or a single quote
+`'Hello, type-c!'`. Any string literal with a single quote and only one
+character is considered a `char` type, e.g., `'c', 'r', '\n'`. The rest
+are strings such as `"hello", "c"`. Escape characters in string and
+character literals allow for the representation of special characters
+within the text. The available escape characters are:
+
+-   `\\` - Backslash
+-   `\'` - Single quote
+-   `\"` - Double quote
+-   `\n` - Newline
+-   `\t` - Horizontal tab
+-   `\r` - Carriage return
+-   `\xhh` - Byte by hexadecimal
+-   `\uXXXX` - Unicode code point below 10000 hexadecimal
+-   `\UXXXXXXXX` - Unicode code point where each X is a hexadecimal
+digit
+- `b"value"` - Byte string literal, array of `u8`
+
+Numbers are divided into three categories: single-precision
+floating-point numbers, double-precision floating-point numbers, and
+decimals. A single-precision float is a number that may or may not
+include a floating point but ends with `f`, such as `3.14f` or `42f`. A
+double float is a float that doesn't have a suffix, for example, `42.2`.
+The overall regular expression for matching floats is:
+`[+|-]?(?:[0-9]*)(?:\.[0-9]+)(?:[e|E]-[0-9]+)?f?`. A regular decimal
+would be represented through simple numbers like `42`. It's possible to
+write numbers not only in decimal but also in binary, octal, and
+hexadecimal. Binary values are prefixed with `0b`, such as `0b0010`.
+Octal numbers are prefixed with `0o`, and hexadecimal numbers are
+prefixed with `0x`. Note that the prefix is case-sensitive for all these
+cases.
+
+
+|**Regex**|           **Semantic**|        **Example**|
+|---------|-----------------------|-------------------|
+|      `0b[0-1]+`      |Base 2 (Bin) numeric     |`0b1001`|
+|      `0o[0-7]+`      |Base 8 (Oct) numeric     |`0o5647`|
+|    `[0-9]+`     |Base 10 (Dec) numeric    |`5464987`|
+|`0x[0-9a-fA-F]+`   |Base 16 (Hex) numeric   |`0xffeEA3`|
+
+
+On the other hand, boolean literals are represented by the reserved
+keywords `true` and `false`. They are of type `bool` and can take on
+only these two values. `null` is also a literal (and a type!). Null can
+only be assigned to memory referenced objects, i.e structs and objects.
+
+## Program Structure
+
+A standard type-c program is generally organized into several key
+components. The structure ensures clean code separation and easier
+module integration. Here's what to expect in a typical file:
+
+1.  **Module Imports**: This is always the starting point of any type-c
+file. Importing modules must be the first action. While not
+mandatory, if present, must exclusively occupy the beginning of a
+type-c file.
+
+2.  **Type Declarations**: Unlike some languages that allow inline type
+declarations, type-c insists on global type declarations. This
+architectural choice facilitates easy type imports across different
+modules.
+
+3.  **Function Declarations**: This section is devoted to defining
+functions. Note that only named functions are considered here, as
+anonymous functions and lambda expressions are technically treated
+as variables.
+
+4.  **Global Variables**: While they are often considered harmful,
+global variables are allowed. However, it's strongly recommended to
+limit their mutability. Your code, your rules, but you've been
+warned.
+
+This overview serves as a blueprint. Each of these components will be
+dissected and discussed in the following sections.
+
+## Importing Modules
+
+The first logical step in most programs is to import modules. Type-C
+treats folders and files as modules, emphasizing the need for coherent
+naming and structuring of your files. Unlike some other languages,
+you're only allowed to import modules at the beginning of your file;
+once you declare a variable, function, or type, you can no longer
+perform imports. For instance, from our hello world example, the default
+package, `std`, is a folder containing various files such as `io.tc`.
+It's essential to note that nested imports don't propagate. If program A
+imports library B, which in turn imports library C, library C is not
+implicitly imported into A.
+
+```tc
+// fn someX() -> X
+import someX from xfile
+
+let x = someX()
+// This will compile as the compiler knows the type X
+print;n(x.value)
+// The following line won't compile as the type X isn't imported
+let y: X = someX()
+```
+
+You can import datatypes and functions. Global variables are not allowed.
+```tc
+// import .. as
+import std.io as inputOutput
+
+// from .. import as
+from std.io import print as printPlease
+
+// from .. import *
+from std.io import *
+
+// import *
+import std.io.*
+
+// multiple imports
+from std.io import print, printf as printFmt
+```
+
+## Variable Declarations:
+
+### Basic Declarations
+
+In Type-C, variables must be explicitly typed unless they can be inferred from the context. Here's a basic example:
+
+```tc
+let x: u32 = 1
+```
+
+Type inference isn't automatic for literals, so either the type must be explicitly declared, or the value must be cast:
+
+```tc
+let x = 1 as u32
+let y = u32(1)
+```
+
+Casting as a function call, like `u32(1)`, is permitted only for basic data types. This feature simplifies working with literals and type conversions.
+
+### Multiple Declarations
+
+Multiple variables can be declared in a single statement, which can be useful for code organization:
+
+```
+let x: u32 = 1, y: u32 = 2
+```
+
+### Immutability
+
+Immutability is enforced using the `const` keyword:
+
+```tc
+let const z: u8 = 1
+```
+
+Once declared as immutable, the variable can't be reassigned:
+
+```tc
+z = 2 // Compile-time error
+```
+
+Note that if you're declaring multiple variables as immutable in a single statement, each variable must be explicitly marked with `const`.
+
+### Nested Declarations
+
+Type-C supports scoping within expressions using nested `let` declarations:
+
+```tc
+let a: u32 =
+    let b = x + y in
+        b * z
+```
+
+Variables declared within the inner `let` are only available inside its scope, which allows for cleaner, functional-style programming.
+
+### Destructuring
+
+Destructuring is a feature that allows unpacking arrays or structs into individual variables:
+
+```tc
+let myArray: u8[] = [1, 2, 3, 4, 5, 6, 7]
+let [x, y, z, ...rest] = myArray
+```
+It's important to note that the compiler does not check if the size of the array matches the number of variables you are
+trying to destructure into. This check is performed at runtime, and a runtime error (Invalid Index) will occur if
+the sizes do not match. Therefore, it's the programmer's responsibility to ensure that the destructuring is valid given
+the size of the array. Destructuring feature works for structs as well, making it highly versatile:
+
+```tc
+type RandomStruct = struct {x: u32, y: u32, z: u32}
+let structValue: RandomStruct = {x: 1, y: 2, z: 3}
+let {x, ...rest} = structValue
+```
+
+### Immutability Consequences
+
+Immutable variables are 'read-only', their state and the states of their components can't be modified:
+
+```tc
+type User = class {
+    let name: string
+    let age: u32
+
+    fn init(name: string, age: u32) {
+        this += {name, age}
+    }
+
+    fn setAge(newAge: u32) = this.age = age
+}
+
+let const user = new User("Hannibal", 35)
+user.setAge(35) // Compile-time error
+```
+
+Immutable variables are restrictive but secure. Using them in a function where mutability is expected will result in a
+compile-time error. Note that type-c doesn't enforce deep immutability, meaning if an immutable variable `x` for example,
+holds a reference to another object `y`, which is also referenced by a mutable variable `z`, the state of `x` can still
+be altered if `z` was to change. Immutability is enforced from the root object, but not recursively.
+
+## Function Declarations
+
+Functions in Type-C are defined using the `fn` keyword, followed by the function name and its parameters. Once declared, these functions are immutable, meaning they can't be reassigned.
+
+```tc
+fn main(args: string[]) -> void {
+    // do stuff
+}
+```
+
+### Function Parameters and Return Types
+
+By default, function arguments are immutable because Type-C encourages functional purity. Attempting to modify an argument without explicitly declaring it mutable with the `mut` keyword will result in a compile-time error. The return type of a function is denoted by the `->` symbol.
+
+```tc
+fn multiply(x: u32, y: u32) -> u32 {
+    return x * y
+}
+
+fn changeArg(mut x: u32) -> void {
+    x = 3
+}
+```
+
+### Expression Bodies
+
+Functions can be defined with an expression body, providing a concise way to define simple functions. The return type is
+optional and is inferred if not provided.
+
+```tc
+fn multiply(x: u32, y: u32) = x * y
+```
+
+Also, if a function has a block-body and no return type, it is presumed to return `void` by default.
+
+
+### Generic Functions
+
+Functions can also be defined as generic, parameterized over types. Type checking is deferred until the generic types
+are concretized. Note that generic functions can't be passed as arguments or invoked unless their type parameters are
+explicitly specified.
+
+```tc
+fn multiply<T>(x: T, y: T) -> T = x * y
+
+let x = multiply<u32>(3, 3)
+
+fn apply(f: fn(f32, f32) -> u32, x, y) =
+    f(x, y)
+
+let y = apply(multiply<f32>, f32(x), 0.13f)
+
+let z = multiply<string>("hello", "world") // <- compiler error!
+```

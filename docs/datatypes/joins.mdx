@@ -1,0 +1,50 @@
+# Type Joins
+Type join is an operation to help reduce the necessaity to create new types. It is a way to combine multiple types into a single type. Only interface datatypes can joined together. Resuting in a new type combining the methods of both. When comparing actual values with a type join, the values must have a data type that represents a class that implements all of the interfaces in the type join. A type join is declared using the `&` operator. Here is an example:
+```tc
+type Movable = interface {
+    move(x: u32, y: u32) -> void
+}
+
+type Drawable = interface {
+    draw() -> void
+}
+
+type Draggable = interface {
+    drag(x: u32, y: u32) -> void
+}
+
+type Square = class Movable, Drawable {
+    move(x: u32, y: u32) -> void {
+        // move the square
+    }
+
+    draw() {
+        // draw the square
+    }
+}
+
+let x: Square = new Square()
+
+let y: Movable & Drawable = x // OK!
+let z: Drawable & Movable = x // OK!
+let a: Draggable & Drawable = x // Error! Square does not implement Draggable
+```
+
+Notice: Nullables cannot be joined with interfaces. This is because nullables are not interfaces. They are a special type of data type. However, a join type can be nullable. Here is an example:
+```tc
+type Movable = interface {
+    move(x: u32, y: u32) -> void
+}
+
+type Drawable = interface {
+    draw() -> void
+}
+
+type Draggable = interface {
+    drag(x: u32, y: u32) -> void
+}
+
+let x: (Movable & Drawable)? = null
+```
+
+Please also note that at its core, a join type is an interface type. Hence, no duplicate methods are allowed.

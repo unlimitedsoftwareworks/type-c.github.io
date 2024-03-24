@@ -1,0 +1,50 @@
+# Threads Data Type
+
+## Overview
+
+The `thread<T>` type represents an asynchronous operation in Type-C that, upon completion, produces a result of type `T`. It is a fundamental part of Type-C's concurrency model, designed to efficiently handle lightweight VM threads similar to Erlang processes. The `thread<T>` type enables non-blocking operations, allowing for concurrent execution of tasks with easy retrieval of results through the `await` keyword.
+Threads are different from processes types, in the sense that threads will dissapear after the execution of the function, while processes will keep running until the end of the program. Also processes not blocking, meaning if a process has no input on its queue, it will not execute at all.
+
+## Syntax and Usage
+
+- **Initialization:** A `thread<T>` is initiated using the `spawn` keyword followed by a function call. This spawns a new lightweight VM thread to execute the function asynchronously.
+
+    ```tc
+    let myThread: thread<T> = spawn myFunction(arg1, arg2, ...)
+    ```
+
+- **Awaiting Results:** To retrieve the result of a `thread<T>`, use the `await` keyword. Awaiting a thread pauses the execution of the current thread until the result is available, without blocking the thread.
+
+    ```tc
+    let result: T = await myThread
+    ```
+
+## Features
+
+- **Type Safety:** The `thread<T>` type is strongly typed, ensuring that the result of the asynchronous operation matches the expected type, providing compile-time type checking.
+- **Error Handling:** Errors thrown by the function executed in a `thread<T>` are propagated to the caller when the `await` keyword is used, allowing for consistent error handling.
+- **Resource Management:** Resources utilized by lightweight VM threads are efficiently managed by the Type-C runtime, ensuring proper allocation and cleanup to avoid leaks.
+- **Scheduling:** The Type-C runtime includes a scheduler optimized for managing and executing lightweight VM threads, guaranteeing fair execution and efficient resource usage.
+
+## Implementation Considerations
+
+- **Concurrency Model:** The `thread<T>` type is a cornerstone of Type-C's lightweight concurrency model, designed for high scalability and efficient handling of IO-bound tasks.
+- **Cancellation and Timeout:** Advanced features such as cancellation and timeout for `thread<T>` operations provide additional control over asynchronous execution.
+- **Standard Library Integration:** Type-C's standard library offers a wide range of functions and utilities that return `thread<T>` types, making it easy to perform asynchronous operations on files, networks, and more.
+- **Interoperability:** `thread<T>` types are designed to work seamlessly with other Type-C language constructs, including collections, streams, and functional programming patterns.
+
+## Example
+
+Here's a simple example demonstrating the use of `thread<T>` to perform an asynchronous sum operation:
+
+```c
+fn sum(x: u32, y: u32) -> u32 {
+    return x + y
+}
+
+fn asyncExample() {
+    let z: thread<u32> = spawn sum(1, 2)
+    let result: u32 = await z
+    print("The sum is ", result)
+}
+```

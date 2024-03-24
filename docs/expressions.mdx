@@ -1,0 +1,171 @@
+# Expressions
+Expressions form the building blocks of any Type-C program. They are fundamental constructs that evaluate to values, execute operations, or rarely, produce side effects. As you have seen in the previous sections, Type-C comes with a rich set of expression and aims to be a very expressive language, embracing functional constructs. Hence, in this chapter, we take a deep dive into the types of expressions in type-c.
+
+Every expression must return a value. That's why, when reviewing `if-else` and `match` expressions, we always had to provide an `else` branch.
+
+## Operators and Precedence
+
+| Precedence | Operator              | Type                                   | Associativity | Overloadable |
+|------------|-----------------------|----------------------------------------|---------------|--------------|
+| 17         | `new`                 | Object creation                        | LTR           | No           |
+| 16         | `spawn`               | Process spawning                       | LTR           | No           |
+| 16         | `await`               | Asynchronous wait                      | LTR           | No           |
+| 15         | `()`                  | Function call or call overload         | LTR           | Yes          |
+| 15         | `[]`                  | Array subscription or subscription overload | LTR     | Yes          |
+| 15         | `?.`                  | Nullable member selection              | LTR           | No           |
+| 15         | `.`                   | Member selection                       | LTR           | No           |
+| 14         | `++` (postfix)        | Unary post-increment                   | LTR           | Yes          |
+| 14         | `--` (postfix)        | Unary post-decrement                   | LTR           | Yes          |
+| 13         | `++` (prefix)         | Unary pre-increment                    | RTL           | Yes          |
+| 13         | `--` (prefix)         | Unary pre-decrement                    | RTL           | Yes          |
+| 13         | `+`                   | Unary plus                             | RTL           | Yes          |
+| 13         | `-`                   | Unary minus                            | RTL           | Yes          |
+| 13         | `!`                   | Unary logical negation                 | RTL           | Yes          |
+| 13         | `!!`                  | Denull                                 | RTL           | Yes          |
+| 13         | `~`                   | Unary bitwise complement               | RTL           | Yes          |
+| 12         | `*`                   | Multiplication                         | LTR           | Yes          |
+| 12         | `/`                   | Division                               | LTR           | Yes          |
+| 12         | `%`                   | Modulus                                | LTR           | Yes          |
+| 11         | `+`                   | Addition                               | LTR           | Yes          |
+| 11         | `-`                   | Subtraction                            | LTR           | Yes          |
+| 10         | `<<`                  | Bitwise left shift                     | LTR           | Yes          |
+| 10         | `>>`                  | Bitwise right shift                    | LTR           | Yes          |
+| 9          | `<`                   | Relational less than                   | LTR           | Yes          |
+| 9          | `<=`                  | Relational less than or equal          | LTR           | Yes          |
+| 9          | `>`                   | Relational greater than                | LTR           | Yes          |
+| 9          | `>=`                  | Relational greater than or equal       | LTR           | Yes          |
+| 9          | `is`                  | Type comparison (objects only)         | LTR           | No           |
+| 9          | `as`                  | Type casting                           | LTR           | No           |
+| 8          | `==`                  | Relational is equal to                 | LTR           | No           |
+| 8          | `!=`                  | Relational is not equal to             | LTR           | No           |
+| 7          | `&`                   | Bitwise AND                            | LTR           | Yes          |
+| 6          | `^`                   | Bitwise exclusive OR                   | LTR           | Yes          |
+| 5          | `\|`                   | Bitwise inclusive OR                   | LTR           | Yes          |
+| 4          | `&&`                  | Logical AND                            | LTR           | Yes          |
+| 3          | `\|\|`                  | Logical OR                             | LTR           | Yes          |
+| 2          | `if.., if .. else`    | Conditional Expression                 | RTL           | No           |
+| 1          | `=`                   | Assignment                             | RTL           | No           |
+| 1          | `+=`                  | Addition assignment                    | RTL           | No           |
+| 1          | `-=`                  | Subtraction assignment                 | RTL           | No           |
+| 1          | `*=`                  | Multiplication assignment              | RTL           | No           |
+| 1          | `/=`                  | Division assignment                    | RTL           | No           |
+| 1          | `%=`                  | Modulus assignment                     | RTL           | No           |
+
+
+## Let in Expression
+The `let .. in` construct allows you to introduce a new variable and make it available within a specific expression's scope. This construct is particularly useful when you have a temporary value that is only needed within a limited part of your code and you want to avoid polluting the outer scope. Here's the general syntax:
+
+```tc
+let var = expression1 in expression2
+```
+
+In this construct, `expression1` is evaluated, and its value is bound to `var`. Then, `expression2` is evaluated with `var` available as a variable. Here's an example:
+
+```tc
+let x: u32 = 2 in x * x  // Evaluates to 4
+```
+
+In this example, `x` is bound to 2, and then `x * x` is evaluated, yielding 4. Notice that `x` is not available outside the `in` block:
+
+```tc
+let x = 2: u32 in x * x  // x is only available here
+// x is not available here
+```
+
+Unlike the `let` statement, `let .. in` expression evaluates to a value (`expression2`), which means it can be part of a larger expression.
+
+The `let .. in` construct is optimized for use at the root level of an expression. However, it can technically appear within other expressions. When doing so, it's important to explicitly scope the `let .. in` block with parentheses to avoid issues with precedence. Failing to do so will often result in compile-time error about unexpected.
+
+```tc
+// Correct usage at the root level
+let x: u32 = 2 in x * x // Evaluates to 4
+
+// Incorrect usage within another expression
+y + let x: u32 = 2 in x * x // May result in a syntax or semantic error
+
+// Correct usage within another expression with explicit scoping
+y + (let x: u32 = 2 in x * x) // Evaluates correctly, parentheses scope the let .. in block
+```
+
+Developers are encouraged to use `let .. in` at the root level or to always include parentheses when nesting within other expressions to ensure clarity and correct evaluation order.
+
+
+## Lambda Expressions and Clojures
+Anonymous functions, often known as Lambda are versatile constructs allow us to define functions on the fly, without the need for assigning them specific names. Anonymous functions find their sweet spot in situations where a concise, short-lived function is essential, such as for callbacks or quick data transformations. To create an anonymous function in Type-C, you can use the `fn` keyword, followed by parameter declarations and the function's body (notice that it has no name, because it is anonymous). These functions create a contained scope, making them perfect for tasks like mapping, filtering, or reducing data collections. Let's take a look at an example of an anonymous function in Type-C:
+
+```tc
+let numbers: u8[] = [1, 2, 3, 4, 5]
+let squares = numbers.map(fn (n: u8) = n * n)
+```
+
+In this code snippet, the map function receives an anonymous function that specifies how each element in the numbers array should be transformed. Closures, an extension of anonymous functions, introduce a fascinating concept—they can capture variables from their surrounding lexical scope. These variables become "bound" to the closure's context, even after the enclosing function has completed its execution. Closures are invaluable for creating functions that encapsulate state, resulting in elegant and concise code patterns.
+
+Consider this example of a closure in Type-C:
+```tc
+fn createCounter() -> fn () -> u32 {
+    let count = 0
+    return fn () -> u32 {
+        count += 1
+        return count
+    }
+}
+
+let counter = createCounter()
+io.print(counter()) // Output: 1
+io.print(counter()) // Output: 2
+```
+
+In the code above, the `createCounter` function returns a closure that captures the count variable. Each time the closure is invoked, the count increments, and this state is preserved across multiple calls, illustrating the power of closures. Anonymous functions and closures in Type-C elevate the language's capabilities, allowing developers to craft concise and expressive code. These constructs are especially valuable when it comes to encapsulating behavior and state within self-contained units. They enable modular and clean coding practices, making your code more readable and maintainable.
+
+## If-Else Expressions
+In type-c, if-else can be used as expression, similar to python
+```
+let y: i32 = -1
+
+let x: i32 = if y > 0 => y
+             else -y
+
+let z: i32 = if y > 0 => y
+			 if y < 0 => x
+			 else 0
+```
+
+The values and condition pairs `<value> if <condition>` must be comma separate, and the else expression is mandatory at the end, since expressions must always have a value.
+
+The `if-else` expression shares the same limitation as the `let .. in` construct. It is designed to be used at the root level of an expression for clarity and correct parsing. When used within a larger expression, parentheses should be used to scope the if-else block explicitly.
+
+## Pattern Matching
+Pattern matching is discussed in its own section at [Pattern Matching](pattern-matching/), but they can be used as expressions as well.
+
+```tc
+fn fib(n: u32) -> u32 = match n {
+    1 => 1,
+    2 => 1,
+    _ => fib(n - 1) + fib(n - 2)
+}
+```
+
+In the previous example, the `match` expression is used as the body of the `fib` function. The `match` expression evaluates to a value, which is then returned by the function. This is a common pattern in Type-C, where a function's body is a single expression that evaluates to a value. This is a powerful and concise way to write functions, and it is encouraged in Type-C.
+
+
+## `new` Expression
+The `new` expression is used to create a new instance of a class. The syntax is as follows:
+
+```tc
+new <class-name>(<arguments>)
+```
+
+## `spawn` Expression
+Identical to `new`, with the exception that it operates on `process` types. `spawn` is a syntactic sugar for `new process` and is used to create a new process. The syntax is as follows:
+
+```tc
+spawn <process-name>(<arguments>)
+```
+
+## `await` Expression
+The `await` expression is used to wait for a process to finish. The syntax is as follows:
+
+```tc
+let r = await somePromise
+```
+where `r: T` and `somePromise: Promise<T>`.

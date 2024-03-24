@@ -1,0 +1,15 @@
+{
+    "design": "Design and Philosophy",
+    "hello-world": "Hello World",
+    "basics": "Type-C Basics",
+    "datatypes": "Data Types",
+    "interface-oriented-programming": "Interface-Oriented Programming",
+    "expressions": "Expressions",
+    "statements": "Statements",
+    "type-system": "Type System",
+    "type-casting": "Type Casting",
+    "type-compatibility": "Type Compatibility",
+    "pattern-matching": "Pattern Matching",
+    "ffi": "Foreign Function Interface",
+    "concurrency": "Concurrency Model"
+}

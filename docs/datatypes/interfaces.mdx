@@ -1,0 +1,92 @@
+# Interfaces
+
+Interfaces in Type-C serve to define contracts for classes or types. These contracts, specified as sets of method signatures, ensure that the types adhering to the interface fulfill certain roles within the system.
+Hence, given this nature, interfaces types and structure has to be concrete, which sets some limits on what is acceptable in an interface.
+
+Here is an overview of interface constraints:
+- Interfaces cannot have fields
+- Interfaces supports method's overloading
+- Interfaces supports generics
+- Interfaces supports operator overloading
+- Interfaces cannot have static methods
+- Interfaces cannot have constructors (`init` methods)
+
+# Basic Interface Example
+
+Let's consider the common `Iterable` interface, frequently employed across various programming languages to denote types that can be iterated over.
+
+```tc
+type Iterable<T> = interface {
+    fn iterator() -> Iterator<T>  // Returns an iterator object
+}
+
+type Iterator<T> = interface {
+    fn hasNext() -> bool  // Checks for more elements
+    fn next() -> T        // Fetches the next element
+}
+```
+
+Here, the `Iterable` interface requires a method `iterator()` that must return an object conforming to the `Iterator` interface. The `Iterator` interface then outlines the essential methods for iteration.
+
+## Implementing Interfaces
+
+The following example demonstrates the implementation of `Iterable` and `Iterator` for an array data structure:
+
+```tc
+type ArrayIterator<T> = class Iterator<T> {
+    let array: Array<T>
+    let currentIndex: u32
+
+    fn init(array: Array<T>) {
+        this.array = array
+        this.currentIndex = 0
+    }
+
+    fn hasNext() -> bool {
+        return this.currentIndex < this.array.length
+    }
+
+    fn next() -> T {
+        let element = this.array[this.currentIndex]
+        this.currentIndex += 1
+        return element
+    }
+}
+
+type Array<T> = class Iterable<T> {
+    let elements: T[]
+
+    fn init(elements: T[]) {
+        this.elements = elements
+    }
+
+    fn iterator() -> Iterator<T> {
+        return ArrayIterator<T>(this.elements)
+    }
+}
+```
+
+Interface inheritance on the other hand is allowed. But it recommended to be used with scare to avoid bloated classes where a lot of methods will have to be defined.
+
+## Classes to Interfaces
+It is entirely possible to create a new interface type from an existing class type. This is useful when you want to encapsulate a class type's functionality into a more abstract interface type.
+
+```tc
+type Array<T> = class Iterable<T> {
+    let elements: T[]
+
+    fn init(elements: T[]) {
+        this.elements = elements
+    }
+
+    fn iterator() -> Iterator<T> {
+        return ArrayIterator<T>(this.elements)
+    }
+}
+
+let c: interfaceof Array<i32> = Array<i32>([1, 2, 3])
+// or
+type ArrayInterface<T> = interfaceof Array<T>
+```
+
+This approach will create a new interface based on the class type. The new interface will have all the methods defined in the class type, except for those that start with an underscore `_`. This is useful when you want to hide some methods from the interface.

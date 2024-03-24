@@ -1,0 +1,112 @@
+# Structs
+Structs (short for "structures") in Type-C serve as a composite data type that enables developers to group multiple variables of disparate types under a single identifier. This promotes ease of manipulation and management for related data fields. In Type-C, the `struct` keyword is optionally used to define a new struct type. Within braces, fields are specified with their associated data types. Hence, declaring a type without the `struct` keyword is also valid.
+
+```tc
+type User = struct {
+    name: string,
+    age: u8
+}
+
+let u1: User = {name: "Mark", age: 28}
+let u2 = {age: u8(34), name: "Joaquin"}
+```
+
+Structs in Type-C can also contain functions as attributes. However, these functions don't operate with the context of the struct's current state, unlike methods in objects.
+
+```tc
+type DataChunk = {
+    index: u64,
+    cleanUp: fn() -> void
+}
+
+let data: DataChunk = {
+    index: 0xff00,
+    cleanUp: () -> void {
+        println("nothing to do here!")
+    }
+}
+```
+
+## Generic Structs
+Type-C also supports generic structs, allowing for greater flexibility.
+
+```tc
+type UserData<T> = struct {
+    data: T[],
+    lastModified: u64
+}
+
+let u1Data = {data: ["hey"], lastModified: time.now() as u64}
+let u2Data: UserData<string> = {["nice!"], time.yesterday() as u64}
+
+/**
+ * the compiler will not infer the generic type, it needs to be explicitly stated.
+ * Hence the following example will not compile:
+ */
+let u3Data: UserData = {["cool..!"], time.tomorrow() as u64}
+```
+
+Type-C is flexible in how structs are assigned values:
+
+
+- **Case 1**: If the variable type is already set, field names can be omitted in assignments as long as the field
+values are in the correct order.
+- **Case 2**: If the variable type is unspecified, field names must be explicitly stated.
+
+## Structs custom operator `+=`
+Type-C also offers unique features like partial struct assignment using the `+=` operator.
+
+```tc
+let user = {name: "Jasmine", 23 as u32, email: "hello@world.com"}
+let user2 = {name: "Florance", 25 as u32, email: "hello@world.org"}
+
+// Updating multiple fields at once
+user += {age: 24, email: user2.email}
+user2 += {age: 30, email: "world@hello.com"}
+```
+
+This operation is akin to multiple field assignments. It's critical that the types of the fields being updated are compatible.
+
+## Structs Compatibility
+Structs are compatible with other structs if they have the same fields and compatible types. This allows for easy conversion between structs.
+
+```tc
+type User = struct {
+    name: string,
+    age: u8
+}
+
+type User2 = struct {
+    name: string,
+    age: u8
+}
+```
+
+The above structs are compatible, and can be converted to each other.
+
+```tc
+let u1: User = {name: "Mark", age: 28}
+let u2: User2 = u1
+```
+
+Additionally, two structs `struct1` and `struct2` are compatible if `struct2` has all the fields of `struct1` and the types of the fields are compatible. This allows for easy conversion between structs.
+
+```tc
+type User = struct {
+    name: string,
+    age: u8,
+    data: u8[]
+}
+
+type User2 = struct {
+    name: string,
+    age: u8
+}
+
+let u1: User  = {name: "Mark", age: 28, data: [1, 2, 3]}
+let u2: User2 = u1 // OK!
+let u3: User  = u2 // Error!
+```
+
+## Structs and `+=` operator
+Structs can be updated using the `+=` operator. This operator allows for updating multiple fields at once. The fields being updated must be compatible with the fields of the struct

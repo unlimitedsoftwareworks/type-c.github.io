@@ -1,0 +1,67 @@
+
+# Variants
+
+Variants in Type-C are algebraic data types that provide an expressive way to represent multiple possible types within a
+single type declaration. Unlike enums, variants can also include arguments, making them even more versatile.
+
+```tc
+type Tree = variant {
+    Binary(lhs: Tree, rhs: Tree),
+    Unary(uhs: Tree),
+    Value(val: u32)
+}
+
+let t = Tree.Binary(
+    Tree.Binary(
+        Tree.Value(1),
+        Tree.Unary(
+            Tree.Value(4)
+        )
+    ),
+    Tree.Unary(
+        Tree.Value(10)
+    )
+)
+
+fn sumTree(t: Tree) -> u32 = match t {
+    binary: Tree.Binary => sumTree(binary.lhs) + sumTree(binary.rhs),
+    unary: Tree.Unary => sumTree(unary.uhs),
+    value: Tree.Value => value.val
+}
+```
+
+In the example, the `sumTree` function demonstrates how pattern matching works with variants, calculating the sum of
+values within a tree structure. Type-C also supports generic variants, which adds another layer of flexibility.
+
+```tc
+type Tree<T> = variant {
+    Binary(lhs: Tree<T>, rhs: Tree<T>),
+    Unary(uhs: Tree<T>),
+    Value(val: T)
+}
+
+let t = Tree.Binary(
+    Tree.Binary(
+        Tree.Value(0.13),
+        Tree.Unary(
+            Tree.Value(1.113)
+        )
+    ),
+    Tree.Unary(
+        Tree.Value(11.5)
+    )
+)
+
+// Create an alias for simplicity
+type FloatTree = Tree<f32>
+
+fn sumTree(t: FloatTree) -> f32 = match t {
+    binary: FloatTree.Binary => sumTree(binary.lhs) + sumTree(binary.rhs),
+    unary: FloatTree.Unary => sumTree(unary.uhs),
+    value: FloatTree.Value => value.val
+}
+```
+
+Remember, when using generic variants, inference engine will not always be able to infer the types, so it is recommended
+to specify the generic type to avoid any type conflicts or ambiguity. The last example simplifies code readability by
+using an alias, `FloatTree`, for a generic `Tree<f32>`.

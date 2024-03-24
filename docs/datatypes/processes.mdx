@@ -1,0 +1,347 @@
+# Process DataType
+
+Processes are the built-in form of concurrency in Type-C. Processes are handled by the VM, the programmer
+can spawn processes and communicate with them using built-in message passing interface. Additionally, processes
+are non-blocking, meaning that the VM will not wait for a process to finish before continuing execution. Hence,
+promises are used to handle the return value of a process.
+
+From a definition perspective, processes look very similar to classes, they have an internal state and set of methods. However, state is not accessible from outside the process, and methods are not directly callable.
+
+## Basic Example
+
+Let's explore how to define and spawn a process:
+
+```tc
+from std.concurrency import Promise, Runnable
+from std.net import fetch, Blob, blobToFSFile
+from std.random import random
+from std.io import println
+
+type FileDownloader = process {
+    let url: string
+    let file: Blob
+
+    /**
+     * This method is called when the process is spawned, to initialize
+     * the process state.
+     */
+    fn init() {
+        println("Process "+this.id+"spawned and listening")
+    }
+
+    fn generateRandomId() -> string {
+        return "file_"+random()
+    }
+
+    /**
+     * This method is called when the process receives a message.
+     * The syntax is on:event_name.
+     * Only event methods are accessible from outside the process,
+     * some exceptions apply such as getting the process id, etc. They are
+     * defined in std.concurrency.Runnable
+     */
+    fn on:download(url: String) -> String {
+        this.url = url
+        this.file = fetch(url)
+        let tmp_dir = this.generateRandomId()
+        let fs_file = blobToFSFile(this.file, tmp_dir)
+        return fs_file
+    }
+}
+
+fn main() -> i32{
+    let files = ["https://example.com/file1", "https://example.com/file2"]
+    let promises = []
+
+    for let file in files {
+        /**
+         * Spawning a process, returns a runnable version of it
+         */
+        let process: Runnable<FileDownloader> = spawn FileDownloader(file)
+
+        /**
+         * Calling a process event, returns a promise
+         */
+        let promise: Promise<String> = process.download(file)
+        promises.push(promise)
+    }
+
+    await Promises.all(promises)
+    return 0
+}
+```
+
+## Promises and await
+Since processes are non-blocking, they return a promise when an event is called. Promises are a way to handle the return value of a process. Promises are defined in the `std.concurrency` module.
+
+By default, a process event is automatically wrapped within a promise object. The promise object itself is part of the VM and is only modeled as an interface in the standard library.
+
+If the programmer wishes, a promise can be `awaited`, which yields the value of the promise. This is a blocking operation, meaning that the VM will wait for the promise to be resolved before continuing execution.
+
+You might notice in the previous example, we have spawned multiple processes and called their `download` event. We then pushed the promises into an array and awaited them all at once, since awaiting for one event before spawning the next one would kill the purpose of concurrency. Now let's review the `await` keyword:
+
+```tc
+let promise: Promise<String> = process.download(file)
+let result1: String = await promise
+let result2: String = await process.download(file)
+```
+
+Type-C promises are not like JavaScript promises, do not handle runtime errors. If a process fails, the promise will be rejected and the VM will panic.
+
+## Runnable API
+The keyword `spawn` returns a `Runnable` object, which is an interface that encapsulates the process. The `Runnable` interface is defined in the `std.concurrency` module. From within this interface, we can access the process state, it's ID and call it's events.
+
+```tc
+type Runnable<U, V> = interface {
+    /**
+     * Returns the process ID
+     */
+    fn id() -> u32
+
+    /**
+     * Returns the current state of the process
+     */
+    fn getState() -> ProcessState
+
+    /**
+     * Sends a message to the process
+     * Returns a promise that will be resolved with the result of the task
+     */
+    fn emit(message: U) -> Promise< EmitResult<V> >
+
+
+    /**
+     * Ungracefully kills the process
+     * This is immediate as soon as the process finishes
+     * the current active task.
+     * Promises in the Queue will fail with error Killed.
+     */
+    fn kill() -> void
+
+    /**
+     * Sends a termination request to the process.
+     * The process will stop receiving requests and
+     * will terminate as soon as the queue is empty,
+     * Promise resolves will process is terminated
+     */
+    fn terminate() -> Promise<void>
+
+    /**
+     * Returns the size of the queue
+     */
+    fn getQueueSize() -> u32
+}
+```
+
+## Shared Resources and Locking
+
+In an ideal world, processes would be completely isolated from each other, and the programmer would not have to worry about concurrency issues. However, in the real world, processes need to share resources, and this is where locking comes into play.
+
+
+### Example:
+Let's consider the previous downloader example, but this time we want to create a cache of downloaded files. We will use a `Map` to store the files, and a `Lock` to prevent concurrent access to the map.
+
+```tc
+from std.io import println
+from std.concurrency.lock import Lock
+from std.container import Map
+
+from std.concurrency import Promise, Runnable
+from std.net import fetch, Blob, blobToFSFile
+from std.random import random
+from std.io import println
+
+type FileDownloader = process {
+    let url: String
+    let file: Blob
+
+    /**
+     * static field, shared between all processes
+     * Field is not accessible from outside the process!
+     */
+    let static cache: Lock< Map<String, Blob> >
+
+    /**
+     * This method is called when the process is spawned, to initialize
+     * the process state.
+     */
+    fn init() {
+        println("Process "+this.id+"spawned and listening")
+
+        let cache = await this.cache.lock()
+        if (cache == null) {
+            cache = Lock.init(new Map<String, Blob>())
+        }
+        this.cache.unlock()
+    }
+
+    fn generateRandomId() -> string {
+        return "file_"+random()
+    }
+
+    /**
+     * This method is called when the process receives a message.
+     * The syntax is on:event_name.
+     * Only event methods are accessible from outside the process,
+     * some exceptions apply such as getting the process id, etc. They are
+     * defined in std.concurrency.Runnable
+     */
+    fn on:download(url: String) -> String {
+        this.url = url
+        this.file = fetch(url)
+
+        let cache = await this.cache.lock()
+        cache.set(url, this.file)
+        this.cache.unlock()
+
+        let tmp_dir = this.generateRandomId()
+        let fs_file = blobToFSFile(this.file, tmp_dir)
+        return fs_file
+
+    }
+    // OR
+    fn on:download(url: String) -> String {
+       this.url = url
+       this.file = fetch(url)
+
+       // using withLock and closures to not block the process
+       this.cache.withLock(fn(cache) {
+           cache.set(url, this.file)
+       })
+
+       let tmp_dir = this.generateRandomId()
+       let fs_file = blobToFSFile(this.file, tmp_dir)
+       return fs_file
+   }
+}
+```
+
+## Error Handling
+Type-C processes are not like JavaScript promises, they do not handle runtime errors. If a process fails, it is the developer's responsibility to handle the error. One common approach is to use Variant types to represent the result of a process.
+
+```tc
+let ProcessResponse = enum {
+    Success(file: String),
+    Error(code: u32)
+}
+
+
+type FileDownloader = process {
+    // .. other fields and code
+    // ...
+    fn on:download(url: String) -> ProcessResponse {
+        this.url = url
+        let {res, error} = fetch(url)
+        if(error){
+            return ProcessResponse.Error(error.code)
+        }
+
+        let tmp_dir = this.generateRandomId()
+        let fs_file = blobToFSFile(this.file, tmp_dir)
+        return Success(fs_file)
+    }
+}
+
+
+fn main() -> i32{
+    let files = ["https://example.com/file1", "https://example.com/file2"]
+    let promises = []
+
+    for let file in files {
+        /**
+         * Spawning a process, returns a runnable version of it
+         */
+        let process: Runnable<FileDownloader> = spawn FileDownloader(file)
+
+        /**
+         * Calling a process event, returns a promise
+         */
+        process.download(file).then(fn(resp: ProcessResponse) {
+            match resp {
+                case ProcessResponse.Success(file) => println("File downloaded to "+file)
+                case ProcessResponse.Error(code) => println("Error downloading file: "+code)
+            }
+        })
+
+    }
+
+    await Promises.all(promises)
+    return 0
+}
+```
+
+## Process Life Cycle
+When spawning a process, the VM will allocate its memory and stop there. The process is then ready to receive requests. Let's explore the various state a process can have:
+
+    1. **Initialized**: This is the default state right after a process has been instanciated e.g: `new Process()`. This means the process memory has been allocated.
+    2. **Halted**: This is the state right after the process is spawned, meaning the process is now part of the VM process scheduler, but is not actively running or performing any task. It is also the state when the process finishes its task, and has no more tasks in the queue.
+    3. **Running**: This is the state when the process is running, meaning the process is currently executing its code.
+    4. **Finishing**: The process is running but not accepting inputs anymore. This is the state when the process has been requested to stop, but still has messages in the queue.
+    5. **Killed**: Process is killed by the VM, this is the state when the process is no longer part of the VM process scheduler. Usually when the signal `Exit` is sent to the process.
+
+
+These states are defined in `std.concurrency.ProcessState` enum.
+
+```typescript
+type ProcessState = enum as u8 {
+    Initialized = 0,
+    Halted = 1,
+    Running = 2,
+    Finishing = 3
+    Killed = 4
+}
+```
+
+
+## Concrete Usage
+The following is a Pseudo code demonstrating the useage of processes in Type-C:
+
+```
+from std.string import String
+from std.concurrency import Promise, Runnable
+from std.network import Server
+from pg import DataBase
+
+type DataFetcherBody = struct {
+    name: String,
+    ownerId: u32
+}
+
+type DataFetcherResponse = struct {
+    success: bool,
+    data: {
+        fileURL: String,
+    }?
+}
+
+type DataFetcher = process {
+    let static db = new DataBase('localhost', 'user', 'password', 'data')
+
+    fn on:fetch(req) -> DataFetcherResponse {
+        let blob = await this.db.find('files', {name: })
+        if blob {
+            let url = await s3.uploadTmp(blob)
+            return {success: true, data: {fileURL: url}}
+        }
+        else {
+            return {success: false, data: null}
+        }
+    }
+}
+
+fn main() {
+    let server = new Server(8000)
+    server.get('/data', fn(req: HttpRequest, res: HttpResponse) {
+        let body = req.body as! RequestBody
+        let process: Runnable<RequestHandler> = spawn RequestHandler(req, res)
+        res.send(200, process.handleRequest())
+    })
+
+    server.listen()
+}
+```
+
+Each request will spawn a new Process, they will not run literally at the same time, but the VM scheduler will make sure each gets their fair share of workload done.
+When a blocking task is encountered within a process, it will be paused and the VM will continue with the next process in the queue. When the blocking task is done, the process will be resumed.
+
+So Type-C async model is not the same as JavaScript, since Javascript is single-threaded. Additionally, processes are not mapped to OS-threads. Some blocking operations may however require spawning a new OS-thread, such as file I/O operations. But this is all under the hood.

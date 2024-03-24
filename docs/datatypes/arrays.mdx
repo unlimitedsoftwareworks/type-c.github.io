@@ -1,0 +1,35 @@
+# Arrays
+
+Types-C comes with built-in arrays types. This type is a primitive type and not to be confused with standard library `Array` type.
+
+Similar to Java's arrays, Type-C arrays have fixed size and zero-based indexing. Arrays are declared using the `[]` syntax, and can be initialized using the `array` keyword.
+
+```tc
+let arr: u32[] = [1, 2, 3]
+```
+
+Arrays can be indexed using the `[]` operator, and their length can be obtained using the `length` property.
+
+```tc
+let arr: u32[] = [1, 2, 3]
+let x = arr[0] // x = 1
+let y = arr.length // y = 3
+```
+
+## Array operations:
+Arrays can be indexed, extended or sliced, here the full list of operations:
+
+```tc
+let arr: u32[] = [1, 2, 3]
+let x = arr[0] // x = 1
+let y = arr.length // y = 3
+arr[1] = 5 // arr = [1, 5, 3]
+let z = arr.slice(0, 1)
+z.extend(5)
+```
+
+- Indexing: `arr[i]`, `i` must be of type `u64`, returns the element at index `i`
+- Index set: `arr[i] = x`, `i` must be of type `u64`, sets the element at index `i` to `x`, returns `arr[i]`.
+- Length: `arr.length`, returns `u64`.
+- Slice: `arr.slice(start, end)`, `start` and `end` must be of type `u64`.
+- Extend: `arr.extend(x)`, `x` must be of type `u64`, sets the size of the array to `x`. Returns `void`.

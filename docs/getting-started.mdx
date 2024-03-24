@@ -1,0 +1,34 @@
+# Getting Started
+
+## Installation
+
+Type-C setup currently involves manual work as the the language has not been officially release yet.
+Hence, we will need to manually install the following:
+- Type-C Compiler: A typescript project, requires node & npm
+- Type-V: Type-C Virtual Machine, built in C11 requires GCC/Clang, CMake
+- Standard Library: Type-C stdlib lib, no requirements.
+
+```bash
+mkdir type-c && cd type-c
+git clone https://github.com/project-type/type-c.git
+git clone https://github.com/project-type/type-v.git
+git clone https://github.com/project-type/stdlib
+```
+
+## Creating a Project
+To create a new project, we will need to create a new folder, and create a `module.json` file. This file contains the project compiler settings, dependencies, search path, etc.
+```json
+{
+    "name": "Type-C Sample",
+    "version": "1.0.0",
+    "author": "praisethemoon",
+    "dependencies": [],
+    "description": "A type-c test case",
+    "compiler": {
+        "target": "runnable",
+        "entry": "test.tc"
+    }
+}
+```
+
+The directory of this file is the default project directory. All imports will be resolved from there. Hence within files in subdirectory, importing packages from current module will be resolved from the project root directory.

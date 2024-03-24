@@ -1,0 +1,214 @@
+# Statements
+
+In programming, expressions and statements are two fundamental concepts that often get confused. An expression is any piece of code that evaluates to a single value. For example, `2 + 2` is an expression that evaluates to `4`. You can combine expressions to make more complex expressions. For example, `(2 + 2) * 3}`. Generally speaking expressions don't have side effects, meaning they don't change any state or have observable interactions. However, some expressions like function calls may have side effects. Statements on the other hand performs an action and doesn't necessarily evaluate to a value. Statements are executed for their side effects, like changing a variable's value or printing something to the console. You can't combine statements in the way you can combine expressions and often have side effects, like modifying variables or interacting with I/O. The takeaway is:
+	- Expressions answer the question "What is the value?"
+	- Statements answer the question "What to do next?"
+
+## Let Statement
+The `let` statement in Type-C is used for variable declaration and initializing it with a value. Everything we have been through in section Type-C basics variable declaration, still applies. The syntax is straightforward you specify the keyword `let`, followed by the variable name, an optional type annotation (if the inference engine can infer the type from the value), and a mandatory initial value. Here are some examples:
+
+```tc
+let y: u32 = 42  // Declare a variable named y of type u32 and initialize it with 42.
+let z: f64 = 3.14  // Declare a variable named z of type f64 and initialize it with 3.14.
+```
+
+Once declared, you can't redeclare the variable with the `let` statement, but you can change its value if it's not declared as immutable. Remember, in Type-C the `let` statement itself does not return a value, which distinguishes it from expressions.
+
+## Function Declaration
+One example of function declaration statement is the `main` function from our hello world example. Let's review its syntax:
+
+```tc
+import std.io.println
+
+fn main(args: string[]) -> void {
+    println("Hello, World!")
+}
+```
+
+We have made few changes however, our function now returns `void` instead of `u32`. This is because the `main` function is the entry point of the program, and it is not required to return a value. The `main` function also takes a single argument, which is an array of strings. This argument is used to pass command line arguments to the program. The `main` function is the only function that is required to be present in a Type-C program. However, you can define other functions as well. Let's take a look at another example:
+
+```tc
+import std.io.println
+
+fn add(x: u32, y: u32) -> u32 {
+    return x + y
+}
+
+fn main(args: string[]) -> void {
+    let result = add(1, 2)
+    println("1 + 2 = {}", result)
+}
+```
+
+Same as in lambda expressions, a function body can be written as expression:
+```tc
+fn add(x: u32, y: u32) -> u32 = x + y
+```
+
+And in this case, the return type is optional since it can inferred by the compiler. As mentioned previously, functions declared using `fn <identifier>` are bound to their name. This is a good practice if you need a persisted function name that will not change, it will also help the compiler with bunch of optimization and is preffered over lambda expressions. However, if you need to pass a function as an argument to another function, you can use lambda expressions instead. This is because lambda expressions are anonymous, and they can be passed as arguments to other functions. One final note, functions declared this way are only allowed in the global scope, meaning you cannot declare a function this way inside another function/block etc.
+
+Note that function names shares the same pool names with variables, imported modules and types. Type-C has no support for function overloading. Each function must have a unique name.
+
+## If - Else
+In Type-C, the `if`, `else if`, and `else` statements offer conditional logic. Unlike languages like C or Java, Type-C doesn't require parentheses around the condition in `if` and `else if` statements. However, the body of each clause must be enclosed in curly braces `{}`. The `if` statement evaluates a condition, and if the condition is true, it executes the code block that follows. The `else if` and `else` statements are optional and can follow the `if` statement. The `else if` evaluates another condition if the preceding `if` condition is false, and the `else` clause captures all other scenarios. Here are a few code examples to demonstrate:
+
+```tc
+// Simple if-else statement
+if x > 0 {
+    // This block will execute if x is greater than 0
+} else {
+    // This block will execute otherwise
+}
+
+// if-else if-else statement
+if x > 0 {
+    // This block will execute if x is greater than 0
+} else if x == 0 {
+    // This block will execute if x is 0
+} else {
+    // This block will execute otherwise
+}
+```
+
+Note that, during evaluation any non-null non-false expression evaluates to `true`, similar to C. Now lets move the grammar.
+
+## Match Statement
+The syntax is identical to match expressions, except it uses blocks instead of expressions. The same can be said for the grammar too. But before that, lets do review an example:
+
+```tc
+type Course = struct {
+    name: string,
+    credit: i32
+}
+
+type Student = struct {
+    name: string,
+    courses: Course[]
+}
+
+let marc = {
+    name: "marc",
+    courses: [
+        {name: "Math", credit: 3},
+        {name: "Physics", credit: 4},
+        {name: "Chemistry", credit: 3}
+    ]
+}
+
+match mark.courses {
+    [c1: Course, ...c2: Course[]]} {
+        println("Marc is taking {} courses", c2.length + 1)
+    }
+
+    _ {
+        println("Marc is not taking any courses")
+    }
+}
+```
+
+
+## For Loop
+The classical for loop, in type-c it is very similar to that of C family too, lets start with an example:
+
+```tc
+fn main(args: string[]){
+    for i: u32 = 0; i < 10; i++ {
+        io.print("Hello, World!")
+    }
+}
+```
+
+You can declare multiple variables in the initialization block, the condition block must always yeild an expression to be evaluate, and the final block, you can write multiple comma-separated expresions.
+
+## Foreach loop
+`foreach` loop automizes looping for `Iterable` data. Here is an example:
+
+```tc
+fn main(args: string[]){
+    foreach s: string in args {
+        println(s)
+    }
+}
+```
+
+## While Loop
+The `while` loop is used to execute a block of code repeatedly as long as a given condition is true. The condition is evaluated before executing the loop's body, and if it's true, the body is executed. This process repeats until the condition becomes false. Here's an example:
+```tc
+fn main(args: string[]){
+    let i: u32 = 0
+    while i < 10 {
+        println("Hello, World!")
+        i++
+    }
+}
+```
+
+Now let us review the grammar:
+
+## Do - While Loop
+The `do-while` loop is similar to the `while` loop, except that the condition is evaluated after the loop's body. This means that the loop's body is always executed at least once. Here's an example:
+
+```tc
+fn main(args: string[]){
+    let i: u32 = 0
+    do {
+        println("Hello, World!")
+        i++
+    } while i < 10
+}
+```
+
+## Block
+A block is a group of statements that are enclosed in curly braces `{}`. Blocks are used to group statements together, and they can be used anywhere a single statement is allowed. Other than mandatory blocks as in if-else, loops, and functions, blocks are optional. Here's an example:
+```tc
+fn main(args: string[]){
+    let x: u32 = 0
+    {
+        let y: u32 = 1
+        x = y
+    }
+    io.print(x) // Output: 1
+}
+```
+
+## Return, Continue and Break Statements
+### Continue
+Continue is used to resume a loop, by skipping the rest of the loop block. The following examples sums all values of an array, except of values who equals to 1.
+```tc
+let arr: u32[] = [1, 2, 3, 4, 5, 1]
+let sum_everything_but_1 = 0
+foreach value in arr {
+	// check if the value is 1, then we skip it and resume the loop
+	if value == 1 {
+		continue
+	}
+
+	sum_everything_but_1 += value
+}
+```
+
+### Break
+Break is used to exit the current loop entirely. The following example checks if an array has a null element or not:
+
+```tc
+let myArray: string?[] = ["hi", null, "hello!"]
+
+foreach value, index in myArray {
+	if value == null {
+		// display an error message
+		println("null value found at index {}", index)
+
+		// no need to keep checking, we just leave the for loop.
+		break
+	}
+}
+```
+
+### Return
+Return is statement that is used within functions to return values. Returns can only return a single value.
+
+```tc
+fn callMe(x: u32) -> u32 {
+	return x * 2
+}
+```

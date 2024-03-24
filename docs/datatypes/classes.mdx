@@ -1,0 +1,152 @@
+# Classes
+
+Classes in Type-C serve as the cornerstone for object-oriented programming (OOP), providing a structured approach to code organization. In contrast to traditional OOP languages, which often focus on both data and behavior, Type-C adopts a behavior-centric design philosophy.
+
+```tc
+type Person = class {
+    let name: string
+    let age: u32
+
+    fn init(name: string, age: u32) {
+        this.name = name
+        this.age = age
+    }
+
+    fn sayHello() {
+        io.print("Hello, my name is {} and I am {} years old.", name, age)
+    }
+}
+```
+
+Type-C has no keywords for encapsulation, instead opting for a naming convention similar to Python's and same we are all adults here - philosophy. Attributes or methods prefixed with an underscore are considered "private" and should not be accessed directly. This is a matter of convention, and it is up to developers to respect this scoping. Additionally, the recommended approach for encapsulating data is the use of interfaces. If you properly describe your class with interface, you can be sure that the class will be used as intended.
+
+```tc
+type Person = class {
+    let _name: string
+    let _age: u32
+
+    fn init(name: string, age: u32) {
+        this._name = name
+        this._age = age
+    }
+
+    fn sayHello() {
+        println("Hello, my name is {} and I am {} years old.", this._name, this._age)
+    }
+
+    fn setAge(age: u32) {
+        if age < 120 {
+            this._age = age
+        }
+    }
+
+    fn setName(name: string) {
+        if (name.length > 0) && (name.length < 20) {
+            this._name = name
+        }
+    }
+}
+```
+
+Classes in Type-C can implement interfaces, increasing their functionality and making them more versatile.
+
+```tc
+type Serializable = interface  {
+    fn serialize() -> u8[]
+}
+
+type Deserializable<T> = interface  {
+    fn deserialize(data: u8[]) -> T
+}
+
+type Person = class Serializable, Deserializable<Person> {
+    let name: String
+    let age: u32
+
+    fn init(name: String, age: u32) {
+        this.name = name
+        this.age = age
+    }
+
+    fn serialize() -> u8[] {
+        // Serialization logic here
+    }
+
+    fn deserialize(data: u8[]) -> Person {
+        // Deserialization logic here
+    }
+}
+```
+
+When defining classes, it is import to declare attributes prior to methods. Once a method declaration has been found, the compiler will expect only methods afterwards. This is design choice is made to standardize the way classes are defined.
+
+## Classes and Method Overloading
+Method overloading is only allowed within classes and interfaces. A method signature is what identifies a method, and it is composed of the method name and the types of its parameters. Hence, two methods with the same name but different parameter types are considered overloaded. Return type within the signature is not considered, hence if two methods have the same name and parameter types but different return types, they are considered duplicates and will cause a compilation error.
+
+```tc
+type Array<T> = class {
+    let _data: T[]
+
+    fn init(data: T[]) {
+        this._data = data
+    }
+
+    fn init() {
+        this._data = []
+    }
+}
+```
+
+## Classes and Inheritance
+It is better to think of classes as concrete behaviors rather than a hierarchy of types. Classes implement interface, which are merely protocols for behavior. This is a subtle but important distinction.
+
+## Rules
+- Class names must start with a capital letter.
+- Classes support generics
+- Classes can implement multiple interfaces
+- Classes can have multiple constructors
+- Classes can have static methods
+- Classes can have static attributes
+- Classes' static methods cannot use the class generic type
+- Classes can extend generic interfaces.
+
+## Advanced Topics
+
+Suppose we have the following data types:
+
+```tc
+type X = class {
+    fn get<T>(x: T) -> T {
+        return x
+    }
+}
+
+
+let z: interface {fn get(x: u32) -> u32} = new X()
+```
+
+This is completely valid, as long as the interface header is compatible with the generic class constraints. Here is a case where is it is not possible:
+
+```
+type X = class {
+    fn get<T: {name: String}>(x: T) -> T {
+        return x
+    }
+}
+
+
+let z: interface {fn get(x: u32) -> u32} = new X()
+```
+
+Will fail since the given type argument does not satisfy the constraints of the generic class.
+
+Also generics that have multiple constraints, will need to have only one when made concrete, otherwise compiler will fail, here is an example:
+
+```tc
+fn dostuff<T: Circle | Cube>(x: T, y: T)
+
+let circle: Circle = new Circle()
+let cube: Cube = new Cube()
+
+dostuff(circle, cube) // FAIL
+```

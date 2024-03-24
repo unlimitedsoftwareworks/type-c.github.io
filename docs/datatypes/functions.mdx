@@ -1,0 +1,33 @@
+# Functions as Data Types
+
+In Type-C, functions are first-class citizens, allowing them to be assigned to variables, passed as arguments, or returned from other functions. The language supports the definition of custom types for functions, streamlining their use in various contexts.
+
+## Example
+
+```tc
+// Custom type for a function that processes a ServerResponse and returns void.
+type FunctionType = fn(ServerResponse) -> void
+
+// Declare a variable of type FunctionType
+let x: FunctionType = (e: ServerResponse) -> void {
+    io.print(e.status)
+}
+
+// A higher-order function that maps a function onto an array.
+let apply = fn(f: fn(u32) -> u32, arr: u32[]) -> u32[] {
+    let new_arr = []
+    foreach x: u32 in arr {
+        new_arr.push(f(x))
+    }
+
+    return new_arr
+}
+
+// Using 'apply' with a custom function for array processing.
+let y = apply(fn(x: u32) -> u32 = x * x - x, [1, 2, 3, 4])
+```
+
+The snippet defines a custom function type, `FunctionType`, designed for functions that accept a `ServerResponse` and return `void`. This custom type enhances code readability by making explicit the expected function signature. The example also demonstrates a higher-order function, `apply`, which takes a function `f` and an array `arr`, and returns a new array obtained by applying `f` to each element of `arr`. This showcases how function types can simplify the manipulation and use of functions as data.
+
+## Argument Mutability
+When it comes to type compatibility between function types, not only arguments types must be compatible, but also their mutability must be compatible. For example, a function that takes a mutable argument cannot be assigned to a variable of type function that takes an immutable argument. However, the opposite is possible, a function that takes an immutable argument can be assigned to a variable of type function that takes a mutable argument. This is to ensure that the expected mutability of the argument is preserved.

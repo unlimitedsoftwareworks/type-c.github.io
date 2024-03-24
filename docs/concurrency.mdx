@@ -1,0 +1,9 @@
+# Type-C Concurrency Model
+
+Type-C concurrency, if it is a thread or process, is handeled entirely by the virtual machine. Each instance of a running process or thread is known as `core` in the virtual machine. There always one master core, which is the main execution thread of the virtual machine. 
+Any core can create more cores, but there is no parent-child relationship between them. A core responds to whicher core created it, unless explicitely returned (as a return value from thread for example).
+
+## Type-V Concurrency Internals
+Internally, there are at least two threads, one main thread for running the VM engine, and the second is a `libuv` event loop thread.
+
+The VM engine thread is responsible for scheduling and running cores. It is only updated through the libuv event loop thread. The libuv event loop thread is responsible for handling I/O operations, promises, timers and so on.

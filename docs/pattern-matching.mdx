@@ -1,0 +1,197 @@
+## Pattern Matching
+Pattern matching is a powerful feature in type-c, it always to deconstruct variables, match algebraic types and overall provides a powerful control flow expression to smoothen code writing. I can't think of better words to describe Pattern Matching than how it is described in the OCaml Manual [https://v2.ocaml.org/manual/patterns.html](https://v2.ocaml.org/manual/patterns.html)
+> Patterns are templates that allow selecting data structures of a given shape, and binding identifiers to components of the data structure. This selection operation is called pattern matching, its outcome is either "this value does not match this pattern", or "this value matches this pattern, resulting in the following bindings of names to values".
+
+With that being said, pattern matching in type-c is heavily inspired by OCaml, hence you will find a great deal of similarities. First and foremost, any symbols that start with lowercase letter will be considered as binding symbols, and any symbols that start with uppercase letter will be considered as DataTypes. Hence its best is to follow Type-C convention of camelCase.
+
+## Variable Patterns
+A pattern that employs a variable name matches any value, associating that name with the matched value. Similarly, the pattern represented by an underscore `_` also matches any value but does not establish any name-binding
+
+```tc
+let isEmpty(l: u32[]) = match l {
+    [] => true,
+    _ => false
+}
+```
+
+Patterns are linear, meaning a variable can only be bound once by a given pattern.
+
+```tc
+let areEq(l: u32) = match {
+    [a, a] => true, // Error! a is already bound to the first element
+    _ => false
+}
+```
+
+For such cases, you can use the if-guard:
+
+```tc
+let areEq(l: u32) = match {
+    [a, b] if a == b => true,
+    _ => false
+}
+```
+
+## Constant Patterns
+A constant pattern matches any value that is equal to it in the sense of structural equality. The following are constant patterns:
+
+```tc
+/* checks if a string is a boolean value */
+let isBool(str: string) = match str {
+    "true" => true,
+    "false" => true,
+    _ => false
+}
+```
+
+## Type Patterns
+A type pattern matches any value of the specified type. This pattern is only applicable for instances of classes/interfaces and variants.
+
+```tc
+let canRPC = match user {
+    Serializable & Deserializable => true,
+    _ => false
+}
+```
+
+Note that `null` is used a value in pattern matching not a datatype.
+
+## Variant Pattern
+Variant matching is slightly different from regular type matching since it can also be used to extract values from variants.
+
+```tc
+type Tree = variant {
+    Binary(lhs: Tree, rhs: Tree),
+    Unary(uhs: Tree),
+    Value(val: u32)
+}
+
+let t = Tree.Binary(
+    Tree.Binary(
+        Tree.Value(0.13),
+        Tree.Unary(
+            Tree.Value(1.113)
+        )
+    ),
+    Tree.Unary(
+        Tree.Value(11.5)
+    )
+)
+
+let sum(t: tree) =
+    match t {
+        Tree.Binary(lhs, rhs) => sum(lhs) + sum(rhs),
+        Tree.Unary(uhs) => sum(uhs),
+        Tree.Value(val) => val
+    }
+```
+
+## Array Pattern
+Array pattern can be used to match an array based on its elements value and structure. An array pattern will automatically fail if the size of the array do not match the size of the bind variables used to construct the pattern. The over all structure of an array pattern is as follows: The array must start with n elements, and ends with tail.
+
+```tc
+let arr: u32[] = [1, 2, 3, 4, 5]
+
+let sum(x: u32[]) =
+    match x {
+        [head, ...tail] => head + sum(tail),
+        [] => 0
+    }
+```
+
+In pattern matching, the symbol `...` can be only be used in array matching, to fill the remaining elements of the array. Note that `...tail` can and will fill an empty array.
+
+## Struct Pattern
+Struct pattern can be used to match a struct based on its fields. Since structs' structure is static by default, it is not possible to perform pattern matching based on the structure.
+
+```tc
+type Person = struct {
+    name: string,
+    age: u32
+}
+
+let p1: Person = {"John", 20}
+
+let isMark(p: Person) =
+    match p {
+        {name: "Mark"} => true,
+        _ => false
+    }
+}
+```
+
+You can also perform pattern matching on the struct elements:
+
+```tc
+type Course = struct {
+    name: string,
+    credit: i32
+}
+
+type Student = struct {
+    name: string,
+    courses: Course[]
+}
+
+let students: Student[] = [
+    {name: "Bob", courses: [{name: "Math", credit: 3}, {name: "Physics", credit: 4}]},
+    {name: "Alice", courses: [{name: "Chemistry", credit: 4}, {name: "Biology", credit: 3}]}
+]
+
+let result = match students {
+    [{name: "Bob", courses: [{name: "Math", credit: 3}, ...tail]}, ...other_students] => "Found Bob taking Math",
+    _ => "Something else"
+}
+```
+
+Over all, struct patterns has the following structure: `{<field_name>: <pattern>, ...}`. The pattern applied to field can be any pattern, including variable, constant, type, variant, array, and struct patterns.
+
+## If Guard
+Type-C, similarly to OCaml uses pattern-bound values in pattern matching and cannot directly insert variables into patterns for comparison. Hence if you want to compare a pattern with existing values say for the example you want to check if the first element of an array is equal to some variable `x`, then we will have to use the if-guard.
+
+```tc
+let array: u32[] = [1, 2, 3, 4, 5, 5]
+let x: u32[] = 5
+
+let result = match array {
+    [head, ...tail] if head == x => "Found x",
+    _ => "Something else"
+}
+```
+
+Inside the if-guard block, you have access to both the pattern-bound variables and the variables in the outer scope. The if-guard block is an expression, meaning it must return a value. If the if-guard block returns `true`, then the pattern is considered matched, otherwise it is not. Additionally, beware of shadowing, pattern-bound variables might shadow variables in the outer scope, inside your if-guard and pattern matching block.
+
+## `camelCase`
+As mentioned earlier, camelCase is extremely important when performing pattern matching. When parsing the pattern matching expression, the compiler will need some hints before hand to expect either a datatype, or a binding variable. Since datatypes are supposed to Uppercase, type-c uses this to perform the appropriate parsing.
+
+```tc
+type tree = variant {
+    Binary(lhs: tree, rhs: tree),
+    Unary(uhs: tree),
+    Value(val: u32)
+}
+
+let t = tree.Binary(
+    tree.Binary(
+        tree.Value(0.13),
+        tree.Unary(
+            tree.Value(1.113)
+        )
+    ),
+    tree.Unary(
+        tree.Value(11.5)
+    )
+)
+
+let randomFn(t: tree) =
+    match t {
+        X => 1, // Error! X is not a datatype.
+        tree.Binary(lhs, rhs) => sum(lhs) + sum(rhs), // Error, expecting a binding variable
+        _ => 0
+    }
+```
+Just like the `let .. in` and `if-else` constructs, the match expression is optimized for use at the root level of an expression. When you need to use it within a larger expression, use parentheses to explicitly scope the match block.
+
+## Control Flow
+
+Control flow dictates the sequence in which statements and expressions are executed in a program. Understanding control flow is crucial for writing code that performs tasks in the correct order and reacts appropriately to different conditions. While we've touched upon key control flow constructs such as loops and conditionals in previous chapters, this section will offer a comprehensive look. We'll dive into the details of loops, conditionals, function calls, and other constructs that influence the flow of execution, making clear how each serves a unique role in program development.

@@ -1,0 +1,25 @@
+# Hello, world!
+
+## Hello world program
+
+```tc
+from std.io import println
+
+fn main(args: String[]) -> i32 {
+    println("Hello, world!")
+    return 0
+}
+```
+
+## Program structure
+
+Here's a breakdown of what's happening in this minimal Type-C program:
+- **Importing Libraries:** The first line `import std.io.println` tells the compiler to include the `println` function from the `std.io` library, which handles standard input and output operations.
+
+- **Main Function:** In Type-C, the program's entry point is the `main` function. The `args: string[]` parameter allows for command-line arguments to be passed into the program, and the `-> u32` indicates that the function returns an unsigned 32-bit integer.
+
+- **Printing to the Console:** Inside the main function, we call `print("Hello, world!")`. This invokes the `println` function to display the string "Hello, world!" on the standard output (`stdout`).
+
+- **Exit Status:** The `return 0` statement signifies successful program termination. A return value of 0 typically indicates that the program has executed without any errors.
+
+What you might have noticed at first sight, is that Type-C requires a semicolon at the end of every instruction, similar to most C-family programming languages. And with that being said, this "Hello, World!" program captures the essence of Type-C's straightforward syntax and structure, making it an excellent starting point for any new Type-C programmer.

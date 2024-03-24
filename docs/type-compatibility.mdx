@@ -1,0 +1,107 @@
+# Type Compatibility
+
+## Basic Datatypes Compatibility
+Basic data types are inherently compatible from largest to smallest. Meaning the larger type is usually compatible with the smaller one. The other way around does require type casting, the reason for that is to guarentee safety and developer awareness of potential data loss. Here is a table of basic types compatibility:
+| From                | To                                             | With Casting |
+|---------------------|------------------------------------------------|--------------|
+| `u8`                | `u16, u32, u64, f32, f64`                      | No           |
+| `i8`                | `i16, i32, i64, f32, f64`                      | No           |
+| `u16`               | `u32, u64, f32, f64`                           | No           |
+| `i16`               | `i32, i64, f32, f64`                           | No           |
+| `u32`               | `u64, f32, f64`                                | No           |
+| `i32`               | `i64, f32, f64`                                | No           |
+| `u64`               | `f64`                                          | No           |
+| `i64`               | `f64`                                          | No           |
+| `f32`               | `f64`                                          | No           |
+| `bool`              | `u8, i8, u16, i16, u32, i32, u64, i64, f32, f64` | Yes         |
+| `i8, i16, i32, i64` | `u8, u16, u32, u64`                            | Yes          |
+| `u8, u16, u32, u64` | `i8, i16, i32, i64`                            | Yes          |
+
+
+Ideally, developers would write code where data types are inherently compatible. However, that is not always the case and sometimes it is required to force cast some types into others. For instance `abs(x)` would take a signed number but always returns non-signed number.
+
+## Class - Interface Compatibility
+Similar to C++ and Java, inheritance allows you easily go down the hierarchy, but not up. Meaning, a child class is always compatible with its parent class, but not the other way around. This is because the child class has all the properties of the parent class, but not the other way around. Here is an example:
+
+```tc
+type Movable = interface {
+    move(x: u32, y: u32) -> void
+}
+
+type Triangle = class Movable {
+    move(x: u32, y: u32) -> void {
+        // move the triangle
+    }
+}
+
+type Square = class Movable {
+    move(x: u32, y: u32) -> void {
+        // move the square
+    }
+}
+
+let x: Movable = Triangle()
+let y: Movable = x // Correct! Triangle is a Movable
+let z: Triangle = x // Error! Movable is not necessarily a Triangle
+```
+
+Hence in such cases, we will need to up-cast the object to the desired type. This is done using the \lstinline|as| keyword, which is discussed later.
+
+## Class-Class compatibility
+Two classes are compatible if they they have the exact same attributes and methods. This check is performed by the compiler using type-signatures. Meaning, classes are not compatible if they have simply *compatible types*.
+
+## Struct Compatibility
+As mentioned previously, structs whose field names are the same, are inherently compatible. The conditions are:
+    - Field names: The field names must be the same.
+    - Field types: The field types must be inherently compatible.
+
+
+Let's review an example:
+```tc
+type Person = struct {
+    name: string,
+    age: u32
+}
+
+type Employee = struct {
+    name: string,
+    age: u32,
+    salary: f32
+}
+
+let e: Employee = {"Mark", 20, 1000.0}
+let p: Person = {"Mark", 20}
+
+let x: Person = e // Correct! Person fields match with Employee fields
+let y: Employee = p // Error! Employee fields do not match with Person fields
+```
+
+The order of the fields doesn't matter, as long as the field names are the same. However, if the field names are different, then the structs are not compatible. Now let's make a small change to our previous example:
+```tc
+type Person = struct {
+    name: string,
+    age: u32
+}
+
+type Employee = struct {
+    name: string,
+    age: i32,
+    salary: f32
+}
+
+let e: Employee = {"Mark", 20, 1000.0}
+let p: Person = {"Mark", 20}
+
+let x: Person = e // Error! Person fields do not match with Employee fields!
+```
+
+In our new example, the field `age` has different type in each struct. `u32` and `i32` are not inherently compatible in our direction, we cannot cast `Employee.age: i32` to `Person.age: u32`
+
+## Enum Compatibility:
+Both enum types must have the same field names, matching same order and same assigned values.
+
+## Variant Compatibility:
+Both variant types must have the constructors, with the compatible arguments and same order.
+
+## Functions
+Functions are compatible if they have the same signature. The signature of a function is defined by its name, return type and argument types.

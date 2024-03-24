@@ -1,0 +1,137 @@
+# Type System
+
+Generally speaking, there are two primary mechanisms for establishing type compatibility: *structural typing* and *nominal typing*. Type-C's type system is purely structural. However in the section we will also review strict types, which restrict the typing system. In this section we address structural typing. Sometimes referred to as *duck typing*, structural typing is the most prevalent form of type compatibility in Type-C. Under structural typing, if two objects exhibit the same behavior, they are considered to be of the same type. In other words, it's not the name of the type that matters, but what the type can do—what methods it has and what properties it exposes.
+
+## Example
+
+```tc
+type Readable = interface { fn read() -> string }
+
+fn doSomething(r: Readable){
+    return r.read()
+}
+
+type ReadableVeryMuch = interface { fn read() -> string }
+```
+
+In the example above, `Readable` and `ReadableVeryMuch` are structurally identical, and thus interchangeable as far as the type system is concerned. Structural typing is extremely flexible. It allows for the easy composition of small, focused types and encourages code reusability. However, this flexibility can be a double-edged sword, making it easy to introduce subtle bugs or to misuse types unintentionally. Type compatibility is done by checking if the left hand side is compatible with the right hand side, so it's not necessarily a two-way street.
+
+```tc
+type DataArray<T> = interface {
+	fn elementAt(i: i32) -> T
+	fn getIterator() -> Iterator<T>
+	fn removeAt(i: i32) -> T
+	fn remove(e: T) -> void
+}
+
+
+fn buildArray() -> DataArray<i32>
+
+fn f() {
+	let e: interface { removeAt(i: i32) -> i32 } = buildArray();
+}
+```
+
+In this example, `e` is compatible with `buildArray`'s output. However the opposite is wrong. The same logic applies for structs too.
+
+## Type Compatibility in Type-C
+
+The concept of type compatibility provides a systematic set of rules that govern the interchangeability of data types within different contexts. In this section, we elaborate upon the formal specifications and rationale behind type compatibility in Type-C.
+
+### Definition
+
+Type compatibility is defined as the set of criteria that adjudicate the suitability of substituting one data type for another in specific operational contexts. In Type-C, these rules are rigorously enforced by the compiler through a process known as static type checking.
+
+### Objectives
+
+Type compatibility in Type-C is geared towards achieving the following objectives:
+
+
+    - **Type Safety**: To minimize the risk of runtime exceptions arising from type-related errors, thereby ensuring consistent and reliable program execution.
+
+    - **Code Reliability**: To augment the robustness and stability of software artifacts, facilitating confidence in their behavior and ease of maintenance.
+
+    - **Compile-Time Verification**: To utilize static type checking mechanisms for early identification and rectification of type-related inconsistencies, precluding their manifestation as runtime anomalies.
+
+    - **Type Mismatch Mitigation**: To preclude the introduction of type-related anomalies resulting from erroneous type substitution, which can induce undefined or undesirable behavior.
+
+    - **Semantic Clarity**: To enhance the expressiveness and understandability of code through rigorous type specification, aiding both the development and subsequent maintenance phases.
+
+    - **Code Consistency**: To establish a uniform set of type-related norms across the codebase, facilitating modular development and systemic reasoning about code behavior.
+
+The Type-C compiler performs static type checking to enforce type compatibility rules. The following sub-sections elucidate the internal mechanics involved in this process:
+
+## Static Type Checking
+
+The compiler assesses type compatibility at compile time, thereby preempting type-related issues from escalating into runtime errors. This involves a thorough examination of each operational context to verify adherence to established type compatibility rules.
+
+## Error Reporting
+
+In instances where type incompatibility is detected, the compiler generates explicit and informative error messages, aimed at guiding the developer towards effective issue resolution.
+
+## Strict Types
+In Type-C, strict typing is a powerful type modifier used to ensure that variables strictly conform to a specific type's structure. Unlike nominal typing, which focuses on type names, strict typing in Type-C is structural but requires exact matches in terms of structure layout and order. This approach is used exclusively at the variable declaration level, making it a versatile tool for developers who need precise type matching for certain variables.
+
+The strict typing mechanism works by comparing the properties of types. Consider two types, `U` and `V|`, each with their own properties (`U.props` and `V.props`, respectively). The compatibility between these types is determined as follows:
+- Regular matching (non-strict): $\{U.props\} \subseteq \{V.props\}$
+- Strict matching: $\{U.props\} = \{V.props\}$
+
+
+In Type-C, strict typing is employed through variable definitions:
+
+```tc
+type Car = {
+    color: string,
+    maker: string,
+    model: string
+}
+
+let a: strict Car = {"red", "Toyota", "Corolla"} // Strict typing ensures 'a' has the exact structure of 'Car'
+let b: Car = {maker: "Toyota", color: "red", model: "Corolla"} // Regular matching allows for flexible structuring
+```
+
+It's important to note that strict typing, by default, does propagate to subfields of a type. In the next example, `car.parts` is a strict type.
+
+```tc
+type Car =  {
+    color: string,
+    maker: string,
+    model: string,
+    parts: {
+        name: string,
+        weight: i32
+    }[]
+}
+
+let car: strict Car = getCar()
+```
+
+One final note, it is also possible to declare strict variables without specific types, so they can be assigned the type of the expression the variables are being assigned to.
+
+```tc
+let x: strict = {color: "red", maker: "Audi", model: "A8", parts: [{name: "Wheel", weight: 20}]}
+```
+
+## Strict Typing vs. Duck Typing
+
+Understanding when to use strict typing versus duck typing is crucial in Type-C. Each approach has its advantages and ideal use cases.
+
+### Advantages of Strict Typing}
+- **Precision**: Ensures exact structural matching, which is crucial for scenarios where the exact layout and order of properties are important.
+- **Error Prevention**: Catches type-related errors at compile time, reducing runtime errors and improving code reliability.
+- **Optimization**: The VM can optimize storage and access patterns, knowing the exact structure of types.
+- **Clarity and Intent**: Signifies clear intent for variables to adhere to a specific structure, improving code readability.
+
+
+### Advantages of Duck Typing
+
+- **Flexibility and Safety**: Offers adaptable and dynamic code while maintaining safety. Duck typing, being the default mode in Type-C, ensures ease of use without compromising type safety.
+- **Rapid Development and Productivity**: Facilitates quicker development cycles and higher productivity, as it reduces the need for detailed type specifications.
+- **Polymorphism and Versatility**: Encourages a polymorphic coding style, making the codebase more versatile and reusable.
+
+
+### Recommended Usage
+- Prefer Duck Typing as the default approach for most development scenarios in Type-C. It is well-suited for general use, offering a balance of safety, flexibility, and ease of development.
+- Use Strict Typing for specific cases where additional type constraints are necessary or in performance-heavy operations. Strict typing is recommended in contexts where the precision and consistency of data structures are critical.
+
+By understanding the strengths of both strict and duck typing, developers can make informed decisions on which approach to use, ensuring robust, efficient, and maintainable code in Type-C.

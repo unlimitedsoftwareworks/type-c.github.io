@@ -1,0 +1,77 @@
+# Nullables
+
+In Type-C, nullable types can hold either a value of their base type or `null`. The nullable types are only applicable to specific categories such as classes, interfaces, and structs. To declare a variable as nullable, the type is postfixed with a question mark `?`.
+
+Nullable are used as data types to represent the absence of a value. They are useful in cases where a value may not be available, such as when a user has not entered a value yet. They provide a helpful gateway to avoid null pointer exceptions, which are a common source of bugs in many languages.
+
+Type-C doesn't allow object to have a `null` value unless they are nullable.
+
+## Examples
+
+```tc
+// Declaring a nullable interface
+let x: Drawable? = null
+
+// Invalid since Drawable is not nullable by default
+let y: Drawable = null
+
+// Also invalid type cannot be inferred from null alone
+let z = null
+
+// Valid but redundant, as it can only hold null
+let imNull: null = null
+```
+
+The code illustrates how to properly declare nullable variables, as well as common mistakes to avoid.
+
+A very important note on variables declared as null: in the VM, they are treated as pointers, with the value `0` being the null pointer.
+
+Nullable objects are useful when you want to represent an optional value that may or may not be present. For example, a nullable string could represent a user's middle name, which is optional. Here is an example:
+```tc
+let middleName: string? = null
+
+match middleName {
+    null => {
+        io.print("Middle name is not provided")
+    },
+    _ => {
+        io.print("Middle name is {}", middleName)
+    }
+}
+```
+
+The denull operator `!` is used to denull a nullable object. If the object is null, the denull operator will raise a runtime error, hence make sure to perform the appropriate checks beforehand. Here is an example:
+
+```tc
+let middleName: string? = null
+let nonNullMiddleName = middleName! // Error! middleName is null
+```
+
+Nullable provides a powerful mechanism to write type-safe programs and avoid missusing null values. However, it is not always the case that you want to use nullable types, for example, if you want to write a function that takes a nullable string, and you want to print the string if it is not null, you will have to check for null values first, and then print the string. It is important to note that not all datatypes can be nullable. Only objects can be nullable.
+
+
+|Nullable?|Type|
+|---|---|
+|No|Basic Data Type (`u8, i8 .. u64, i64, f32, f64, bool`), Enum|
+|Yes|Array, Variant, Function, Class, Interface, Struct, Process|
+
+Another additional operator to deal with nullable objects is the `?.` operator. This operator is used to access a property of a nullable object. If the object is null, the operator will return null. Here is an example:
+
+
+```tc
+let middleName: string? = null
+let upperMidderName = middleName?.toUpperCase()
+```
+
+In this case, `upperMiddleName` is of type `string?`. Since this operator returns a nullable object, you can chain multiple `?.` operators together, but the end result will always be a nullable object. Hence it only works with nullable data types. However, you can chain it with the `||` Logical OR operator to provide an alternative value:
+
+```tc
+let middleName: string? = null
+let nameLength = middleName?.length() || 0
+```
+
+Notice that the logical OR operator `||` will only be evaluated if the left-hand side is null. If the left-hand side is not null, the right-hand side will not be evaluated. This is called short-circuiting.
+
+In other words, the `||` operator has two usages:
+- Logical or operator: `a || b` where `a` and `b` are booleans, then it behaves as it normally does.
+- Null-fallback operator: `a?.b || c` where `a` is `Nullable` with field `b: T`, and `c: T` are nullable objects, then it will return `a.b` if `a` is not null, otherwise it will return `c`.
