@@ -78,7 +78,7 @@ const Index: React.FC = () => {
                 </div>
             </div>
             <div className="hero bg-base-300 py-40 ">
-                <div className='py-50 prose'>
+                <div className='py-50 prose min-w-[90vw]'>
                     <h1 className='text-center'>Expressive and Elegant</h1>
                     <div className="flex justify-around items-stretch gap-4">
                         <div className='w-1/3 px-2'>

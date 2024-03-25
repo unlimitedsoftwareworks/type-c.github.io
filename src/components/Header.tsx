@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
-import { CiStickyNote } from 'react-icons/ci';
+import { CiCircleMore, CiStickyNote } from 'react-icons/ci';
 import { FaBalanceScale, FaBook, FaDiscord, FaDownload, FaGithub, FaHome, FaQuestionCircle, FaRegNewspaper, FaUniversity } from "react-icons/fa";
 import { GiMaterialsScience, GiSecretBook, GiSpellBook } from 'react-icons/gi';
 import { HiUserGroup } from 'react-icons/hi';
@@ -81,11 +81,11 @@ const Header: React.FC = () => {
 
                     <li>
                         <details>
-                            <summary><FaUniversity size={20} /> More</summary>
+                            <summary><CiCircleMore size={20} /> More</summary>
                             <ul className="p-2">
                                 <li><Link href={'/research'}><GiMaterialsScience size={20}/> Publications</Link></li>
                                 <li><Link href={'/'}><CiStickyNote size={20} /> Dev Notes</Link></li>
-                                <li><a> <TbLicense size={20}  /> Credits</a></li>
+                                <li><Link href={'/credits'}> <TbLicense size={20}  /> Credits</Link></li>
                             </ul>
                         </details>
                     </li>
