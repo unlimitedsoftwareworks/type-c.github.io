@@ -1,0 +1,70 @@
+{
+    "posts": [
+        {
+            "name": "hello-world",
+            "title": "Hello World",
+            "description": "A greetings to fellow readers and newcomers",
+            "tags": [
+                "hello",
+                "world"
+            ],
+            "date": "25/03/2024",
+            "author": "praisethemoon"
+        },
+        {
+            "name": "son-close-music",
+            "title": "Make with recently room.",
+            "description": "Paper together wind side pay successful simple.\nCheck drive factor Republican. Why before organization series perform ten kind race. Police like down company play system.",
+            "tags": [
+                "fitness",
+                "review"
+            ],
+            "date": "17/03/2024",
+            "author": "praisethemoon"
+        },
+        {
+            "name": "as-opportunity",
+            "title": "Write her reduce fear.",
+            "description": "Arm explain action information human send enjoy. Though development need medical myself system like. Star record surface them office year.",
+            "tags": [
+                "tech",
+                "health",
+                "food"
+            ],
+            "date": "18/06/2023",
+            "author": "praisethemoon"
+        },
+        {
+            "name": "technology-same-cup",
+            "title": "Short push cultural paper.",
+            "description": "Quite participant course local. Remain country couple size especially. Option gun try real parent.\nSignificant yeah only decide blue development eight. Prove her factor fast.",
+            "tags": [
+                "food"
+            ],
+            "date": "27/10/2022",
+            "author": "praisethemoon"
+        },
+        {
+            "name": "skin-tree-prove-arm",
+            "title": "Night as top.",
+            "description": "Ahead rate city Congress meeting woman writer. Offer since training kind happy require poor society.",
+            "tags": [
+                "life",
+                "finance"
+            ],
+            "date": "15/06/2023",
+            "author": "praisethemoon"
+        }
+    ],
+
+    "authors": [
+        {
+            "id": "praisethemoon",
+            "name": "Soulaymen Chouri",
+            "gh": "https://github.com/praisethemoon",
+            "website": "https://praisethemoon.org",
+            "bio": "Software Engineer, author of Type-C, maintainer of the Type-C ecosystem",
+            "avatar": "https://avatars.githubusercontent.com/u/22145460?v=4"
+        }
+    ]
+}

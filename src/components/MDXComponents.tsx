@@ -20,7 +20,7 @@ const A: React.FC<React.AnchorHTMLAttributes<HTMLAnchorElement>> = ({ href, chil
     <Link href={href || ''} className="text-blue-600 hover:text-blue-800 visited:text-purple-600" {...props}>{children}</Link>
 );
 const Table: React.FC<React.HTMLAttributes<HTMLTableElement>> = (props) => (
-  <table  className="table" {...props} />
+  <div className='overflow-x-auto'><table  className="table table-xs" {...props} /></div>
 );
 
 const Thead: React.FC<React.HTMLAttributes<HTMLTableSectionElement>> = (props) => (

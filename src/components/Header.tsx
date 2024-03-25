@@ -56,7 +56,7 @@ const Header: React.FC = () => {
                 <ul className="menu menu-horizontal menu-hover px-1">
                     <li><Link href={'/'}><FaHome size={20} /> Home</Link></li>
                     <li><Link href={'/download'}><FaDownload size={20} /> Download</Link></li>
-                    <li><Link href={'/blog'}><FaRegNewspaper size={23} /> Blog</Link></li>
+                    <li><Link href={'/posts'}><FaRegNewspaper size={20} /> Blog</Link></li>
                     <li>
                         <details onClick={(e) => {document.querySelector('#menu')?.setAttribute("focused", "false");}}>
                             <summary><FaUniversity size={20} /> Learn</summary>

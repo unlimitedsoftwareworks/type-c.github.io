@@ -4,8 +4,13 @@ import React from 'react';
 import { GiHypersonicBolt, GiPegasus, GiProcessor } from 'react-icons/gi';
 import { TbLetterV } from 'react-icons/tb';
 import { TiStarFullOutline } from 'react-icons/ti';
+import { useRouter } from 'next/router';
 
 const Index: React.FC = () => {
+    const router = useRouter();
+    const gotoShowcase = () => {
+        router.push('/tour');
+    }
     return (
         <div>
             <div className="striped1 hero bg-base-200 py-40">
@@ -18,7 +23,7 @@ const Index: React.FC = () => {
                         </div>
                         <div>
                             <p className="py-6">An expressive type-safe programming language, tailored for efficiency and speed</p>
-                            <button className="btn btn-primary">Get Started</button>
+                            <button className="btn btn-primary" onClick={gotoShowcase}>Showcase</button>
                         </div>
                     </div>
                 </div>

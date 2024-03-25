@@ -12,7 +12,7 @@ interface CodeHighlightProps {
 
 
 const CodeHighlight: React.FC<CodeHighlightProps> = ({ code, language }) => {
-    const [highlightedCode, setHighlightedCode] = useState('<h1>Loading...</h1>');
+    const [highlightedCode, setHighlightedCode] = useState('<span className="loading loading-infinity loading-lg"></span>');
 
 
     useEffect(() => {
@@ -37,7 +37,7 @@ const CodeHighlight: React.FC<CodeHighlightProps> = ({ code, language }) => {
     }, [code, language]);
 
     // Render the highlighted code as HTML
-    return <div dangerouslySetInnerHTML={{ __html: highlightedCode }} />;
+    return <div className='w-full' dangerouslySetInnerHTML={{ __html: highlightedCode }} />;
 };
 
 export default CodeHighlight;
