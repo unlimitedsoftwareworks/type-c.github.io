@@ -32,7 +32,7 @@ const Sidebar: React.FC<SidebarProps> = ({ docsStructure }) => {
                         // If the item has sub-items, render them in a nested list
                         <li>
                             <details open>
-                                <summary>{item.title}:</summary>
+                                <summary>{item.title}</summary>
                                 {renderDocs(item.items)} {/* Recursive call */}
                             </details>
                         </li>
