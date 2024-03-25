@@ -19,7 +19,7 @@ const CodeHighlight: React.FC<CodeHighlightProps> = ({ code, language }) => {
         const highlightCode = async () => {
             try {
                 const highlighter = await getHighlighter({
-                    langs: [typeCLang as any, "typescript", "javascript", "c", "cpp"],
+                    langs: [typeCLang as any, "typescript", "javascript", "c", "cpp", "json", "bash"],
                     themes: ['vitesse-dark'], // Specify your theme or themes,
                     langAlias: {
                         "tc": "type-c"

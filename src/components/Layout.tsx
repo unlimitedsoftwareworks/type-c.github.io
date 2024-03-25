@@ -11,7 +11,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <div className="flex flex-col h-screen">
       <Header/>
-      <main className="flex-grow overflow-auto ">
+      <main className="flex-grow overflow-auto">
         {children}
       </main>
       <Footer />

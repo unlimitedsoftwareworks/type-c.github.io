@@ -6,12 +6,12 @@ import { language } from 'gray-matter';
 // import { dark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 // Use appropriate HTML props for each element type
-const H1: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = (props) => <h1 className="text-4xl font-bold mb-8 mt-12" {...props} />;
-const H2: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = (props) => <h2 className="text-3xl font-bold mb-6 mt-10" {...props} />;
-const H3: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = (props) => <h3 className="text-2xl font-bold mb-4 mt-8" {...props} />;
-const H4: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = (props) => <h4 className="text-xl font-bold mb-3 mt-6" {...props} />;
-const H5: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = (props) => <h5 className="text-lg font-bold mb-2 mt-4" {...props} />;
-const H6: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = (props) => <h6 className="text-md font-bold mb-1 mt-2" {...props} />;
+const H1: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = (props) => <h1 {...props} />;
+const H2: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = (props) => <h2 {...props} />;
+const H3: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = (props) => <h3  {...props} />;
+const H4: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = (props) => <h4  {...props} />;
+const H5: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = (props) => <h5 {...props} />;
+const H6: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = (props) => <h6 {...props} />;
 
 const P: React.FC<React.HTMLAttributes<HTMLParagraphElement>> = (props) => <p className="mb-2" {...props} />;
 const UL: React.FC<React.HTMLAttributes<HTMLUListElement>> = (props) => <ul className="list-disc pl-5 mb-2" {...props} />;

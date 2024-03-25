@@ -21,8 +21,6 @@ const docsBasePath = path.join(process.cwd(), 'docs');
  * @return {string} The file path to the corresponding Markdown or MDX file.
  */
 function getFilePathForSlug(slugArray: string[]) {
-    console.log('slugArray:');
-    console.log(slugArray);
     // Join the slug array into a path, append it to the base path
     let filePath = path.join(docsBasePath, ...slugArray);
 
@@ -41,6 +39,7 @@ function getFilePathForSlug(slugArray: string[]) {
     }
 
     // Handle other cases as needed, possibly throw an error if the file cannot be found
+    return "404"
 }
 
 interface DocItem {
@@ -69,55 +68,63 @@ const DocPage: React.FC<DocPageProps> = ({ source, frontMatter, docsStructure })
     );
 };
 
-
 export async function getStaticPaths() {
     const slugs = getDocsSlugs();
     const paths = slugs.map(slug => ({
-      params: { slug: slug.split('/') },
+        params: { slug: slug.split('/') },
     }));
-  
-    console.log(paths); // Make sure this is outputting the expected array structure
-  
+
     return {
-      paths,
-      fallback: false,
+        paths,
+        fallback: false,
     };
-  }
-  
-  
-
-
-interface DocItem {
-    name: string;
-    title: string;
-    items?: DocItem[];
 }
-// Helper function to recursively get documentation structure
-function getDocsStructure(dirPath = 'docs', basePath = ''): DocItem[] {
-    const entries = fs.readdirSync(dirPath, { withFileTypes: true });
-    const structure: DocItem[] = [];
 
-    entries.forEach(entry => {
-        const entryPath = path.join(dirPath, entry.name);
-        if (entry.isDirectory()) {
-            const metaPath = path.join(entryPath, '_meta.json');
-            if (fs.existsSync(metaPath)) {
-                const metaData = JSON.parse(fs.readFileSync(metaPath, 'utf8'));
-                const items = getDocsStructure(entryPath, `${basePath}${entry.name}/`);
-                structure.push({ name: basePath + entry.name, title: metaData.title || entry.name, items });
+// Helper function to load the initial _meta.json and structure the documentation
+function loadAndStructureDocs(baseDir = 'docs') {
+    const metaPath = path.join(baseDir, '_meta.json');
+    if (!fs.existsSync(metaPath)) {
+        console.error('Base _meta.json does not exist at the specified location:', metaPath);
+        return [];
+    }
+
+    const metaData = JSON.parse(fs.readFileSync(metaPath, 'utf8'));
+    return getDocsStructure(metaData, baseDir);
+}
+
+function getDocsStructure(metaData: any, dirPath = 'docs', basePath = '') {
+    let structure: DocItem[] = [];
+
+    metaData.forEach((entry: any) => {
+        if (entry._meta) {
+            // Entry represents a directory with subdocuments
+            const subDirPath = path.join(dirPath, entry.name);
+            const subBasePath = `${basePath}${entry.name}/`;
+            const subStructure = getDocsStructure(entry._meta, subDirPath, subBasePath);
+
+            // Group this directory's documents under a single entry
+            structure.push({ name: `${basePath}${entry.name}`, title: entry.title, items: subStructure });
+        } else {
+            // Entry represents an individual document
+            const filePath = path.join(dirPath, `${entry.name}.mdx`);
+            if (fs.existsSync(filePath)) {
+                // File exists, add to structure
+                structure.push({ name: `${basePath}${entry.name}`, title: entry.title });
             }
-        } else if (entry.isFile() && entry.name.endsWith('.mdx')) {
-            // Assuming file names map directly to slug names
-            const slug = entry.name.replace(/\.mdx$/, '');
-            structure.push({ name: `${basePath}${slug}`, title: slug }); // Placeholder title
         }
     });
 
+    console.log(structure)
     return structure;
 }
 
+// Example usage
+// const documentationStructure = loadAndStructureDocs('path/to/base/folder');
+
+
+
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-    const slug = params?.slug as string;
+    const slug = params?.slug as string[];
     const filePath = getFilePathForSlug(slug); // Get the file path for the slug (helper function not shown here
     const fileContents = fs.readFileSync(filePath, 'utf8');
     const { content, data } = matter(fileContents); // Parses frontmatter from the MDX
@@ -131,7 +138,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
     const slugs = getDocsSlugs(); // Get the list for the sidebar
 
-    const docsStructure = getDocsStructure();
+    const docsStructure = loadAndStructureDocs();
 
 
     return {
