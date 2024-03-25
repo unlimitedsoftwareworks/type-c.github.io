@@ -1,6 +1,7 @@
 // src/pages/page.tsx
 import Link from 'next/link';
-import React from 'react';
+import { useRouter } from 'next/router';
+import React, { useEffect } from 'react';
 import { CiStickyNote } from 'react-icons/ci';
 import { FaBalanceScale, FaBook, FaDiscord, FaDownload, FaGithub, FaHome, FaQuestionCircle, FaRegNewspaper, FaUniversity } from "react-icons/fa";
 import { GiMaterialsScience, GiSecretBook, GiSpellBook } from 'react-icons/gi';
@@ -11,8 +12,27 @@ import { SiAwesomelists } from 'react-icons/si';
 import { TbLicense, TbPackages } from 'react-icons/tb';
 
 const Header: React.FC = () => {
+    const router = useRouter();
+
+    useEffect(() => {
+        // Function to close all <details> elements
+        const closeAllDetails = () => {
+            document.querySelectorAll('#header-menu details[open]').forEach((detailsElement) => {
+                detailsElement.removeAttribute('open');
+            });
+        };
+
+        // Close all <details> elements upon route changes
+        router.events.on('routeChangeComplete', closeAllDetails);
+
+        // Cleanup listener when component unmounts
+        return () => {
+            router.events.off('routeChangeComplete', closeAllDetails);
+        };
+    }, [router.events]);
+
     return (
-        <div className="navbar bg-base-100 w-full z-50">
+        <div className="navbar bg-base-100 w-full z-50" id="header-menu">
             <div className="navbar-start">
                 <div className="dropdown">
                     <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -33,12 +53,12 @@ const Header: React.FC = () => {
                 <Link className="btn btn-ghost text-xl logoFont" href='/'>Type-C</Link>
             </div>
             <div className="navbar-center hidden lg:flex">
-                <ul className="menu menu-horizontal px-1">
+                <ul className="menu menu-horizontal menu-hover px-1">
                     <li><Link href={'/'}><FaHome size={20} /> Home</Link></li>
                     <li><Link href={'/download'}><FaDownload size={20} /> Download</Link></li>
                     <li><Link href={'/blog'}><FaRegNewspaper size={23} /> Blog</Link></li>
                     <li>
-                        <details>
+                        <details onClick={(e) => {document.querySelector('#menu')?.setAttribute("focused", "false");}}>
                             <summary><FaUniversity size={20} /> Learn</summary>
                             <ul className="p-2">
                                 <li><Link href={'/tour'}> <SiAwesomelists size={20}  />Language Tour</Link></li>
