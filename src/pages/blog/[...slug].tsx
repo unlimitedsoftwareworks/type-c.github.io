@@ -8,9 +8,37 @@ import MDXComponents from '@/components/MDXComponents';
 import Link from 'next/link';
 import { FaDochub, FaGithub, FaGlobeAfrica, FaNewspaper, FaRegNewspaper } from 'react-icons/fa';
 import { HiOutlineDocumentText } from 'react-icons/hi';
+import { useEffect, useRef } from 'react';
 
 // Define the path to your posts directory
 const postsDirectory = path.join(process.cwd(), 'posts');
+
+const UtterancesComments = () => {
+    const ref = useRef<HTMLDivElement>(null);
+  
+    useEffect(() => {
+      const script = document.createElement('script');
+  
+      const config = {
+        src: 'https://utteranc.es/client.js',
+        repo: 'unlimitedsoftwareworks/type-c.io-conversation',
+        'issue-term': 'pathname',
+        theme: 'github-light',
+        crossOrigin: 'anonymous',
+        defer: true,
+      };
+  
+      Object.entries(config).forEach(([key, value]) => {
+        script.setAttribute(key, value as string);
+      });
+  
+      setTimeout(() => {
+        ref.current?.append(script);
+      }, 300);
+    }, []);
+  
+    return <div ref={ref} />;
+  };
 
 export const getStaticPaths: GetStaticPaths = async () => {
     // Read the _meta.json file to get the slugs
@@ -76,12 +104,12 @@ const PostPage = ({ source, meta }: any) => {
                                 <ul>
                                     <li>
                                         <Link href="/posts">
-                                            <FaRegNewspaper className='mx-2'/> Blog
+                                            <FaRegNewspaper className='mx-2' /> Blog
                                         </Link>
                                     </li>
                                     <li>
                                         <a>
-                                            <HiOutlineDocumentText  className='mx-2'/>{meta.title}
+                                            <HiOutlineDocumentText className='mx-2' />{meta.title}
                                         </a>
                                     </li>
                                 </ul>
@@ -123,6 +151,9 @@ const PostPage = ({ source, meta }: any) => {
                         </div>
                     </div>
                 </div>
+            </div>
+            <div className='bg-base-200 min-h-[400px]'>
+                <UtterancesComments/>
             </div>
         </div>
     )
