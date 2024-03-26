@@ -1,4 +1,5 @@
 // src/pages/CodeOfConduct.tsx
+import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import { FaBalanceScale, FaGithub, FaGlobeAfrica, FaHeart } from 'react-icons/fa';
@@ -30,7 +31,7 @@ const CodeOfConduct: React.FC = () => {
                         <div className="stat-figure text-secondary">
                             <div className="avatar">
                                 <div className="w-16 rounded-full">
-                                    <img src="https://avatars.githubusercontent.com/u/22145460?v=4" />
+                                    <Image alt="" src="https://avatars.githubusercontent.com/u/22145460?v=4" />
                                 </div>
                             </div>
                         </div>

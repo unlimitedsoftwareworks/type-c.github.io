@@ -9,6 +9,7 @@ import Link from 'next/link';
 import { FaDochub, FaGithub, FaGlobeAfrica, FaNewspaper, FaRegNewspaper } from 'react-icons/fa';
 import { HiOutlineDocumentText } from 'react-icons/hi';
 import { useEffect, useRef } from 'react';
+import Image from 'next/image';
 
 // Define the path to your posts directory
 const postsDirectory = path.join(process.cwd(), 'posts');
@@ -137,7 +138,7 @@ const PostPage = ({ source, meta }: any) => {
                         <div className="stat-figure text-secondary">
                             <div className="avatar">
                                 <div className="w-16 rounded-full">
-                                    <img src={meta.author.avatar} />
+                                    <Image alt="" src={meta.author.avatar} />
                                 </div>
                             </div>
                         </div>
