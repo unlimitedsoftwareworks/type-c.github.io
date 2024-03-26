@@ -112,9 +112,8 @@ from std.utils import range
 
 fn main() -> i32 {
     let threads = range<u32>(0, 10).map(
-        fn(i: u32) = spawn promise.resolve(
-            println("hello from a thread")
-        )
+        fn(i: u32) = 
+            spawn println("hello from a thread")
     )
 
     promise.awaitAll(threads)

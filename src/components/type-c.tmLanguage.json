@@ -44,7 +44,7 @@
 			"patterns": [
 				{
 					"name": "keyword.control.type-c",
-					"match": "\\b(as|await|break|extern|class|continue|const|variant|do|else|mut|enum|false|from|for|foreach|fn|if|import|in|is|interface|i8|i16|i32|i64|u8|u16|u32|u64|f32|f64|bool|void|string|char|process|spawn|let|new|null|return|this|static|strict|struct|match|true|type|while)\\b"
+					"match": "\\b(as|await|break|extern|class|continue|const|variant|do|else|mut|enum|false|from|for|foreach|fn|if|import|in|is|interface|i8|i16|i32|i64|u8|u16|u32|u64|f32|f64|bool|void|string|char|spawn|let|new|null|return|this|static|strict|struct|match|true|type|while)\\b"
 				}
 			]
 		},
@@ -52,7 +52,7 @@
 			"patterns": [
 				{
 					"name": "storage.type.type-c",
-					"match": "\\b(i8|u8|i16|u16|i32|u32|u64|i64|f32|f64|bool|string)\\b"
+					"match": "\\b(i8|u8|i16|u16|i32|u32|u64|i64|f32|f64|bool|thread|promise)\\b"
 				}
 			]
 		},
