@@ -63,7 +63,6 @@ const Header: React.FC = () => {
                             <ul className="p-2">
                                 <li><Link href={'/tour'}> <SiAwesomelists size={20}  />Language Tour</Link></li>
                                 <li><Link href={'/docs/introduction'}><FaBook size={20}  />Documentation</Link></li>
-                                <li><a> <GiSecretBook size={20}  />本を購入する</a></li>
                                 <li><Link href="/faq"><FaQuestionCircle size={20}/> FAQ</Link></li>
                             </ul>
                         </details>
@@ -84,7 +83,6 @@ const Header: React.FC = () => {
                             <summary><CiCircleMore size={20} /> More</summary>
                             <ul className="p-2">
                                 <li><Link href={'/research'}><GiMaterialsScience size={20}/> Publications</Link></li>
-                                <li><Link href={'/'}><CiStickyNote size={20} /> Dev Notes</Link></li>
                                 <li><Link href={'/credits'}> <TbLicense size={20}  /> Credits</Link></li>
                             </ul>
                         </details>

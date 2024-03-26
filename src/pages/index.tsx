@@ -5,6 +5,7 @@ import { GiHypersonicBolt, GiPegasus, GiProcessor } from 'react-icons/gi';
 import { TbLetterV } from 'react-icons/tb';
 import { TiStarFullOutline } from 'react-icons/ti';
 import { useRouter } from 'next/router';
+import { FaDiscord } from 'react-icons/fa';
 
 const Index: React.FC = () => {
     const router = useRouter();
@@ -38,23 +39,23 @@ const Index: React.FC = () => {
                 <div className="stats shadow">
                     <div className="stat">
                         <div className="stat-figure text-primary">
-                            <TiStarFullOutline size={64} />
+                            <TiStarFullOutline size={80} />
                         </div>
                         <div className="stat-title">Github Stars</div>
                         <div className="stat-value text-primary">5</div>
                         <div className="stat-desc">{"We can do better!"}</div>
                     </div>
                     <div className="stat">
-                        <div className="stat-figure text-secondary">
-
+                        <div className="stat-figure text-neutral">
+                            <FaDiscord size={80} />
                         </div>
                         <div className="stat-title">Discord Users</div>
-                        <div className="stat-value text-secondary">1</div>
+                        <div className="stat-value text-neutral">1</div>
                     </div>
                     <div className="stat">
                         <div className="stat-value">70%</div>
                         <div className="stat-title">Percentage Completion</div>
-                        <div className="stat-desc text-secondary">31 tasks remaining</div>
+                        <div className="stat-desc text-secondary">toward stable v0 release</div>
                     </div>
                 </div>
             </div>
