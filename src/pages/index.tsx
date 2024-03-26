@@ -16,7 +16,7 @@ const Index: React.FC = () => {
             <div className="striped1 hero bg-base-200 py-40">
                 <div className="hero-content text-center">
                     <div className="flex gap-x-40">
-                        <div className="cybr-btn text-center logo-main min-h-[180px]" style={{minWidth: 650}}>
+                        <div className="cybr-btn text-center logo-main min-h-[180px]" style={{ minWidth: 650 }}>
                             <h1 className="logoFont">Type-C</h1>
                             <span aria-hidden className="cybr-btn__glitch">Type-C</span>
                             <span aria-hidden className="cybr-btn__tag">R25</span>
@@ -26,6 +26,12 @@ const Index: React.FC = () => {
                             <button className="btn btn-primary" onClick={gotoShowcase}>Showcase</button>
                         </div>
                     </div>
+                </div>
+
+            </div>
+            <div className='py-50 bg-base-200 text-center'>
+                <div role="alert" className="alert alert-error flex flex-1 flex-col">
+                    <span>Notice: Type-C is still in early development stages and not production ready!</span>
                 </div>
             </div>
             <div className="hero bg-base-300 py-40 ">
@@ -42,20 +48,12 @@ const Index: React.FC = () => {
                         <div className="stat-figure text-secondary">
 
                         </div>
-                        <div className="stat-title">Packages Installed</div>
-                        <div className="stat-value text-secondary">2.6M</div>
-                        <div className="stat-desc">21% more than last month</div>
+                        <div className="stat-title">Discord Users</div>
+                        <div className="stat-value text-secondary">1</div>
                     </div>
                     <div className="stat">
-                        <div className="stat-figure text-secondary">
-                            <div className="avatar online">
-                                <div className="w-16 rounded-full">
-                                    <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
-                                </div>
-                            </div>
-                        </div>
-                        <div className="stat-value">86%</div>
-                        <div className="stat-title">Tasks done</div>
+                        <div className="stat-value">70%</div>
+                        <div className="stat-title">Percentage Completion</div>
                         <div className="stat-desc text-secondary">31 tasks remaining</div>
                     </div>
                 </div>
