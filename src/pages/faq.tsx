@@ -27,7 +27,7 @@ const CodeOfConduct: React.FC = () => {
                             </div>
                             <div className="collapse-content">
                                 <p>Type-C came into existance from the need of a language that is flexible as Typescript,
-                                    but not tightly coupled with the javascript language. Since TypeScript's main goal is JS compatibility,
+                                    but not tightly coupled with the javascript language. Since TypeScript&apos;s main goal is JS compatibility,
                                     it sets some side effects such as the confusion between <span className='badge badge-neutral'>null</span> and 
                                     <span className='badge badge-neutral'>undefined</span>, and <span className='badge badge-neutral'>==</span> and 
                                     <span className='badge badge-neutral'>===</span> just to name a few. Hence, a new language had to be made.</p>

@@ -160,7 +160,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     const currentDocIndex = flatDocs.findIndex(doc => doc.name === slug.join('/'));
     let prevDoc = currentDocIndex > 0 ? flatDocs[currentDocIndex - 1] : null;
     let nextDoc = currentDocIndex < flatDocs.length - 1 ? flatDocs[currentDocIndex + 1] : null;
-    let activeDoc = flatDocs[currentDocIndex];
+    let activeDoc = flatDocs[currentDocIndex] || null;
 
     return {
         props: {

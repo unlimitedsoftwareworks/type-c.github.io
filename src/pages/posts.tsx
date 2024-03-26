@@ -47,7 +47,7 @@ const BlogPosts: React.FC<{ posts: BlogPost[] }> = ({ posts }) => {
                                     <small>{post.date}</small>
                                     <p>{post.description}</p>
                                     {post.tags.map((tag) => (
-                                        <div className="badge badge-neutral mx-2">{tag}</div>
+                                        <div key={tag} className="badge badge-neutral mx-2">{tag}</div>
                                     ))}
                                 </div>
                                 <hr />

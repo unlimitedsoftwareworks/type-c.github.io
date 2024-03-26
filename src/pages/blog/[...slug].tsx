@@ -69,7 +69,7 @@ const PostPage = ({ source, meta }: any) => {
                             <p className='m-1'>{meta.date}</p>
                             <div className="flex flex-row gap-x-2">
                                 {meta.tags.map((tag: string) => (
-                                    <div className="badge badge-neutral">{tag}</div>
+                                    <div key={tag} className="badge badge-neutral">{tag}</div>
                                 ))}
                             </div>
                             <div className="text-sm breadcrumbs">

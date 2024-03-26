@@ -14,7 +14,7 @@ const CodeOfConduct: React.FC = () => {
                             <p className="text-5xl">Code of Conduct</p>
                             <FaBalanceScale className="self-center p-5" size={120}/> 
                             <p>
-                                Type-C's is what groups plenty of people together to work and collaborate on amazing projects. We expect every member of our ccommunity to be up to some standard when it
+                                Type-C&apos;s is what groups plenty of people together to work and collaborate on amazing projects. We expect every member of our community to be up to some standard when it
                                 comes to interacting with others. This code of conduct applies to all spaces marked as <span className='badge badge-outline'>Official</span>, which means they are managed primarily by the Soulaymen Chouri (praisethemoon)
                             </p>
                         </div>

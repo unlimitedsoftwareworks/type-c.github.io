@@ -64,7 +64,7 @@ const Index: React.FC = () => {
                     <div className="card w-96 bg-primary text-primary-content">
                         <div className="card-body">
                             <h2 className="card-title">Type-C is Speed! <GiHypersonicBolt size={35} /></h2>
-                            <p>Type-C's runtime system is designed for efficiency and maximizing runtime performance, with low overhead</p>
+                            <p>Type-C&apos;s runtime system is designed for efficiency and maximizing runtime performance, with low overhead</p>
                         </div>
                     </div>
                     <div className="card w-96 bg-secondary text-secondary-content">
