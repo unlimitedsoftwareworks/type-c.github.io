@@ -1,9 +1,8 @@
 // src/pages/CodeOfConduct.tsx
 import Link from 'next/link';
 import React from 'react';
-import { FaBalanceScale, FaDiscord, FaHeart } from 'react-icons/fa';
-import { LiaHeart, LiaPrayingHandsSolid } from 'react-icons/lia';
-import { LuHeartHandshake } from 'react-icons/lu';
+import { FaDiscord } from 'react-icons/fa';
+import { HiUserGroup } from 'react-icons/hi';
 
 const Community: React.FC = () => {
     return (
@@ -13,7 +12,7 @@ const Community: React.FC = () => {
                     <div className="hero-content text-center">
                         <div className="gap-x-40 text-center flex flex-col">
                             <p className="text-5xl">Community</p>
-                            <FaBalanceScale className="self-center p-5" size={120} />
+                            <HiUserGroup className="self-center p-5" size={120} />
                             <p>
                                 Please make sure that you have read and agreed <Link href="/code-of-conduct"><span className='badge badge-neutral'>Code of Conduct</span></Link> before joining our community. We want everyone to feel welcome and safe in our community.
                             </p>
@@ -33,8 +32,9 @@ const Community: React.FC = () => {
                         <span className='badge badge-outline'>Official</span>
                             <div>
                                 <h3 className="font-bold flex flex-1 flex-row">Discord <FaDiscord size={26} className='mx-3' /></h3>
+                                <div className="text-xs">Public discord Community Server.</div>
                             </div>
-                            <button className="btn btn-sm">Join</button>
+                            <Link href="https://discord.gg/4ZPQsXSunn" target="_blank" className="btn btn-sm">Join</Link>
                         </div>
                     </div>
                 </div>
