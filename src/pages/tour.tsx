@@ -159,10 +159,10 @@ let vOk = v as? ServerResponse.Ok
  */
 
 if vOk == null {
-    // no way
+    // this is what's gonna happen!
 }
 else {
-    // this is what's gonna happen!
+    // no way
 }
 `} />
                                     <div role="alert" className="alert  not-prose">
