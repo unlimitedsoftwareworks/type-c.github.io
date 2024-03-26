@@ -22,8 +22,6 @@ const Sidebar: React.FC<SidebarProps> = ({ docsStructure }) => {
         }
         return '/docs'; // Default path if no slug
     };
-    console.log(getCurrentPath())
-    console.log(docsStructure)
     const renderDocs = (items: DocItem[]) => (
         <ul className="menu bg-base-200 w-200">
             {items.map(item => (

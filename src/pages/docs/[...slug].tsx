@@ -42,7 +42,7 @@ function getFilePathForSlug(slugArray: string[]) {
     return "404"
 }
 
-interface DocItem {
+export interface DocItem {
     name: string;
     title: string;
     items?: DocItem[];
@@ -50,6 +50,9 @@ interface DocItem {
 
 type DocPageProps = {
     docsStructure: DocItem[]; // Use the structured documentation data
+    prevDoc: DocItem | null;
+    nextDoc: DocItem | null;
+    activeDoc: DocItem;
     source: any; // Type for serialized MDX content. Consider using MDXRemoteSerializeResult from 'next-mdx-remote' if you're using it
     frontMatter: { [key: string]: any }; // Adjust based on your frontmatter structure
 };
@@ -58,9 +61,9 @@ type DocPageProps = {
 
 // Assuming `source` is your serialized MDX content
 
-const DocPage: React.FC<DocPageProps> = ({ source, frontMatter, docsStructure }) => {
+const DocPage: React.FC<DocPageProps> = ({ source, frontMatter, docsStructure, prevDoc, nextDoc, activeDoc }) => {
     return (
-        <DocsLayout docsStructure={docsStructure}>
+        <DocsLayout docsStructure={docsStructure} nextDoc={nextDoc} prevDoc={prevDoc} activeDoc={activeDoc}>
             <article>
                 <MDXRemote {...source} components={MDXComponents} />
             </article>
@@ -95,33 +98,30 @@ function loadAndStructureDocs(baseDir = 'docs') {
 function getDocsStructure(metaData: any, dirPath = 'docs', basePath = '') {
     let structure: DocItem[] = [];
 
-    metaData.forEach((entry: any) => {
+    for(let i = 0; i < metaData.length; i++) {
+        let entry = metaData[i];
+
         if (entry._meta) {
             // Entry represents a directory with subdocuments
             const subDirPath = path.join(dirPath, entry.name);
             const subBasePath = `${basePath}${entry.name}/`;
             const subStructure = getDocsStructure(entry._meta, subDirPath, subBasePath);
 
+
             // Group this directory's documents under a single entry
-            structure.push({ name: `${basePath}${entry.name}`, title: entry.title, items: subStructure });
+            structure.push({ name: `${basePath}${entry.name}`, title: entry.title, items: subStructure});
         } else {
             // Entry represents an individual document
             const filePath = path.join(dirPath, `${entry.name}.mdx`);
             if (fs.existsSync(filePath)) {
                 // File exists, add to structure
-                structure.push({ name: `${basePath}${entry.name}`, title: entry.title });
+                structure.push({ name: `${basePath}${entry.name}`, title: entry.title});
             }
         }
-    });
+    }
 
-    console.log(structure)
     return structure;
 }
-
-// Example usage
-// const documentationStructure = loadAndStructureDocs('path/to/base/folder');
-
-
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
     const slug = params?.slug as string[];
@@ -139,14 +139,38 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     const slugs = getDocsSlugs(); // Get the list for the sidebar
 
     const docsStructure = loadAndStructureDocs();
+    
+    // flatten the structure to find the previous and next documents
+    let flatDocs: DocItem[] = [];
+    
+    const flattenDocs = (docs: DocItem[]) => {
+        for(let i = 0; i < docs.length; i++) {
+            if(docs[i].items) {
+                flattenDocs(docs[i].items!);
+            } else {
+                flatDocs.push({
+                    name: docs[i].name,
+                    title: docs[i].title,
+                });
+            }
+        }
+    }
 
+    flattenDocs(docsStructure);
+    const currentDocIndex = flatDocs.findIndex(doc => doc.name === slug.join('/'));
+    let prevDoc = currentDocIndex > 0 ? flatDocs[currentDocIndex - 1] : null;
+    let nextDoc = currentDocIndex < flatDocs.length - 1 ? flatDocs[currentDocIndex + 1] : null;
+    let activeDoc = flatDocs[currentDocIndex];
 
     return {
         props: {
             slugs,
             source: mdxSource,
             frontMatter: data,
-            docsStructure
+            docsStructure,
+            prevDoc, // new
+            nextDoc, // new
+            activeDoc,
         },
     };
 };

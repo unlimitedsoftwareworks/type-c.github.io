@@ -45,7 +45,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
     postMeta.author = authorMeta;
 
-    console.log(postMeta)
 
     // Use MDXRemote to serialize the MDX content
     const mdxSource = await serialize(source);
@@ -60,7 +59,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
 // Your component to render the MDX content
 const PostPage = ({ source, meta }: any) => {
-    console.log(meta);
     return (
         <div>
             <div className="striped1 hero bg-base-100 py-20">

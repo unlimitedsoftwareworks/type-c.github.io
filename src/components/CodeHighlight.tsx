@@ -13,6 +13,11 @@ interface CodeHighlightProps {
 
 const CodeHighlight: React.FC<CodeHighlightProps> = ({ code, language }) => {
     const [highlightedCode, setHighlightedCode] = useState('<span className="loading loading-infinity loading-lg"></span>');
+    let activeCode = code;
+    // remove last line if it is empty
+    while (activeCode[activeCode.length - 1] === '\n') {
+        activeCode = activeCode.slice(0, -1);
+    }
 
 
     useEffect(() => {
@@ -26,7 +31,7 @@ const CodeHighlight: React.FC<CodeHighlightProps> = ({ code, language }) => {
                     }
                 });
                 highlighter.getLoadedLanguages()
-                const html = await highlighter.codeToHtml(code, { lang: language, theme: 'vitesse-dark' });
+                const html = await highlighter.codeToHtml(activeCode, { lang: language, theme: 'vitesse-dark' });
                 setHighlightedCode(html);
             } catch (error) {
                 console.error("Error highlighting code with Shiki:", error);
