@@ -1,3 +1,6 @@
 [submodule "docs"]
 	path = docs
 	url = https://github.com/unlimitedsoftwareworks/tc-docs
+[submodule "posts"]
+	path = posts
+	url = https://github.com/unlimitedsoftwareworks/tc-blog
