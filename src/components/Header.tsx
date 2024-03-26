@@ -39,15 +39,32 @@ const Header: React.FC = () => {
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
                     </div>
                     <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-                        <li><a>Playground</a></li>
+                        <li><Link href={'/'}><FaHome size={20} /> Home</Link></li>
+                        <li><Link href={'/download'}><FaDownload size={20} /> Download</Link></li>
+                        <li><Link href={'/posts'}><FaRegNewspaper size={20} /> Blog</Link></li>
                         <li>
-                            <a>Documentation</a>
+                            <a><FaUniversity size={20} /> Learn</a>
                             <ul className="p-2">
-                                <li><a>Submenu 1</a></li>
-                                <li><a>Submenu 2</a></li>
+                                <li><Link href={'/tour'}> <SiAwesomelists size={20}  />Language Tour</Link></li>
+                                <li><Link href={'/docs/introduction'}><FaBook size={20}  />Documentation</Link></li>
+                                <li><Link href="/faq"><FaQuestionCircle size={20}/> FAQ</Link></li>
                             </ul>
                         </li>
-                        <li><a>Install</a></li>
+                        <li>
+                            <a><IoPeopleCircleOutline size={20} /> Community Portals</a>
+                            <ul className="p-2">
+                                <li><Link href="/code-of-conduct"><FaBalanceScale size={20}/> Code of Conduct</Link></li>
+                                <li><Link href={'/community'}><HiUserGroup size={20}  /> Community Links</Link></li>
+                            </ul>
+                        </li>
+                        <li><Link href="/type-hub"><LuPackageSearch size={20}/> Type-Hub</Link></li>
+                        <li>
+                            <a><CiCircleMore size={20} /> More</a>
+                            <ul className="p-2">
+                                <li><Link href={'/research'}><GiMaterialsScience size={20}/> Publications</Link></li>
+                                <li><Link href={'/credits'}> <TbLicense size={20}  /> Credits</Link></li>
+                            </ul>
+                        </li>
                     </ul>
                 </div>
                 <Link className="btn btn-ghost text-xl logoFont" href='/'>Type-C</Link>
