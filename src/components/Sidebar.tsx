@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import React from 'react';
 import { useRouter } from 'next/router';
+import DocsSearch from './DocsSearch';
 
 interface DocItem {
     name: string;
@@ -22,6 +23,7 @@ const Sidebar: React.FC<SidebarProps> = ({ docsStructure }) => {
         }
         return '/docs'; // Default path if no slug
     };
+    
     const renderDocs = (items: DocItem[]) => (
         <ul className="menu bg-base-200 w-200">
             {items.map(item => (
@@ -47,7 +49,7 @@ const Sidebar: React.FC<SidebarProps> = ({ docsStructure }) => {
 
     return (
         <aside>
-            <h2>Documentation:</h2>
+            <DocsSearch/>
             {renderDocs(docsStructure)} {/* Initial call with the top-level structure */}
         </aside>
     );

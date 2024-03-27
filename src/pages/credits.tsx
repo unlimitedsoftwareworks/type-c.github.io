@@ -31,7 +31,7 @@ const CodeOfConduct: React.FC = () => {
                         <div className="stat-figure text-secondary">
                             <div className="avatar">
                                 <div className="w-16 rounded-full">
-                                    <Image alt="" src="https://avatars.githubusercontent.com/u/22145460?v=4" />
+                                    <Image alt="" src="https://avatars.githubusercontent.com/u/22145460?v=4" width={128} height={128}/>
                                 </div>
                             </div>
                         </div>

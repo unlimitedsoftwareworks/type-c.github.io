@@ -138,7 +138,7 @@ const PostPage = ({ source, meta }: any) => {
                         <div className="stat-figure text-secondary">
                             <div className="avatar">
                                 <div className="w-16 rounded-full">
-                                    <Image alt="" src={meta.author.avatar} />
+                                    <Image alt="" src={meta.author.avatar} width={128} height={128}/>
                                 </div>
                             </div>
                         </div>
