@@ -1,4 +1,3 @@
-// src/pages/CodeOfConduct.tsx
 import CodeHighlight from '@/components/CodeHighlight';
 import React from 'react';
 import { GiPlasticDuck } from 'react-icons/gi';
@@ -8,7 +7,7 @@ import { MdDataObject } from 'react-icons/md';
 import { PiNumberZeroFill } from 'react-icons/pi';
 import { SiAwesomelists } from 'react-icons/si';
 
-const CodeOfConduct: React.FC = () => {
+const Tour: React.FC = () => {
     return (
         <div>
             <div className="striped1 hero bg-base-100 py-20">
@@ -182,4 +181,4 @@ else {
     );
 };
 
-export default CodeOfConduct;
+export default Tour;

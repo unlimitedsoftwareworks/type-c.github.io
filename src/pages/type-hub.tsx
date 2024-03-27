@@ -1,10 +1,7 @@
-// src/pages/CodeOfConduct.tsx
 import React from 'react';
-import { FaHeart } from 'react-icons/fa';
-import { LiaHeart, LiaPrayingHandsSolid } from 'react-icons/lia';
-import { LuHeartHandshake, LuPackageSearch } from 'react-icons/lu';
+import { LuPackageSearch } from 'react-icons/lu';
 
-const CodeOfConduct: React.FC = () => {
+const TypeHub: React.FC = () => {
     return (
         <div>
             <div className="striped1 hero bg-base-100 py-10">
@@ -24,6 +21,13 @@ const CodeOfConduct: React.FC = () => {
                 </div>
             </div>
             <div className="flex flex-1 h-screen">
+                <div className='hero bg-base-200 py-20 w-200'>
+                    <div className="prose p-5">
+                        <h2>Sadly there is nothing here yet</h2>
+                    </div>
+                </div>
+
+                {/*
                 <aside className="sticky left-0 top-0 h-screen overflow-y-auto bg-base-200 w-200 p-4  ">
                     <h1 className="py-5">Trending Libraries</h1>
                     <div className="card w-96 bg-base-100 border border-1 border-base-300  py-5">
@@ -61,9 +65,10 @@ const CodeOfConduct: React.FC = () => {
                         <span>This page is only mock-up, the Type-Hub project is still under construction.</span>
                     </div>
                 </main>
+                */}
             </div>
         </div>
     );
 };
 
-export default CodeOfConduct;
+export default TypeHub;

@@ -1,10 +1,6 @@
-// Adjust imports as necessary
 import React from 'react';
-import { GetStaticProps } from 'next';
 import fs from 'fs';
 import path from 'path';
-import { FaNewspaper } from 'react-icons/fa';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 export type BlogPost = {
@@ -16,7 +12,7 @@ export type BlogPost = {
     author: string
 };
 
-interface CodeOfConductProps {
+interface Posts {
     blogPosts: BlogPost[];
 }
 
@@ -76,4 +72,5 @@ export async function getStaticProps() {
         },
     };
 }
+
 export default BlogPosts;

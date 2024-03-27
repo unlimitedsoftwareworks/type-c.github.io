@@ -1,8 +1,5 @@
-// src/pages/CodeOfConduct.tsx
 import React from 'react';
-import { FaBalanceScale, FaHeart } from 'react-icons/fa';
-import { LiaHeart, LiaPrayingHandsSolid } from 'react-icons/lia';
-import { LuHeartHandshake } from 'react-icons/lu';
+import { FaBalanceScale } from 'react-icons/fa';
 
 const CodeOfConduct: React.FC = () => {
     return (

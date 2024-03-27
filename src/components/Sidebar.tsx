@@ -1,4 +1,3 @@
-// src/components/Sidebar.tsx
 import Link from 'next/link';
 import React from 'react';
 import { useRouter } from 'next/router';
@@ -17,7 +16,7 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ docsStructure }) => {
     const router = useRouter();
     const getCurrentPath = () => {
-        const slug = router.query.slug; // Assuming `slug` is the name of your dynamic route segment
+        const slug = router.query.slug; 
         if (Array.isArray(slug)) {
             return `/docs/${slug.join('/')}`; // Join the slug array into a path
         }

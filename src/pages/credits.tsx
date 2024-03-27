@@ -1,13 +1,10 @@
-// src/pages/CodeOfConduct.tsx
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
-import { FaBalanceScale, FaGithub, FaGlobeAfrica, FaHeart } from 'react-icons/fa';
-import { LiaHeart, LiaPrayingHandsSolid } from 'react-icons/lia';
-import { LuHeartHandshake } from 'react-icons/lu';
+import { FaGithub, FaGlobeAfrica } from 'react-icons/fa';
 import { TbLicense } from 'react-icons/tb';
 
-const CodeOfConduct: React.FC = () => {
+const Credits: React.FC = () => {
     return (
         <div>
             <div className="striped1 hero bg-base-100 py-20">
@@ -50,4 +47,4 @@ const CodeOfConduct: React.FC = () => {
     );
 };
 
-export default CodeOfConduct;
+export default Credits;

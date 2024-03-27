@@ -1,4 +1,3 @@
-// src/pages/docs/[slug].tsx
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { serialize } from 'next-mdx-remote/serialize';
 import { MDXRemote } from 'next-mdx-remote';
@@ -53,13 +52,9 @@ type DocPageProps = {
     prevDoc: DocItem | null;
     nextDoc: DocItem | null;
     activeDoc: DocItem;
-    source: any; // Type for serialized MDX content. Consider using MDXRemoteSerializeResult from 'next-mdx-remote' if you're using it
-    frontMatter: { [key: string]: any }; // Adjust based on your frontmatter structure
+    source: any;
+    frontMatter: { [key: string]: any };
 };
-
-// In your Next.js page or component file
-
-// Assuming `source` is your serialized MDX content
 
 const DocPage: React.FC<DocPageProps> = ({ source, frontMatter, docsStructure, prevDoc, nextDoc, activeDoc }) => {
     return (
@@ -132,7 +127,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         // Pass options to MDX serialization
         mdxOptions: {
             remarkPlugins: [remarkGfm],
-            // Optionally, add rehypePlugins here if you have any
         }
     });
 
@@ -168,8 +162,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
             source: mdxSource,
             frontMatter: data,
             docsStructure,
-            prevDoc, // new
-            nextDoc, // new
+            prevDoc, 
+            nextDoc,
             activeDoc,
         },
     };

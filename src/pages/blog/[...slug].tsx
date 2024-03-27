@@ -86,7 +86,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
     };
 };
 
-// Your component to render the MDX content
 const PostPage = ({ source, meta }: any) => {
     return (
         <div>

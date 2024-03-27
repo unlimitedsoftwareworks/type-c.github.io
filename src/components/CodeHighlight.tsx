@@ -1,5 +1,4 @@
 
-// components/CodeHighlight.tsx
 import React, { useEffect, useState } from 'react';
 import { codeToHtml, getHighlighter } from 'shiki';
 import typeCLang from './type-c.tmLanguage.json';
@@ -25,7 +24,7 @@ const CodeHighlight: React.FC<CodeHighlightProps> = ({ code, language }) => {
             try {
                 const highlighter = await getHighlighter({
                     langs: [typeCLang as any, "typescript", "javascript", "c", "cpp", "json", "bash"],
-                    themes: ['vitesse-dark'], // Specify your theme or themes,
+                    themes: ['vitesse-dark'], 
                     langAlias: {
                         "tc": "type-c"
                     }
@@ -41,7 +40,6 @@ const CodeHighlight: React.FC<CodeHighlightProps> = ({ code, language }) => {
         highlightCode();
     }, [code, language]);
 
-    // Render the highlighted code as HTML
     return <div className='w-full' dangerouslySetInnerHTML={{ __html: highlightedCode }} />;
 };
 

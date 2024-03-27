@@ -1,12 +1,6 @@
-// src/pages/CodeOfConduct.tsx
 import Link from 'next/link';
 import React from 'react';
-import { FaApple, FaBalanceScale, FaDownload, FaHeart, FaLinux, FaWindows } from 'react-icons/fa';
-import { GiHypersonicBolt, GiProcessor } from 'react-icons/gi';
-import { LiaHeart, LiaPrayingHandsSolid } from 'react-icons/lia';
-import { LuHeartHandshake } from 'react-icons/lu';
-import { TbLetterV } from 'react-icons/tb';
-
+import { FaApple, FaGithub } from 'react-icons/fa';
 const Download: React.FC = () => {
     return (
         <div>
@@ -14,35 +8,38 @@ const Download: React.FC = () => {
                 <div>
                     <div className="hero-content text-center">
                         <div className="gap-x-40 text-center flex flex-col">
-                            <FaDownload className="self-center p-5" size={120} />
                             <p>
-                                Requires npx to install the compiler
+                                Sadly, there are no binary builds for Type-C Just yet, you will have to grab the project from the following repos:
                             </p>
+                            <div className='flex flex-1 flex-row gap-2 pt-20'>
+                                <div role="alert" className="alert shadow-lg flex justify-between">
+                                    <div>
+                                        <h3 className="font-bold flex flex-1 flex-row">Type-C <FaGithub size={26} className='mx-3' /></h3>
+                                        <div className="text-xs">Type-C Compiler.</div>
+                                    </div>
+                                    <Link href="https://github.com/unlimitedsoftwareworks/type-c" target="_blank" className="btn btn-sm">Link</Link>
+                                </div>
+                                <div role="alert" className="alert shadow-lg flex justify-between">
+                                    <div>
+                                        <h3 className="font-bold flex flex-1 flex-row">Type-V <FaGithub size={26} className='mx-3' /></h3>
+                                        <div className="text-xs">Type-V Virtual Machine.</div>
+                                    </div>
+                                    <Link href="https://github.com/unlimitedsoftwareworks/type-v" target="_blank" className="btn btn-sm">Link</Link>
+                                </div>
+                                <div role="alert" className="alert shadow-lg flex justify-between">
+                                    <div>
+                                        <h3 className="font-bold flex flex-1 flex-row">Stdlib <FaGithub size={26} className='mx-3' /></h3>
+                                        <div className="text-xs">Type-C Standard Library.</div>
+                                    </div>
+                                    <Link href="https://github.com/unlimitedsoftwareworks/stdlib" target="_blank" className="btn btn-sm">Link</Link>
+                                </div>
+                            </div>
                         </div>
+
                     </div>
                 </div>
 
             </div>
-
-            <div className="hero bg-base-300 py-20 flex flex-wrap justify-around items-center">
-                <div className='py-10 px-5'>
-                    <h1 className='text-center text-2xl mb-4'>1. Install Compiler</h1>
-                    <div className="mockup-code">
-                        <pre data-prefix="$"><code>npx i typecc</code></pre>
-                        <pre data-prefix=">" className="text-warning"><code>installing...</code></pre>
-                        <pre data-prefix=">" className="text-success"><code>Done!</code></pre>
-                    </div>
-                </div>
-                <div className='py-10 px-5'>
-                    <h1 className='text-center text-2xl mb-4'>2. Install VM</h1>
-                    <div className="mockup-code">
-                        <pre data-prefix="$"><code>npx i typev</code></pre>
-                        <pre data-prefix=">" className="text-warning"><code>installing...</code></pre>
-                        <pre data-prefix=">" className="text-success"><code>Done!</code></pre>
-                    </div>
-                </div>
-            </div>
-
         </div>
     );
 };

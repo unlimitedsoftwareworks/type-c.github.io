@@ -1,4 +1,3 @@
-// src/components/DocsLayout.tsx
 import React from 'react';
 import Sidebar from './Sidebar';
 import { DocItem } from '@/pages/docs/[...slug]';
@@ -10,14 +9,13 @@ import { HiOutlineDocumentText } from 'react-icons/hi';
 
 interface DocsLayoutProps {
     children: React.ReactNode;
-    docsStructure: DocItem[]; // Changed from slugs to docsStructure
+    docsStructure: DocItem[];
     activeDoc: DocItem;
     prevDoc: DocItem | null;
     nextDoc: DocItem | null;
 }
 
 
-// Assuming DocItem is defined somewhere, either in this file or imported
 const DocsLayout: React.FC<DocsLayoutProps> = ({ children, docsStructure, prevDoc, nextDoc, activeDoc }) => {
     return (
         <div className="flex flex-1 bg-base-200 striped1">
@@ -25,7 +23,6 @@ const DocsLayout: React.FC<DocsLayoutProps> = ({ children, docsStructure, prevDo
                 <Sidebar docsStructure={docsStructure} />
             </aside>
 
-            {/* Main content area, independently scrollable */}
             <main className="flex-1 overflow-y-auto p-4 bg-base-200 prose lg:prose-md m-auto max-w-4xl mx-auto">
                 <div className="text-sm breadcrumbs">
                     <ul>

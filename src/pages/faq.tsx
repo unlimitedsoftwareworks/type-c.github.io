@@ -1,9 +1,7 @@
-// src/pages/CodeOfConduct.tsx
-import Link from 'next/link';
 import React from 'react';
 import { FaQuestionCircle } from 'react-icons/fa';
 
-const CodeOfConduct: React.FC = () => {
+const FAQ: React.FC = () => {
     return (
         <div>
             <div className="striped1 hero bg-base-100 py-20">
@@ -62,4 +60,4 @@ const CodeOfConduct: React.FC = () => {
     );
 };
 
-export default CodeOfConduct;
+export default FAQ;

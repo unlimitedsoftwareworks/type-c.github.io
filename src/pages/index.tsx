@@ -1,7 +1,6 @@
-// src/pages/page.tsx
 import CodeHighlight from '@/components/CodeHighlight';
 import React from 'react';
-import { GiHypersonicBolt, GiPegasus, GiProcessor } from 'react-icons/gi';
+import { GiHypersonicBolt, GiProcessor } from 'react-icons/gi';
 import { TbLetterV } from 'react-icons/tb';
 import { TiStarFullOutline } from 'react-icons/ti';
 import { useRouter } from 'next/router';
@@ -42,7 +41,7 @@ const Index: React.FC = () => {
                             <TiStarFullOutline size={80} />
                         </div>
                         <div className="stat-title">Github Stars</div>
-                        <div className="stat-value text-primary">5</div>
+                        <div className="stat-value text-primary">0</div>
                         <div className="stat-desc">{"We can do better!"}</div>
                     </div>
                     <div className="stat">
@@ -53,7 +52,7 @@ const Index: React.FC = () => {
                         <div className="stat-value text-neutral">1</div>
                     </div>
                     <div className="stat">
-                        <div className="stat-value">70%</div>
+                        <div className="stat-value">60%</div>
                         <div className="stat-title">Percentage Completion</div>
                         <div className="stat-desc text-secondary">toward stable v0 release</div>
                     </div>

@@ -1,4 +1,3 @@
-// src/pages/CodeOfConduct.tsx
 import Link from 'next/link';
 import React from 'react';
 import { FaDiscord } from 'react-icons/fa';
