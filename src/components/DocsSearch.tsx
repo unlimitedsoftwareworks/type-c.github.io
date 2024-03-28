@@ -49,6 +49,8 @@ const DocsSearch = () => {
                         const searchResults = newFuse.search(query);
                         setResults(searchResults);
                         setLoaded(true);
+                    }).catch((err) => {
+                        setLoaded(true);
                     });
             }
         }
@@ -78,24 +80,24 @@ const DocsSearch = () => {
                     <h3 className="font-bold text-lg">Search Results</h3>
                     <div>
                         <form method="dialog">
-                        {!loaded && <span className="loading loading-infinity loading-lg"></span>}
-                        {loaded && results.map((result, index) => (
-                            <button
-                                key={result.refIndex}
-                                className='p-5 bg-base-200 hover:bg-neutral hover:text-neutral-content cursor-pointer text-left'
-                                onClick={() => { router.push(`/docs/${result.item.slug}`) }}>
-                                <p className='flex flex-1 flex-row'><TiDocumentText className='pr-1' size={24} /> {result.item.slug}</p>
-                                <p className='pt-2'>{result.item.excerpt}</p>
-                            </button>
-                        ))}
-                        {loaded && (results.length === 0) && (
-                            <div>
-                                <p className='flex flex-col items-center justify-center'>
-                                    <GiSadCrab size={200} />
-                                    <span>Crab! No results found!</span>
-                                </p>
-                            </div>
-                        )}
+                            {!loaded && <span className="loading loading-infinity loading-lg"></span>}
+                            {loaded && results.map((result, index) => (
+                                <button
+                                    key={result.refIndex}
+                                    className='p-5 bg-base-200 hover:bg-neutral hover:text-neutral-content cursor-pointer text-left'
+                                    onClick={() => { router.push(`/docs/${result.item.slug}`) }}>
+                                    <p className='flex flex-1 flex-row'><TiDocumentText className='pr-1' size={24} /> {result.item.slug}</p>
+                                    <p className='pt-2'>{result.item.excerpt}</p>
+                                </button>
+                            ))}
+                            {loaded && (results.length === 0) && (
+                                <div>
+                                    <p className='flex flex-col items-center justify-center'>
+                                        <GiSadCrab size={200} />
+                                        <span>Crab! No results found!</span>
+                                    </p>
+                                </div>
+                            )}
                         </form>
                     </div>
                     <div className="modal-action">
