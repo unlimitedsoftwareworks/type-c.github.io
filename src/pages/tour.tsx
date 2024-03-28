@@ -72,8 +72,8 @@ type User = {
     email: String
 }
 
-fn printUser({name: String}) {
-    println(name)
+fn printUser(u: {name: String}) {
+    println(u.name)
 }
 
 // When type is specified, we can just list the fields
