@@ -106,7 +106,7 @@ const Header: React.FC = () => {
                 </ul>
             </div>
             <div className="navbar-end">
-                <Link className="btn btn-ghost" href="https://github.com/unlimitedsoftwareworks/type-c"><FaDiscord size={24} /></Link>
+                {/*<Link className="btn btn-ghost" href="https://github.com/unlimitedsoftwareworks/type-c"><FaDiscord size={24} /></Link>*/}
                 <Link className="btn btn-ghost" href="https://github.com/unlimitedsoftwareworks/type-c"><FaGithub size={24} /></Link>
             </div>
         </div>
