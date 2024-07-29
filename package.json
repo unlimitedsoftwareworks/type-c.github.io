@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build:index": "node ./scripts/generateSearchIndex.js",
-    "build": "npm run build:index && next build",    
+    "build": "npm run build:index && next build",
     "start": "next start",
     "lint": "next lint"
   },
