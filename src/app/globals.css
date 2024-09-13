@@ -270,7 +270,7 @@ code .line::before {
 
 .striped1 {
   background-image: repeating-linear-gradient(45deg, var(--fallback-b1, oklch(var(--b1))), var(--fallback-b1, oklch(var(--b1))) 13px, var(--fallback-b2, oklch(var(--b2))) 13px, var(--fallback-b2, oklch(var(--b2))) 14px);
-  background-size: 40px 40px;
+  background-size: 10px 10px;
 }
 
 

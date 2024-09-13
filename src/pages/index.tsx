@@ -1,6 +1,6 @@
 import CodeHighlight from '@/components/CodeHighlight';
 import React from 'react';
-import { GiHypersonicBolt, GiProcessor } from 'react-icons/gi';
+import { GiHypersonicBolt, GiProcessor, GiWaveSurfer } from 'react-icons/gi';
 import { TbLetterV } from 'react-icons/tb';
 import { TiStarFullOutline } from 'react-icons/ti';
 import { useRouter } from 'next/router';
@@ -68,8 +68,8 @@ const Index: React.FC = () => {
                     </div>
                     <div className="card w-96 bg-secondary text-secondary-content">
                         <div className="card-body">
-                            <h2 className="card-title">Async <GiProcessor size={35} /></h2>
-                            <p>Similar to modern JS, Type-C, is both concurrent and asynchrounous. Type-C leverages libuv just like nodejs, to achieve efficient async i/o performance on multiple platforms</p>
+                            <h2 className="card-title">Smooth! <GiWaveSurfer size={35} /></h2>
+                            <p>Type-C syntax is designed to be smooth and natural, with a focus on readability and simplicity</p>
                         </div>
                     </div>
                     <div className="card w-96 bg-neutral text-neutral-content">
