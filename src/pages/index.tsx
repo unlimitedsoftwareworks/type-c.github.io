@@ -11,6 +11,9 @@ const Index: React.FC = () => {
     const gotoShowcase = () => {
         router.push("/tour");
     };
+    const gotoDocs = () => {
+        router.push("/docs/introduction");
+    };
     return (
         <div>
             <div className="striped1 hero bg-base-200 py-40">
@@ -38,6 +41,12 @@ const Index: React.FC = () => {
                                 onClick={gotoShowcase}
                             >
                                 Showcase
+                            </button>
+                            <button
+                                className="btn btn-primary py-3"
+                                onClick={gotoDocs}
+                            >
+                                Documentation
                             </button>
                         </div>
                     </div>
