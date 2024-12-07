@@ -92,21 +92,25 @@ export const getStaticProps: GetStaticProps = async (context) => {
         },
     };
 };
-
 const PostPage = ({ source, meta }: any) => {
     return (
         <div>
-            <div className="striped1 hero bg-base-100 py-20">
+            {/* Hero Section */}
+            <div className="striped1 hero bg-base-100 py-10 sm:py-20">
                 <div>
                     <div className="hero-content text-center">
-                        <div className="gap-x-40 flex flex-col text-center  items-center">
-                            <p className="text-5xl">{meta.title}</p>
-                            <p className="m-1">{meta.date}</p>
-                            <div className="flex flex-row gap-x-2">
+                        <div className="flex flex-col items-center text-center gap-4">
+                            <p className="text-3xl sm:text-4xl lg:text-5xl font-bold">
+                                {meta.title}
+                            </p>
+                            <p className="text-sm sm:text-base text-gray-500">
+                                {meta.date}
+                            </p>
+                            <div className="flex flex-wrap gap-2 justify-center">
                                 {meta.tags.map((tag: string) => (
                                     <div
                                         key={tag}
-                                        className="badge badge-neutral"
+                                        className="badge badge-neutral text-sm"
                                     >
                                         {tag}
                                     </div>
@@ -116,13 +120,13 @@ const PostPage = ({ source, meta }: any) => {
                                 <ul>
                                     <li>
                                         <Link href="/posts">
-                                            <FaRegNewspaper className="mx-2" />{" "}
+                                            <FaRegNewspaper className="mr-2" />
                                             Blog
                                         </Link>
                                     </li>
                                     <li>
                                         <a>
-                                            <HiOutlineDocumentText className="mx-2" />
+                                            <HiOutlineDocumentText className="mr-2" />
                                             {meta.title}
                                         </a>
                                     </li>
@@ -133,58 +137,65 @@ const PostPage = ({ source, meta }: any) => {
                 </div>
             </div>
 
-            <div className="hero bg-base-200">
-                <div className="py-40 w-700">
-                    <div className="prose lg:prose-md m-auto">
+            {/* Content Section */}
+            <div className="bg-base-200 py-10 sm:py-20">
+                <div className="max-w-4xl px-4 sm:px-6 lg:px-8 mx-auto">
+                    <div className="prose lg:prose-md mx-auto">
                         <MDXRemote {...source} components={MDXComponents} />
                     </div>
                 </div>
             </div>
 
-            <div className="striped1 hero bg-base-100 py-20">
-                <div className="py-1 w-700">
-                    <div className="prose lg:prose-md m-auto b-1">
-                        <h2>Written By</h2>
-                    </div>
-                    <div className="stat bg-base-100 hover:bg-primary hover:text-blue-500">
+            {/* Author Section */}
+            <div className="striped1 hero bg-base-100 py-10 sm:py-20">
+                <div className="w-full max-w-4xl px-4 sm:px-6 lg:px-8 mx-auto">
+                    <h2 className="text-xl font-bold mb-4">Written By</h2>
+                    <div className="stat bg-base-100 hover:bg-primary hover:text-blue-500 rounded-lg shadow-lg p-6 flex flex-col sm:flex-row items-center">
                         <div className="stat-figure text-secondary">
                             <div className="avatar">
                                 <div className="w-16 rounded-full">
                                     <Image
-                                        alt=""
+                                        alt="Author Avatar"
                                         src={meta.author.avatar}
-                                        width={128}
-                                        height={128}
+                                        width={64}
+                                        height={64}
                                     />
                                 </div>
                             </div>
                         </div>
-                        <div className="prose">
-                            <div className="stat-value ">{meta.author.id}</div>
-                            <div className="stat-title">{meta.author.name}</div>
-                            <div className="stat-desc text-secondary">
+                        <div className="text-center sm:text-left mt-4 sm:mt-0 sm:ml-6">
+                            <p className="text-lg font-bold">
+                                {meta.author.name}
+                            </p>
+                            <p className="text-sm text-gray-500">
                                 {meta.author.bio}
-                            </div>
-                            <div className="flex flex-1 flex-row">
+                            </p>
+                            <div className="flex flex-wrap gap-2 justify-center sm:justify-start mt-4">
                                 <Link
                                     href={meta.author.website}
-                                    className="btn btn-ghost px-5 btn-xs"
+                                    className="btn btn-ghost btn-xs"
                                 >
-                                    <FaGlobeAfrica />
-                                </Link>{" "}
+                                    <FaGlobeAfrica className="mr-2" />
+                                    Website
+                                </Link>
                                 <Link
-                                    className="btn btn-ghost px-5 btn-xs"
                                     href={meta.author.gh}
+                                    className="btn btn-ghost btn-xs"
                                 >
-                                    <FaGithub />
+                                    <FaGithub className="mr-2" />
+                                    GitHub
                                 </Link>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div className="bg-base-200 min-h-[400px]">
-                <UtterancesComments />
+
+            {/* Comments Section */}
+            <div className="bg-base-200 py-10 sm:py-20">
+                <div className="w-full max-w-4xl px-4 sm:px-6 lg:px-8 mx-auto">
+                    <UtterancesComments />
+                </div>
             </div>
         </div>
     );
