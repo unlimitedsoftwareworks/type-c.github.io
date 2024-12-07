@@ -17,40 +17,43 @@ const Index: React.FC = () => {
     return (
         <div>
             {/* Hero Section */}
-            <div className="striped1 hero bg-base-200 py-20">
-                <div className="hero-content text-center flex flex-col items-center lg:flex-row lg:gap-20">
-                    <div
-                        className="cybr-btn text-center logo-main min-h-[180px] mb-6 lg:mb-0"
-                        style={{ minWidth: 300 }}
-                    >
-                        <h1 className="logoFont text-4xl md:text-5xl lg:text-6xl">
-                            Type-C
-                        </h1>
-                        <span aria-hidden className="cybr-btn__glitch">
-                            Type-C
-                        </span>
-                        <span aria-hidden className="cybr-btn__tag">
-                            R25
-                        </span>
-                    </div>
-                    <div className="text-center max-w-lg">
-                        <p className="py-6 text-lg">
-                            An expressive type-safe programming language,
-                            tailored for efficiency and speed
-                        </p>
-                        <div className="flex flex-wrap gap-4 justify-center">
-                            <button
-                                className="btn btn-primary w-40"
-                                onClick={gotoShowcase}
-                            >
-                                Showcase
-                            </button>
-                            <button
-                                className="btn btn-secondary w-40"
-                                onClick={gotoDocs}
-                            >
-                                Documentation
-                            </button>
+            <div className="striped1 hero bg-base-200 py-40 overflow-x-hidden">
+                <div className="hero-content text-center">
+                    <div className="flex flex-col lg:flex-row gap-y-10 lg:gap-x-40 items-center">
+                        {/* Logo Section */}
+                        <div
+                            className="cybr-btn text-center logo-main min-h-[180px]"
+                            style={{ minWidth: 650 }}
+                        >
+                            <h1 className="logoFont">Type-C</h1>
+                            <span aria-hidden className="cybr-btn__glitch">
+                                Type-C
+                            </span>
+                            <span aria-hidden className="cybr-btn__tag">
+                                R25
+                            </span>
+                        </div>
+
+                        {/* Buttons Section */}
+                        <div className="text-center">
+                            <p className="py-6 text-lg">
+                                An expressive type-safe programming language,
+                                tailored for efficiency and speed
+                            </p>
+                            <div className="flex flex-col sm:flex-row gap-4">
+                                <button
+                                    className="btn btn-primary"
+                                    onClick={gotoShowcase}
+                                >
+                                    Showcase
+                                </button>
+                                <button
+                                    className="btn btn-primary"
+                                    onClick={gotoDocs}
+                                >
+                                    Documentation
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
