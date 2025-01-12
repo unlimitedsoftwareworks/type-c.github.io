@@ -23,21 +23,21 @@ const config: Config = {
   daisyui: {
     themes: [
       {
-        'cyberpunk': {
-           'primary' : '#a50326',
-           'primary-focus' : '#cd0a3e',
+        'type-c': {
+           'primary' : '#f24a4a',
+           'primary-focus' : '#e1194e',
            'primary-content' : '#ffffff',
 
-           'secondary' : '#36a706',
-           'secondary-focus' : '#0ac507',
+           'secondary' : '#277e01',
+           'secondary-focus' : '#10b40e',
            'secondary-content' : '#ebebeb',
 
            'accent' : '#8e1adb',
            'accent-focus' : '#9241c8',
            'accent-content' : '#d6d6d6',
 
-           'neutral' : '#0a0fa3',
-           'neutral-focus' : '#f24a4a',
+           'neutral' : '#79026f',
+           'neutral-focus' : '#a72020',
            'neutral-content' : '#ffffff',
 
            'base-100' : '#171717',
@@ -50,16 +50,16 @@ const config: Config = {
            'warning' : '#f56d24',
            'error' : '#a50326',
 
-          '--rounded-box': '0',          
-          '--rounded-btn': '0',        
-          '--rounded-badge': '0',      
+          '--rounded-box': '0',
+          '--rounded-btn': '0',
+          '--rounded-badge': '0',
 
-          '--animation-btn': '.25s',       
-          '--animation-input': '.2s',       
+          '--animation-btn': '',
+          '--animation-input': '.2s',
 
-          '--btn-text-case': 'uppercase',   
-          '--navbar-padding': '.5rem',      
-          '--border-btn': '1px',            
+          '--btn-text-case': 'uppercase',
+          '--navbar-padding': '.5rem',
+          '--border-btn': '0',
         },
       },
     ],

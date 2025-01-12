@@ -1,10 +1,8 @@
 import CodeHighlight from "@/components/CodeHighlight";
 import React from "react";
-import { GiHypersonicBolt, GiProcessor, GiWaveSurfer } from "react-icons/gi";
-import { TbLetterV } from "react-icons/tb";
-import { TiStarFullOutline } from "react-icons/ti";
 import { useRouter } from "next/router";
-import { FaDiscord } from "react-icons/fa";
+import LiteYouTubeEmbed from 'react-lite-youtube-embed';
+import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css'
 
 const Index: React.FC = () => {
     const router = useRouter();
@@ -72,8 +70,29 @@ const Index: React.FC = () => {
                 </div>
             </div>
 
-            {/* Code Highlight Section */}
             <div className="hero bg-base-300 py-20">
+                <div className="py-10 prose w-full max-w-6xl mx-auto">
+                    <div
+                        role="alert"
+                        className="alert alert-info flex flex-col items-center"
+                    >
+                        <span>
+                            The video connects to YouTube via the Privacy-Enhanced Mode using https://www.youtube-nocookie.com
+                        </span>
+                    </div>
+                    <LiteYouTubeEmbed
+                        id="t9-H46gk-Oo"
+                        adNetwork={true}
+                        params=""
+                        playlist={false}
+                        poster="hqdefault"
+                        title="Type-C Showcase Series"
+                        noCookie={true}
+                    />
+                </div>
+            </div>
+            {/* Code Highlight Section */}
+            <div className="hero bg-base-200 py-20">
                 <div className="py-10 prose w-full max-w-6xl mx-auto">
                     <h1 className="text-center">Expressive and Elegant</h1>
                     <div className="flex flex-col lg:flex-row justify-around items-stretch gap-6">
