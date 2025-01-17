@@ -86,27 +86,27 @@ const DocsLayout: React.FC<DocsLayoutProps> = ({
                     {prevDoc && (
                         <Link
                             href={`/docs/${prevDoc.name}`}
-                            className={`join-item btn btn-outline btn-primary`}
+                            className={`join-item btn btn-primary btn-outline`}
                         >
                             <MdNavigateBefore />
                             {prevDoc.title}{" "}
                         </Link>
                     )}
                     {!prevDoc && (
-                        <button className="join-item btn btn-outline btn-primary btn-disabled">
+                        <button className="join-item btn btn-primary btn-outline btn-disabled">
                             Beginning
                         </button>
                     )}
                     {nextDoc && (
                         <Link
                             href={`/docs/${nextDoc.name}`}
-                            className="join-item btn btn-outline btn-primary"
+                            className="join-item btn btn-primar btn-outline"
                         >
                             {nextDoc.title} <MdNavigateNext />
                         </Link>
                     )}
                     {!nextDoc && (
-                        <button className="join-item btn btn-outline btn-primary btn-disabled">
+                        <button className="join-item btn btn-primary btn-outline  btn-disabled">
                             {" "}
                             Fin!
                         </button>
