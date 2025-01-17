@@ -1,3 +1,5 @@
+import { theme } from "@/states/theme";
+import { useHookstate } from "@hookstate/core";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
@@ -9,8 +11,10 @@ import {
     FaDownload,
     FaGithub,
     FaHome,
+    FaMoon,
     FaQuestionCircle,
     FaRegNewspaper,
+    FaSun,
     FaUniversity,
 } from "react-icons/fa";
 import { GiMaterialsScience, GiSecretBook, GiSpellBook } from "react-icons/gi";
@@ -22,6 +26,7 @@ import { TbLicense, TbPackages } from "react-icons/tb";
 
 const Header: React.FC = () => {
     const router = useRouter();
+    const themeState = useHookstate(theme)
 
     useEffect(() => {
         // Function to close all <details> elements
@@ -41,6 +46,11 @@ const Header: React.FC = () => {
             router.events.off("routeChangeComplete", closeAllDetails);
         };
     }, [router.events]);
+
+    const switchTheme = () => {
+        themeState.set(themeState.get() === 'typec-dark' ? 'typec-light' : 'typec-dark');
+        document.documentElement.setAttribute("data-theme", themeState.get());
+    }
 
     return (
         <div className="navbar bg-base-100 w-full z-50" id="header-menu">
@@ -206,6 +216,12 @@ const Header: React.FC = () => {
                 </ul>
             </div>
             <div className="navbar-end">
+                <button
+                    className="btn btn-ghost"
+                    onClick={() => switchTheme()}
+                >
+                    {themeState.get() === 'typec-dark' ? <FaMoon size={24} /> : <FaSun size={24} />}
+                </button>
                 {/*<Link className="btn btn-ghost" href="https://github.com/unlimitedsoftwareworks/type-c"><FaDiscord size={24} /></Link>*/}
                 <Link
                     className="btn btn-ghost"

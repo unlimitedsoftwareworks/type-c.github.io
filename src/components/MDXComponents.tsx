@@ -42,7 +42,7 @@ const Th: React.FC<React.HTMLAttributes<HTMLTableHeaderCellElement>> = (props) =
 const Td: React.FC<React.HTMLAttributes<HTMLTableDataCellElement>> = (props) => (
   <td className="px-6 py-4 whitespace-nowrap" {...props} />
 );
-const InlineCode: React.FC<React.HTMLAttributes<HTMLElement>> = (props) => <span className="badge badge-neutral" {...props} />;
+const InlineCode: React.FC<React.HTMLAttributes<HTMLElement>> = (props) => <span className="badge badge-primary" {...props} />;
 const blockAsCode = (props: React.HTMLAttributes<HTMLPreElement>) => <CodeHighlight code={props.children as any} language='typescript' />;
   
 
@@ -71,13 +71,13 @@ const MDXComponents = {
   // This assumes all `pre` elements contain code blocks.
   pre: (props: React.HTMLAttributes<HTMLPreElement> & { children: React.ReactElement }) => {
     // Extract className to find language class (e.g., "language-js")
-    const languageClass = props.children.props.className || "";
+    const languageClass = (props.children.props as {className: string}).className || "";
     // Regex to extract the language from className
     const languageMatch = languageClass.match(/language-(\w+)/);
     // Default to "plaintext" if no language class is found
     const language = languageMatch ? languageMatch[1] : "plaintext";
     // The code is the inner text of the `code` element
-    const code = props.children.props.children;
+    const code = (props.children.props as {children: string}).children;
 
     return <CodeHighlight code={code} language={language} />;
   }

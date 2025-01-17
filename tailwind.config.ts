@@ -22,33 +22,73 @@ const config: Config = {
   plugins: [require("@tailwindcss/typography"), daisyui],
   daisyui: {
     themes: [
+      
       {
-        'type-c': {
-           'primary' : '#f24a4a',
-           'primary-focus' : '#e1194e',
-           'primary-content' : '#ffffff',
+        'typec-dark': {
+          'primary': '#f24a4a',
+          'primary-focus': '#e1194e',
+          'primary-content': '#ffffff',
 
-           'secondary' : '#277e01',
-           'secondary-focus' : '#10b40e',
-           'secondary-content' : '#ebebeb',
+          'secondary': '#277e01',
+          'secondary-focus': '#10b40e',
+          'secondary-content': '#ebebeb',
 
-           'accent' : '#8e1adb',
-           'accent-focus' : '#9241c8',
-           'accent-content' : '#d6d6d6',
+          'accent': '#8e1adb',
+          'accent-focus': '#9241c8',
+          'accent-content': '#d6d6d6',
 
-           'neutral' : '#79026f',
-           'neutral-focus' : '#a72020',
-           'neutral-content' : '#ffffff',
+          'neutral': '#79026f',
+          'neutral-focus': '#a72020',
+          'neutral-content': '#ffffff',
 
-           'base-100' : '#171717',
-           'base-200' : '#1f1f1f',
-           'base-300' : '#363636',
-           'base-content' : '#ffffff',
+          'base-100': '#171717',
+          'base-200': '#1f1f1f',
+          'base-300': '#363636',
+          'base-content': '#ffffff',
 
-           'info' : '#2fc4e9',
-           'success' : '#0daf46',
-           'warning' : '#f56d24',
-           'error' : '#a50326',
+          'info': '#2fc4e9',
+          'success': '#0daf46',
+          'warning': '#f56d24',
+          'error': '#a50326',
+
+          '--rounded-box': '0',
+          '--rounded-btn': '0',
+          '--rounded-badge': '0',
+
+          '--animation-btn': '',
+          '--animation-input': '.2s',
+
+          '--btn-text-case': 'uppercase',
+          '--navbar-padding': '.5rem',
+          '--border-btn': '0',
+        },
+      },{
+        'typec-light': {
+          'primary': '#f24a4a',
+          'primary-focus': '#e1194e',
+          'primary-content': '#ffffff',
+
+          'secondary': '#277e01',
+          'secondary-focus': '#10b40e',
+          'secondary-content': '#ebebeb',
+
+          'accent': '#8e1adb',
+          'accent-focus': '#9241c8',
+          'accent-content': '#d6d6d6',
+
+          'neutral': '#79026f',
+          'neutral-focus': '#a72020',
+          'neutral-content': '#ffffff',
+
+          'base-100': '#ededed',
+          'base-200': '#fafafa',
+          'base-300': '#e6e6e6',
+          'base-content': '#0f0f0f',
+
+          'info': '#2fc4e9',
+          'success': '#0daf46',
+          'warning': '#f56d24',
+          'error': '#a50326',
 
           '--rounded-box': '0',
           '--rounded-btn': '0',

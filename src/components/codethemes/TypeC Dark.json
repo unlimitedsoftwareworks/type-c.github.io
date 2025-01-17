@@ -1,0 +1,91 @@
+{
+  "name": "typec-dark",
+  "displayName": "TypeC-Dark",
+  "settings": [
+    {
+      "settings": {
+        "foreground": "#ffffff",
+        "background": "#171717",
+        "caret": "#f24a4a",
+        "lineHighlight": "#1f1f1f",
+        "selection": "#1f1f1f",
+        "invisibles": "#363636"
+      }
+    },
+
+    {
+      "scope": [
+        "comment",
+        "keyword.declaration",
+        "storage.type"
+      ],
+      "settings": {
+        "foreground": "#2fc4e9",
+        "fontStyle": "italic"
+      }
+    },
+    {
+      "scope": [
+        "keyword",
+        "keyword.operator"
+      ],
+      "settings": {
+        "foreground": "#f24a4a",
+        "fontStyle": "italic"
+      }
+    },
+
+    {
+      "scope": "string",
+      "settings": {
+        "foreground": "#277e01"
+      }
+    },
+
+    {
+      "scope": "constant.numeric",
+      "settings": {
+        "foreground": "#cccccc"
+      }
+    },
+    {
+      "scope": "constant.character",
+      "settings": {
+        "foreground": "#a50326"
+      }
+    },
+
+    {
+      "scope": "entity.name.type",
+      "settings": {
+        "foreground": "#0daf46"
+      }
+    },
+    {
+      "scope": "entity.name.function",
+      "settings": {
+        "foreground": "#f24a4a"
+      }
+    },
+
+    {
+      "scope": "variable.parameter",
+      "settings": {
+        "foreground": "#277e01"
+      }
+    },
+    {
+      "scope": "variable",
+      "settings": {
+        "foreground": "#f56d24"
+      }
+    },
+
+    {
+      "scope": "comment.annotation",
+      "settings": {
+        "fontStyle": "bold italic"
+      }
+    }
+  ]
+}
