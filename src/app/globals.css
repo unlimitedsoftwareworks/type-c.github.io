@@ -255,13 +255,13 @@ code .line::before {
 
 /* style for logo text*/
 .logo-main {
-  font-family: 'SpaceRaveItalic';
+  font-family: 'SpaceRave';
   font-size: 120px;
   padding: 50px;
 }
 
 .logoFont {
-  font-family: 'SpaceRaveItalic';
+  font-family: 'SpaceRave';
 }
 
 .logoFont2 {
