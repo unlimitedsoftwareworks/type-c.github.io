@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { getSingletonHighlighter } from 'shiki';
 import typeCLang from './type-c.tmLanguage.json';
@@ -12,29 +11,29 @@ interface CodeHighlightProps {
     language: string;
 }
 
-
 const CodeHighlight: React.FC<CodeHighlightProps> = ({ code, language }) => {
     const [highlightedCode, setHighlightedCode] = useState('<span className="loading loading-infinity loading-lg"></span>');
-    let activeCode = code;
-    // remove last line if it is empty
-    while (activeCode[activeCode.length - 1] === '\n') {
-        activeCode = activeCode.slice(0, -1);
-    }
+    const themeState = useHookstate(theme);
 
-    const themeState = useHookstate(theme)
     useEffect(() => {
+        // Process activeCode inside useEffect to avoid hooks rule violation
+        let activeCode = code;
+        while (activeCode[activeCode.length - 1] === '\n') {
+            activeCode = activeCode.slice(0, -1);
+        }
+
         const highlightCode = async () => {
             try {
                 const highlighter = await getSingletonHighlighter({
                     langs: [typeCLang as any, "typescript", "javascript", "c", "cpp", "json", "bash"],
-                    themes: [typeCDark, typeCLight], 
+                    themes: [typeCDark, typeCLight],
                     langAlias: {
                         "tc": "type-c"
                     }
                 });
-                highlighter.getLoadedLanguages()
-                const html = await highlighter.codeToHtml(activeCode, { 
-                    lang: language, 
+                highlighter.getLoadedLanguages();
+                const html = await highlighter.codeToHtml(activeCode, {
+                    lang: language,
                     theme: themeState.get()
                 });
                 setHighlightedCode(html);
