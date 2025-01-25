@@ -50,7 +50,7 @@
             "patterns": [
                 {
                     "name": "keyword.control.type-c",
-                    "match": "\\b(as|override|break|cfn|class|const|local|namespace|impl|continue|coroutine|do|else|enum|extern|false|fn|for|foreach|from|if|import|in|interface|is|let|match|mut|mutate|new|null|return|static|strict|struct|this|true|type|unreachable|variant|while|yield|yield!)\\b"
+                    "match": "\\b(as|override|break|cfn|class|const|local|namespace|impl|continue|coroutine|do|else|enum|extern|false|fn|for|foreach|from|if|import|in|interface|is|let|match|mut|mutate|new|null|return|static|strict|struct|this|throw|true|type|unreachable|variant|while|yield|yield!)\\b"
                 }
             ]
         },

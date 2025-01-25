@@ -42,9 +42,9 @@ const Th: React.FC<React.HTMLAttributes<HTMLTableHeaderCellElement>> = (props) =
 const Td: React.FC<React.HTMLAttributes<HTMLTableDataCellElement>> = (props) => (
   <td className="px-6 py-4 whitespace-nowrap" {...props} />
 );
-const InlineCode: React.FC<React.HTMLAttributes<HTMLElement>> = (props) => <span className="badge badge-primary" {...props} />;
+const InlineCode: React.FC<React.HTMLAttributes<HTMLElement>> = (props) => <span className="badge badge-primary px-1 py-2 code-inline" {...props} />;
 const blockAsCode = (props: React.HTMLAttributes<HTMLPreElement>) => <CodeHighlight code={props.children as any} language='typescript' />;
-  
+
 
 const MDXComponents = {
   h1: H1,
@@ -65,8 +65,8 @@ const MDXComponents = {
   td: Td,
 
   // Inline code: directly use InlineCode for `code` elements not inside `pre`
-  code: InlineCode, 
-  
+  code: InlineCode,
+
   // Block code: use a wrapper around CodeHighlight for `pre` elements.
   // This assumes all `pre` elements contain code blocks.
   pre: (props: React.HTMLAttributes<HTMLPreElement> & { children: React.ReactElement }) => {

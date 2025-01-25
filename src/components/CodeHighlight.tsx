@@ -25,14 +25,14 @@ const CodeHighlight: React.FC<CodeHighlightProps> = ({ code, language }) => {
         const highlightCode = async () => {
             try {
                 const highlighter = await getSingletonHighlighter({
-                    langs: [typeCLang as any, "typescript", "javascript", "c", "cpp", "json", "bash"],
+                    langs: [typeCLang as any, "typescript", "javascript", "java", "asm", "lua", "c", "cpp", "json", "bash"],
                     themes: [typeCDark, typeCLight],
                     langAlias: {
                         "tc": "type-c"
                     }
                 });
                 highlighter.getLoadedLanguages();
-                const html = await highlighter.codeToHtml(activeCode, {
+                const html = highlighter.codeToHtml(activeCode, {
                     lang: language,
                     theme: themeState.get()
                 });

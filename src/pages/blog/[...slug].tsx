@@ -150,7 +150,7 @@ const PostPage = ({ source, meta }: any) => {
             <div className="striped1 hero bg-base-100 py-10 sm:py-20">
                 <div className="w-full max-w-4xl px-4 sm:px-6 lg:px-8 mx-auto">
                     <h2 className="text-xl font-bold mb-4">Written By</h2>
-                    <div className="stat bg-base-100 hover:bg-primary hover:text-blue-500 rounded-lg shadow-lg p-6 flex flex-col sm:flex-row items-center">
+                    <div className="stat bg-base-100 rounded-lg shadow-lg p-6 flex flex-col sm:flex-row items-center">
                         <div className="stat-figure text-secondary">
                             <div className="avatar">
                                 <div className="w-16 rounded-full">

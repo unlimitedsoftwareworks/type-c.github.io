@@ -48,7 +48,7 @@ const DocsLayout: React.FC<DocsLayoutProps> = ({
                         </li>
                     </ul>
                 </div>
-                <div className="join grid grid-cols-2 mb-5">
+                <div className="join grid grid-cols-2 mb-1">
                     {prevDoc && (
                         <Link
                             href={`/docs/${prevDoc.name}`}
@@ -78,9 +78,9 @@ const DocsLayout: React.FC<DocsLayoutProps> = ({
                         </button>
                     )}
                 </div>
-                <hr />
+                <hr className="mt-2 mb-10"/>
                 {children}
-                <hr />
+                <hr className="mt-10 mb-2"/>
                 <small>Kudos! Keep reading!</small>
                 <div className="join grid grid-cols-2">
                     {prevDoc && (
