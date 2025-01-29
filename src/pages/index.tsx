@@ -12,6 +12,9 @@ const Index: React.FC = () => {
     const gotoDocs = () => {
         router.push("/docs/introduction");
     };
+    const gotoPlayground = () => {
+        router.push("/playground");
+    };
     return (
         <div>
             {/* Hero Section */}
@@ -54,6 +57,12 @@ const Index: React.FC = () => {
                                     onClick={gotoDocs}
                                 >
                                     Documentation
+                                </button>
+                                <button
+                                    className="btn btn-accent"
+                                    onClick={gotoPlayground}
+                                >
+                                    Try Type-C Online
                                 </button>
                             </div>
                         </div>
