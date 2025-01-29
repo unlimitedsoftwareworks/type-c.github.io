@@ -30,6 +30,21 @@ export const codeTemplates: Record<string, CodeTemplate> = {
         description: "A mix of class/coroutines",
         filesource: "coroutines.tc"
     },
+    "log-array": {
+        name: "Logging + Array",
+        description: "Small demo of stdlib logging and array",
+        filesource: "log-array.tc"
+    },
+    "nullable-test": {
+        name: "Nullable Unit Test",
+        description: "Copy/Pasta from compiler's Unit test of nullables",
+        filesource: "nullable-test.tc"
+    },
+    "murmur-hash-32": {
+        name: "Murmur Hash 32",
+        description: "32-bits Murmur Hash implementation",
+        filesource: "murmur_hash.tc"
+    },
 };
 
 export async function loadCodeSample(filename: string): Promise<string> {

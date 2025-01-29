@@ -1,0 +1,97 @@
+from std.io import println
+
+/**
+ * 32-bits versiob of murmur hash.
+ * Type-C does not provide a single type for all numbers, instead, you will have
+ * to properly convert basic types. For example:
+ *  ((char2 & 0xff) << 8) => if char2 was u `u8`, the entire
+ * expression will result in a u8. That is we define individual characters below
+ * as u32.
+ */
+fn murmurHash32(key: String, seed: u32) {
+    let h1 = seed
+    let const remainder = key.length() & 3
+    let bytes = key.length() - remainder
+
+    let c1 = 0xcc9e2d51
+    let c2 = 0x1b873593
+
+    let i: u64 = 0
+
+    while i < bytes {
+        // we need to upcast the bytes to u32
+        let char1: u32 = key.bytes()[i]
+        let char2: u32 = key.bytes()[i+1]
+        let char3: u32 = key.bytes()[i+2]
+        let char4: u32 = key.bytes()[i+3]
+
+        let k1: u32 = (char1 & 0xff) | ((char2 & 0xff) << 8) | ((char3 & 0xff) << 16) | ((char4 & 0xff) << 24)
+
+        i += 4
+
+        k1 = k1 * c1
+        k1 = (k1 << 15) | (k1 >> 17)
+        k1 = k1 * c2
+
+        h1 = h1 ^ k1
+        h1 = (h1 << 13) | (h1 >> 19)
+        h1 = (h1 * 5) + 0xe6546b64
+    }
+
+    let k1: u32 = 0
+
+    /**
+     * Sadly match breakes automatically, so match isn't the best
+     * usage if you want to reuse multiple chunks
+     */
+    match remainder {
+        3 {
+            let char1: u32 = key.bytes()[i]
+            let char2: u32 = key.bytes()[i+1]
+            let char3: u32 = key.bytes()[i+2]
+
+            k1 = k1 ^ (char3 & 0xff) << 16
+            k1 = k1 ^ (char2 & 0xff) << 8
+            k1 = k1 ^ (char1 & 0xff)
+            k1 = k1 * c1
+            k1 = (k1 << 15) | (k1 >> 17)
+            k1 = k1 * c2
+            h1 = h1 ^ k1
+        }
+        2 {
+            let char1: u32 = key.bytes()[i]
+            let char2: u32 = key.bytes()[i+1]
+
+            k1 = k1 ^ (char2 & 0xff) << 8
+            k1 = k1 ^ (char1 & 0xff)
+            k1 = k1 * c1
+            k1 = (k1 << 15) | (k1 >> 17)
+            k1 = k1 * c2
+            h1 = h1 ^ k1
+        }
+        1 {
+            let char1: u32 = key.bytes()[i]
+
+            k1 = k1 ^ (char1 & 0xff)
+            k1 = k1 * c1
+            k1 = (k1 << 15) | (k1 >> 17)
+            k1 = k1 * c2
+            h1 = h1 ^ k1
+        }
+    }
+
+    h1 = h1 ^ (key.length() as u32)
+    h1 = h1 ^ (h1 >> 16)
+    h1 = h1 * 0x85ebca6b
+    h1 = h1 ^ (h1 >> 13)
+    h1 = h1 * 0xc2b2ae35
+    h1 = h1 ^ (h1 >> 16)
+
+    return h1
+}
+
+fn main() -> u32 {
+    let h = murmurHash32("hello world", 1234)
+    println("hash = "+h)
+    return 0
+}

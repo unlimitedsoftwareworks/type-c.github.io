@@ -82,12 +82,12 @@ const Header: React.FC = () => {
                                 <FaHome size={20} /> Home
                             </Link>
                         </li>
-                        {/*<li>
+                        <li>
                             <Link href={"/playground"}>
                                 <FaLaptopCode size={20} />
                                 Playground
                             </Link>
-                        </li>*/}
+                        </li>
                         <li>
                             <Link href={"/posts"}>
                                 <FaRegNewspaper size={20} /> Blog
@@ -156,12 +156,12 @@ const Header: React.FC = () => {
                             <FaHome size={20} /> Home
                         </Link>
                     </li>
-                    {/*<li>
+                    <li>
                         <Link href={"/playground"}>
                             <FaLaptopCode size={20} />
                             Playground
                         </Link>
-                    </li>*/}
+                    </li>
                     <li>
                         <Link href={"/posts"}>
                             <FaRegNewspaper size={20} /> Blog

@@ -35,7 +35,13 @@ export const EditorToolbar = () => {
                 stderr.set(res.data.result.stdErr ?? "")
             }
         }).catch((err) => {
-            console.error(err);
+            if (err.response) {
+                console.log(err.response.data)
+                compiler.set(err.response.data.error)
+            }
+            else {
+                compiler.set(err.toString())
+            }
         }).finally(() => {
             awaitResponse.set(false);
         })
@@ -44,42 +50,56 @@ export const EditorToolbar = () => {
     return (
         <div className="w-full bg-base-200 p-2">
             <ul className="menu menu-horizontal bg-base-200 rounded-box gap-2">
-                <li className="dropdown dropdown-hover mr-2 border-r border-base-300">
-                    <button tabIndex={0} className="btn btn-sm">
+                <li className="mr-2 border-r border-base-300">
+                    <button 
+                        onClick={() => (document.getElementById('code_samples_modal') as HTMLDialogElement)?.showModal()} 
+                        className="btn btn-sm"
+                    >
                         <FaCode /> Load Code Samples
                     </button>
-                    <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-auto">
-                        {Object.entries(codeTemplates).map(([id, template]) => (
-                            <li key={id}>
-                                <div
-                                    className="flex flex-col items-start cursor-pointer"
-                                    onClick={() => loadTemplate(id)}
-                                >
-                                    <span>{template.name}</span>
-                                    <small className="text-xs text-gray-500">
-                                        {template.description}
-                                    </small>
-                                </div>
-                            </li>
-                        ))}
-                    </ul>
                 </li>
                 <li>
                     <button className="btn btn-sm" onClick={runCode} >
                         <VscRunAll /> Run
                     </button>
                 </li>
-                <li>
-                    <button className="btn btn-sm">
-                        <VscDebugStop /> Stop
-                    </button>
-                </li>
                 {awaitResponse.get() && (
                     <li>
-                        <div className="spinner spinner-primary"></div>
+                        <span className="loading loading-spinner loading-sm"></span>
                     </li>
                 )}
             </ul>
+
+            <dialog id="code_samples_modal" className="modal">
+                <div className="modal-box">
+                    <h3 className="font-bold text-lg mb-4">Code Samples</h3>
+                    <div className="space-y-2">
+                        {Object.entries(codeTemplates).map(([id, template]) => (
+                            <div
+                                key={id}
+                                className="p-3 hover:bg-base-200 rounded-lg cursor-pointer"
+                                onClick={() => {
+                                    loadTemplate(id);
+                                    (document.getElementById('code_samples_modal') as HTMLDialogElement)?.close();
+                                }}
+                            >
+                                <div className="font-medium">{template.name}</div>
+                                <div className="text-sm text-gray-500">
+                                    {template.description}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                    <div className="modal-action">
+                        <form method="dialog">
+                            <button className="btn">Close</button>
+                        </form>
+                    </div>
+                </div>
+                <form method="dialog" className="modal-backdrop">
+                    <button>close</button>
+                </form>
+            </dialog>
         </div>
     );
 };

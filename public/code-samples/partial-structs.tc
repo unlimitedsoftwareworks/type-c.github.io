@@ -11,6 +11,9 @@ type Point2D = {
 }
 
 fn printPoint(p: partial<Point2D>) {
+    // we cat empty string to i32 to convert to string
+    // because lhs of ?? must have the same type as rhs.
+
     println("<" + (""+p.x ?? "??") + ", " +(""+p.y ?? "??") + ">")
 }
 
