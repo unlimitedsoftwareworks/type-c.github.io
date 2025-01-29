@@ -1,0 +1,21 @@
+/**
+ * fibonacci series
+ */
+
+from std.io import println
+
+/**
+ * Recursive function require return type
+ * annotation
+ */
+fn fib(n: u32) -> u32 = match n {
+    0 => 0,
+    1 => 1,
+    _ => fib(n-1) + fib(n-2)
+}
+
+fn main() -> i32 {
+    let n = fib(10)
+    println("fib(10) = "+n)
+    return 0
+}

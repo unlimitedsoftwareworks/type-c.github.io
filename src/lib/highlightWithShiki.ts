@@ -1,4 +1,3 @@
-// lib/highlightWithShiki.ts
 import { codeToHtml } from 'shiki';
 
 export const highlightCode = async (code: string, language: string): Promise<string> => {

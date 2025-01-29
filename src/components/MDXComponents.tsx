@@ -1,9 +1,6 @@
 import Link from 'next/link';
 import React from 'react';
 import CodeHighlight from './CodeHighlight';
-import { language } from 'gray-matter';
-// Optionally import a style for the syntax highlighter
-// import { dark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 // Use appropriate HTML props for each element type
 const H1: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = (props) => <h1 {...props} />;
@@ -43,7 +40,6 @@ const Td: React.FC<React.HTMLAttributes<HTMLTableDataCellElement>> = (props) => 
   <td className="px-6 py-4 whitespace-nowrap" {...props} />
 );
 const InlineCode: React.FC<React.HTMLAttributes<HTMLElement>> = (props) => <span className="badge badge-primary px-1 py-2 code-inline" {...props} />;
-const blockAsCode = (props: React.HTMLAttributes<HTMLPreElement>) => <CodeHighlight code={props.children as any} language='typescript' />;
 
 
 const MDXComponents = {

@@ -1,0 +1,28 @@
+/**
+ * Struct Demo
+ */
+
+from std.io import println
+
+type Point2D = {
+    x: i32,
+    y: i32
+}
+
+fn printPoint(p: Point2D) {
+    println("<" + p.x + ", " + p.y + ">")
+}
+
+fn main() {
+    let p1: Point2D = { x: 10, y: 20 }
+    let p2: Point2D & { z: i32 } = { x: 30, y: -40, z: 30 }
+    printPoint(p1)
+    printPoint(p2)
+
+    p2 << p1 // dunk p1 into p2
+
+    // only fields of p1 that are present in p2 will get applied
+    printPoint(p2) // should now print <10, 20>
+
+    return 0
+}

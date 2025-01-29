@@ -58,6 +58,9 @@ pre code {
 }
 
 .cybr-btn {
+    /* italic font */
+    font-family: "SpaceRaveItalic";
+
     --primary: hsl(
         var(--primary-hue),
         85%,
@@ -360,13 +363,18 @@ pre code {
 
 /* style for logo text*/
 .logo-main {
-    font-family: "SpaceRave";
+    font-family: "SpaceRaveItalic";
     font-size: 120px;
     padding: 50px;
 }
 
+.logo-main-sm {
+    font-family: "SpaceRaveItalic";
+    font-size: 70px;
+}
+
 .logoFont {
-    font-family: "SpaceRave";
+    font-family: "SpaceRaveItalic";
 }
 
 .logoFont2 {

@@ -1,7 +1,6 @@
 // src/components/Footer.tsx
 import Link from "next/link";
 import React from "react";
-import { FaGithub } from "react-icons/fa";
 
 const Footer: React.FC = () => {
     return (

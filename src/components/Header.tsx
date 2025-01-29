@@ -7,15 +7,12 @@ import { CiCircleMore, CiStickyNote } from "react-icons/ci";
 import {
     FaBalanceScale,
     FaBook,
-    FaDiscord,
-    FaDownload,
+    FaLaptopCode,
     FaGithub,
     FaHome,
     FaMoon,
-    FaQuestionCircle,
     FaRegNewspaper,
     FaSun,
-    FaUniversity,
 } from "react-icons/fa";
 import { GiMaterialsScience, GiSecretBook, GiSpellBook } from "react-icons/gi";
 import { HiUserGroup } from "react-icons/hi";
@@ -86,6 +83,12 @@ const Header: React.FC = () => {
                             </Link>
                         </li>
                         <li>
+                            <Link href={"/playground"}>
+                                <FaLaptopCode size={20} />
+                                Playground
+                            </Link>
+                        </li>
+                        <li>
                             <Link href={"/posts"}>
                                 <FaRegNewspaper size={20} /> Blog
                             </Link>
@@ -142,7 +145,7 @@ const Header: React.FC = () => {
                         </li>
                     </ul>
                 </div>
-                <Link className="btn btn-ghost text-xl logoFont" href="/">
+                <Link className="btn btn-ghost text-xl logoFont2" href="/">
                     Type-C
                 </Link>
             </div>
@@ -151,6 +154,12 @@ const Header: React.FC = () => {
                     <li>
                         <Link href={"/"}>
                             <FaHome size={20} /> Home
+                        </Link>
+                    </li>
+                    <li>
+                        <Link href={"/playground"}>
+                            <FaLaptopCode size={20} />
+                            Playground
                         </Link>
                     </li>
                     <li>

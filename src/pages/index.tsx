@@ -20,15 +20,19 @@ const Index: React.FC = () => {
                     <div className="flex flex-col lg:flex-row gap-y-10 lg:gap-x-40 items-center">
                         {/* Logo Section */}
                         <div
-                            className="cybr-btn text-center logo-main min-h-[180px]"
-                            style={{ minWidth: 650 }}
+                            className="cybr-btn text-center logo-main min-h-[180px] w-full hidden md:block"
                         >
                             <h1 className="logoFont">Type-C</h1>
                             <span aria-hidden className="cybr-btn__glitch">
                                 Type-C
                             </span>
-                            <span aria-hidden className="cybr-btn__tag">
-                                R25
+                        </div>
+                        <div
+                            className="cybr-btn text-center logo-main-sm pt-2 min-h-[100px] w-full block sm:block md:hidden"
+                        >
+                            <h1 className="logoFont">Type-C</h1>
+                            <span aria-hidden className="cybr-btn__glitch">
+                                Type-C
                             </span>
                         </div>
 

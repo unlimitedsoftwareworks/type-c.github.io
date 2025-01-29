@@ -1,4 +1,3 @@
-// lib/docs.ts
 import fs from 'fs';
 import path from 'path';
 let readFile = require('fs').promises.readFile;

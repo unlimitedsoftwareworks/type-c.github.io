@@ -1,0 +1,45 @@
+from std.io import println
+
+type DataGenerator = class {
+    let co: coroutine<cfn() -> String>
+
+    fn init(f: cfn() -> String) {
+        this.co = coroutine f
+    }
+}
+
+fn main() {
+    fn dataGenerator() -> String {
+        let data = ["hi", "hello", "hey"]
+
+        yield data[0]
+        yield data[1]
+        yield! data[2]
+    }
+
+    let s = {
+        co: coroutine dataGenerator
+    }
+
+    println(s.co())
+    println(s.co())
+    println(s.co())
+    println("S Alive = " + s.co.alive)
+
+    let c = new DataGenerator(fn () {
+        yield "hurray #1!"
+        yield "hurray #2!"
+        yield "hurray #3!"
+        yield! "final hurray!"
+    })
+
+    println("C Alive = " + c.co.alive)
+    println(c.co())
+    println("C Alive = " + c.co.alive)
+    println(c.co())
+    println("C Alive = " + c.co.alive)
+    println(c.co())
+    println("C Alive = " + c.co.alive)
+    println(c.co())
+    println("C Alive = " + c.co.alive)
+}
