@@ -83,8 +83,17 @@ async function generateSearchIndex() {
         const relativePath = path.relative(docsDir, filePath);
         const slug = relativePath.replace(/\.mdx$/, '');
 
-        // Get the first paragraph as excerpt
-        const excerpt = content.match(/^(?!#)(.+?)(?=\n\n|\n#|$)/s)?.[0] || '';
+        // Extract content while removing headers and markdown formatting
+        const cleanContent = content
+            .replace(/^#.*$/gm, '') // Remove headers
+            .replace(/^[=\-]{3,}$/gm, '') // Remove header underlines
+            .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // Convert links to text
+            .replace(/`[^`]+`/g, '') // Remove code blocks
+            .replace(/\n+/g, ' ') // Replace newlines with spaces
+            .trim();
+
+        // Get a reasonable excerpt length (first 200 characters)
+        const excerpt = cleanContent.slice(0, 200) + (cleanContent.length > 200 ? '...' : '');
 
         // Use title from meta, fallback to frontmatter title
         const title = titleMap.get(slug) || data.title || '';

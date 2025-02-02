@@ -150,6 +150,7 @@ const DocsSearch = () => {
                                 setQuery('');
                             }}
                         >
+                            <div className="font-semibold mb-1">{result.item.title}</div>
                             {serializedExcerpts[result.refIndex] && (
                                 <div className="text-md mt-1 line-clamp-4 prose prose-sm max-w-none opacity-70 [&_h1]:text-base [&_h2]:text-base [&_h3]:text-base [&_h4]:text-base break-words">
                                     <MDXRemote {...serializedExcerpts[result.refIndex]} />
