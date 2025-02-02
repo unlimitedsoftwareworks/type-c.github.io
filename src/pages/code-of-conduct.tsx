@@ -20,7 +20,7 @@ const CodeOfConduct: React.FC = () => {
 
             </div>
 
-            <div className="hero bg-base-100">
+            <div className="hero bg-base-200">
                 <div className="py-40 w-700">
                     <div className="prose lg:prose-md m-auto">
                         <h2>Decency </h2>

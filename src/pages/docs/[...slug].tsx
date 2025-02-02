@@ -47,18 +47,39 @@ export interface DocItem {
     items?: DocItem[];
 }
 
+interface TableOfContentsItem {
+    text: string;
+    id: string;
+    level: number;
+}
+
 type DocPageProps = {
-    docsStructure: DocItem[]; // Use the structured documentation data
+    docsStructure: DocItem[];
     prevDoc: DocItem | null;
     nextDoc: DocItem | null;
     activeDoc: DocItem;
     source: any;
     frontMatter: { [key: string]: any };
+    tableOfContents: TableOfContentsItem[];
 };
 
-const DocPage: React.FC<DocPageProps> = ({ source, frontMatter, docsStructure, prevDoc, nextDoc, activeDoc }) => {
+const DocPage: React.FC<DocPageProps> = ({ 
+    source, 
+    frontMatter, 
+    docsStructure, 
+    prevDoc, 
+    nextDoc, 
+    activeDoc,
+    tableOfContents
+}) => {
     return (
-        <DocsLayout docsStructure={docsStructure} nextDoc={nextDoc} prevDoc={prevDoc} activeDoc={activeDoc}>
+        <DocsLayout 
+            docsStructure={docsStructure} 
+            nextDoc={nextDoc} 
+            prevDoc={prevDoc} 
+            activeDoc={activeDoc}
+            tableOfContents={tableOfContents}
+        >
             <article>
                 <MDXRemote {...source} components={MDXComponents} />
             </article>
@@ -120,21 +141,41 @@ function getDocsStructure(metaData: any, dirPath = 'docs', basePath = '') {
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
     const slug = params?.slug as string[];
-    const filePath = getFilePathForSlug(slug); // Get the file path for the slug (helper function not shown here
+    const filePath = getFilePathForSlug(slug);
     const fileContents = fs.readFileSync(filePath, 'utf8');
-    const { content, data } = matter(fileContents); // Parses frontmatter from the MDX
+    const { content, data } = matter(fileContents);
+
+    const extractHeadings = (mdxContent: string): TableOfContentsItem[] => {
+        const headingRegex = /^(#{1,6})\s+(.+)$/gm;
+        const headings: TableOfContentsItem[] = [];
+        
+        let match;
+        while ((match = headingRegex.exec(mdxContent)) !== null) {
+            const level = match[1].length;
+            const text = match[2];
+            const id = text
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, '-')
+                .replace(/(^-|-$)/g, '');
+            
+            headings.push({ level, text, id });
+        }
+        
+        return headings;
+    };
+
+    const tableOfContents = extractHeadings(content);
+    
     const mdxSource = await serialize(content, {
-        // Pass options to MDX serialization
         mdxOptions: {
             remarkPlugins: [remarkGfm],
         }
     });
 
-    const slugs = getDocsSlugs(); // Get the list for the sidebar
+    const slugs = getDocsSlugs();
 
     const docsStructure = loadAndStructureDocs();
     
-    // flatten the structure to find the previous and next documents
     let flatDocs: DocItem[] = [];
     
     const flattenDocs = (docs: DocItem[]) => {
@@ -165,6 +206,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
             prevDoc, 
             nextDoc,
             activeDoc,
+            tableOfContents,
         },
     };
 };

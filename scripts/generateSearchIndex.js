@@ -11,47 +11,96 @@ const docsDirectory = path.join(process.cwd(), 'docs');
 const metaFilePath = path.join(docsDirectory, '_meta.json');
 
 const readMetaData = () => {
-  const rawMeta = fs.readFileSync(metaFilePath, 'utf8');
-  return JSON.parse(rawMeta);
+    const rawMeta = fs.readFileSync(metaFilePath, 'utf8');
+    return JSON.parse(rawMeta);
+};
+
+// Flatten meta data into a map of slug -> title
+const flattenMeta = (meta, basePath = '') => {
+    let titleMap = new Map();
+
+    meta.forEach(entry => {
+        const currentPath = basePath ? `${basePath}/${entry.name}` : entry.name;
+        titleMap.set(currentPath, entry.title);
+
+        if (entry._meta) {
+            const subMap = flattenMeta(entry._meta, currentPath);
+            titleMap = new Map([...titleMap, ...subMap]);
+        }
+    });
+
+    return titleMap;
 };
 
 const generatePaths = (metaData, basePath = '') => {
-  let paths = [];
+    let paths = [];
 
-  metaData.forEach(entry => {
-    const filePath = path.join(basePath, entry.name + '.mdx');
+    metaData.forEach(entry => {
+        const filePath = path.join(basePath, entry.name + '.mdx');
 
-    if (entry._meta) {
-      paths = paths.concat(generatePaths(entry._meta, path.join(basePath, entry.name)));
-    }
-    else 
-    {
+        if (entry._meta) {
+            paths = paths.concat(generatePaths(entry._meta, path.join(basePath, entry.name)));
+        }
+        else {
+            paths.push(filePath);
+        }
+    });
 
-    paths.push(filePath);
-    }
-  });
-
-  return paths;
+    return paths;
 };
 
-const generateSearchIndex = () => {
-  const metaData = readMetaData();
-  const mdxPaths = generatePaths(metaData);
+async function generateSearchIndex() {
+    const searchIndex = [];
+    const docsDir = path.join(process.cwd(), 'docs');
+    const meta = readMetaData();
+    const titleMap = flattenMeta(meta);
 
-  const searchIndex = mdxPaths.map(filePath => {
-    const fullPath = path.join(docsDirectory, filePath);
-    const fileContents = fs.readFileSync(fullPath, 'utf8');
-    const { data, content } = matter(fileContents);
+    // Recursively get all MDX files
+    const getMDXFiles = (dir) => {
+        const files = fs.readdirSync(dir);
+        const mdxFiles = [];
 
-    return {
-      title: data.title,
-      slug: filePath.replace(/^docs\/|\.mdx$/g, ''),
-      excerpt: content.slice(0, 200),
+        for (const file of files) {
+            const filePath = path.join(dir, file);
+            const stat = fs.statSync(filePath);
+
+            if (stat.isDirectory()) {
+                mdxFiles.push(...getMDXFiles(filePath));
+            } else if (file.endsWith('.mdx')) {
+                mdxFiles.push(filePath);
+            }
+        }
+
+        return mdxFiles;
     };
-  });
 
-  const outputPath = path.join(process.cwd(), 'public', 'search-index.json');
-  fs.writeFileSync(outputPath, JSON.stringify(searchIndex, null, 2), 'utf8');
-};
+    const mdxFiles = getMDXFiles(docsDir);
+
+    for (const filePath of mdxFiles) {
+        const fileContent = fs.readFileSync(filePath, 'utf8');
+        const { data, content } = matter(fileContent);
+
+        const relativePath = path.relative(docsDir, filePath);
+        const slug = relativePath.replace(/\.mdx$/, '');
+
+        // Get the first paragraph as excerpt
+        const excerpt = content.match(/^(?!#)(.+?)(?=\n\n|\n#|$)/s)?.[0] || '';
+
+        // Use title from meta, fallback to frontmatter title
+        const title = titleMap.get(slug) || data.title || '';
+
+        searchIndex.push({
+            title,
+            slug,
+            excerpt: excerpt.trim(),
+        });
+    }
+
+    // Write the search index to a JSON file
+    fs.writeFileSync(
+        path.join(process.cwd(), 'public', 'search-index.json'),
+        JSON.stringify(searchIndex, null, 2)
+    );
+}
 
 generateSearchIndex();

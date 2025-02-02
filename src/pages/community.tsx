@@ -21,7 +21,7 @@ const Community: React.FC = () => {
 
             </div>
 
-            <div className="hero bg-base-100">
+            <div className="hero bg-base-200">
                 <div className="py-40 w-700">
                     <div className="m-auto">
                         <div className='prose p-5'>

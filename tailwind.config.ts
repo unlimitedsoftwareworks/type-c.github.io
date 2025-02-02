@@ -37,8 +37,8 @@ const config: Config = {
           'accent-focus': '#9241c8',
           'accent-content': '#d6d6d6',
 
-          'neutral': '#79026f',
-          'neutral-focus': '#a72020',
+          'neutral': '#ff7094',
+          'neutral-focus': '#ff5784',
           'neutral-content': '#ffffff',
 
           'base-100': '#171717',
@@ -76,8 +76,8 @@ const config: Config = {
           'accent-focus': '#9241c8',
           'accent-content': '#d6d6d6',
 
-          'neutral': '#79026f',
-          'neutral-focus': '#a72020',
+          'neutral': '#ff7094',
+          'neutral-focus': '#ff5784',
           'neutral-content': '#ffffff',
 
           'base-100': '#ededed',

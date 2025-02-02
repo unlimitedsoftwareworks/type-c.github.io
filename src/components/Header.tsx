@@ -5,14 +5,10 @@ import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import { CiCircleMore, CiStickyNote } from "react-icons/ci";
 import {
-    FaBalanceScale,
-    FaBook,
-    FaLaptopCode,
     FaGithub,
-    FaHome,
     FaMoon,
-    FaRegNewspaper,
     FaSun,
+    FaDiscord,
 } from "react-icons/fa";
 import { GiMaterialsScience, GiSecretBook, GiSpellBook } from "react-icons/gi";
 import { HiUserGroup } from "react-icons/hi";
@@ -50,7 +46,7 @@ const Header: React.FC = () => {
     }
 
     return (
-        <div className="navbar bg-base-100 w-full z-50" id="header-menu">
+        <div className="navbar bg-base-200 w-full z-50 shadow-md" id="header-menu">
             <div className="navbar-start">
                 <div className="dropdown">
                     <div
@@ -79,149 +75,93 @@ const Header: React.FC = () => {
                     >
                         <li>
                             <Link href={"/"}>
-                                <FaHome size={20} /> Home
+                                Home
                             </Link>
                         </li>
                         <li>
                             <Link href={"/playground"}>
-                                <FaLaptopCode size={20} />
                                 Playground
                             </Link>
                         </li>
                         <li>
                             <Link href={"/posts"}>
-                                <FaRegNewspaper size={20} /> Blog
+                                Blog
                             </Link>
                         </li>
                         <li>
                             <Link href={"/docs/introduction"}>
-                                <FaBook size={20} />
                                 Documentation
                             </Link>
                         </li>
-                        <li>
+                        {/*<li>
                             <a>
-                                <IoPeopleCircleOutline size={20} /> Community
                                 Portals
                             </a>
                             <ul className="p-2">
                                 <li>
                                     <Link href="/code-of-conduct">
-                                        <FaBalanceScale size={20} /> Code of
                                         Conduct
                                     </Link>
                                 </li>
                                 <li>
                                     <Link href={"/community"}>
-                                        <HiUserGroup size={20} /> Community
                                         Links
                                     </Link>
                                 </li>
                             </ul>
-                        </li>
-                        <li>
+                        </li>*/}
+                        {/*<li>
                             <Link href="/type-hub">
-                                <LuPackageSearch size={20} /> Type-Hub
+                                Type-Hub
                             </Link>
-                        </li>
-                        <li>
-                            <a>
-                                <CiCircleMore size={20} /> More
-                            </a>
-                            <ul className="p-2">
-                                <li>
-                                    <Link href={"/research"}>
-                                        <GiMaterialsScience size={20} />{" "}
-                                        Publications
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link href={"/credits"}>
-                                        {" "}
-                                        <TbLicense size={20} /> Credits
-                                    </Link>
-                                </li>
-                            </ul>
-                        </li>
+                        </li>*/}
                     </ul>
                 </div>
                 <Link className="btn btn-ghost text-xl logoFont2" href="/">
                     Type-C
                 </Link>
             </div>
-            <div className="navbar-center hidden lg:flex">
+            <div className="navbar-center hidden lg:flex ">
                 <ul className="menu menu-horizontal menu-hover px-1">
                     <li>
-                        <Link href={"/"}>
-                            <FaHome size={20} /> Home
-                        </Link>
-                    </li>
-                    <li>
                         <Link href={"/playground"}>
-                            <FaLaptopCode size={20} />
                             Playground
                         </Link>
                     </li>
                     <li>
                         <Link href={"/posts"}>
-                            <FaRegNewspaper size={20} /> Blog
+                            Blog
                         </Link>
                     </li>
                     <li>
                         <Link href={"/docs/introduction"}>
-                            <FaBook size={20} />
                             Documentation
                         </Link>
                     </li>
-                    <li>
+                    {/*<li>
                         <details>
                             <summary>
-                                <IoPeopleCircleOutline size={20} /> Community
-                                Portals
+                                Community Portals
                             </summary>
                             <ul className="p-2">
                                 <li>
                                     <Link href="/code-of-conduct">
-                                        <FaBalanceScale size={20} /> Code of
-                                        Conduct
+                                        Code of Conduct
                                     </Link>
                                 </li>
                                 <li>
                                     <Link href={"/community"}>
-                                        <HiUserGroup size={20} /> Community
-                                        Links
+                                        Community Links
                                     </Link>
                                 </li>
                             </ul>
                         </details>
-                    </li>
-                    <li>
+                    </li>*/}
+                    {/*<li>
                         <Link href="/type-hub">
-                            <LuPackageSearch size={20} /> Type-Hub
+                            Type-Hub
                         </Link>
-                    </li>
-
-                    <li>
-                        <details>
-                            <summary>
-                                <CiCircleMore size={20} /> More
-                            </summary>
-                            <ul className="p-2">
-                                <li>
-                                    <Link href={"/research"}>
-                                        <GiMaterialsScience size={20} />{" "}
-                                        Publications
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link href={"/credits"}>
-                                        {" "}
-                                        <TbLicense size={20} /> Credits
-                                    </Link>
-                                </li>
-                            </ul>
-                        </details>
-                    </li>
+                    </li>*/}
                 </ul>
             </div>
             <div className="navbar-end">
@@ -239,6 +179,9 @@ const Header: React.FC = () => {
                     <FaGithub size={24} />
                 </Link>
             </div>
+            <Link href="https://discord.gg/4ZPQsXSunn" target="_blank" className="btn btn-sm">
+                <FaDiscord size={24} />
+            </Link>
         </div>
     );
 };

@@ -74,7 +74,7 @@ const Index: React.FC = () => {
             <div className="py-10 bg-base-200 text-center">
                 <div
                     role="alert"
-                    className="alert alert-error flex flex-col items-center"
+                    className="alert alert-error flex flex-col items-center bg-red-500"
                 >
                     <span>
                         Notice: Type-C is still in early development stages and

@@ -22,7 +22,7 @@ const Credits: React.FC = () => {
 
             </div>
 
-            <div className="hero bg-base-100">
+            <div className="hero bg-base-200">
                 <div className="py-40 w-700">
                     <div className="stat shadow">
                         <div className="stat-figure text-secondary">

@@ -20,7 +20,7 @@ const TypeHub: React.FC = () => {
                     </div>
                 </div>
             </div>
-            <div className="flex flex-1 h-screen">
+            <div className="flex flex-1 h-full">
                 <div className='hero bg-base-200 py-20 w-200'>
                     <div className="prose p-5">
                         <h2>Sadly there is nothing here yet</h2>

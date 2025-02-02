@@ -2,13 +2,39 @@ import Link from 'next/link';
 import React from 'react';
 import CodeHighlight from './CodeHighlight';
 
+// Add this utility function at the top
+export const generateHeaderId = (text: string): string => {
+    return text
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/(^-|-$)/g, '');
+};
+
 // Use appropriate HTML props for each element type
-const H1: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = (props) => <h1 {...props} />;
-const H2: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = (props) => <h2 {...props} />;
-const H3: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = (props) => <h3  {...props} />;
-const H4: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = (props) => <h4  {...props} />;
-const H5: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = (props) => <h5 {...props} />;
-const H6: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = (props) => <h6 {...props} />;
+const H1: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = ({ children, ...props }) => {
+    const id = generateHeaderId(children?.toString() || '');
+    return <h1 id={id} {...props}>{children}</h1>;
+};
+const H2: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = ({ children, ...props }) => {
+    const id = generateHeaderId(children?.toString() || '');
+    return <h2 id={id} {...props}>{children}</h2>;
+};
+const H3: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = ({ children, ...props }) => {
+    const id = generateHeaderId(children?.toString() || '');
+    return <h3 id={id} {...props}>{children}</h3>;
+};
+const H4: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = ({ children, ...props }) => {
+    const id = generateHeaderId(children?.toString() || '');
+    return <h4 id={id} {...props}>{children}</h4>;
+};
+const H5: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = ({ children, ...props }) => {
+    const id = generateHeaderId(children?.toString() || '');
+    return <h5 id={id} {...props}>{children}</h5>;
+};
+const H6: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = ({ children, ...props }) => {
+    const id = generateHeaderId(children?.toString() || '');
+    return <h6 id={id} {...props}>{children}</h6>;
+};
 
 const P: React.FC<React.HTMLAttributes<HTMLParagraphElement>> = (props) => <p className="mb-2" {...props} />;
 const UL: React.FC<React.HTMLAttributes<HTMLUListElement>> = (props) => <ul className="list-disc pl-5 mb-2" {...props} />;

@@ -33,12 +33,12 @@ const BlogPosts: React.FC<{ posts: BlogPost[] }> = ({ posts }) => {
 
             </div>
 
-            <div className="hero bg-base-100">
+            <div className="hero bg-base-200">
                 <div className="py-20 w-700">
                     <div className="prose lg:prose-md m-auto">
                         {posts.map((post) => (
                             <>
-                                <div className='p-5 hover:bg-base-200 cursor-pointer' onClick={() => router.push(`/blog/${post.name}`)}>
+                                <div className='p-5 hover:bg-base-200 cursor-pointer hover:bg-primary/50' onClick={() => router.push(`/blog/${post.name}`)}>
                                     <h1 key={post.name}>{post.title}</h1>
                                     <small>{post.date}</small>
                                     <p>{post.description}</p>
