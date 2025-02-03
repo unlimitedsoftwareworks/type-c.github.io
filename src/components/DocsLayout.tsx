@@ -45,21 +45,6 @@ const DocsLayout: React.FC<DocsLayoutProps> = ({
             </aside>
 
             <main className="flex-1 overflow-y-auto p-4 bg-base-200 prose lg:prose-md m-auto max-w-4xl mx-auto" id="dochead">
-                <div className="flex flex-row justify-between items-center">
-                    <div className="text-sm breadcrumbs">
-                        <ul>
-                            <li>
-                                <FaRegNewspaper className="mx-2" /> Documentation
-                            </li>
-                            <li>
-                                <a>
-                                    <HiOutlineDocumentText className="mx-2" />
-                                    {activeDoc.title}
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
                 <div className="join grid grid-cols-2 mb-1">
                     {prevDoc && (
                         <Link
@@ -91,6 +76,7 @@ const DocsLayout: React.FC<DocsLayoutProps> = ({
                     )}
                 </div>
                 <hr className="mt-2 mb-10" />
+                <h1>{activeDoc.title}</h1>
                 {children}
                 <hr className="mt-10 mb-2" />
                 <small>Kudos! Keep reading!</small>
