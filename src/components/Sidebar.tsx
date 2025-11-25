@@ -37,7 +37,7 @@ const Sidebar: React.FC<SidebarProps> = ({ docsStructure }) => {
                     ) : (
                         // If the item is a leaf node, render a link
                         <li>
-                            <Link className={getCurrentPath() === `/docs/${item.name}` ? 'active' : ''} href={`/docs/${item.name}#dochead`}>{item.title}</Link>
+                            <Link className={getCurrentPath() === `/docs/${item.name}` ? 'menu-active' : ''} href={`/docs/${item.name}#dochead`}>{item.title}</Link>
                         </li>
                     )}
                 </React.Fragment>
