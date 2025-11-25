@@ -16,7 +16,7 @@ const FAQ: React.FC = () => {
             </div>
 
             <div className="hero bg-base-100">
-                <div className="py-40 w-700">
+                <div className="py-40">
                     <div className='prose'>
                         <div className="collapse collapse-arrow bg-base-200">
                             <input type="radio" name="my-accordion-2" defaultChecked />

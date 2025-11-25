@@ -21,14 +21,14 @@ const TypeHub: React.FC = () => {
                 </div>
             </div>
             <div className="flex flex-1 h-full">
-                <div className='hero bg-base-200 py-20 w-200'>
+                <div className='hero bg-base-200 py-20'>
                     <div className="prose p-5">
                         <h2>Sadly there is nothing here yet</h2>
                     </div>
                 </div>
 
                 {/*
-                <aside className="sticky left-0 top-0 h-screen overflow-y-auto bg-base-200 w-200 p-4  ">
+                <aside className="sticky left-0 top-0 h-screen overflow-y-auto bg-base-200 p-4  ">
                     <h1 className="py-5">Trending Libraries</h1>
                     <div className="card w-96 bg-base-100 border border-1 border-base-300  py-5">
                         <div className="card-body">

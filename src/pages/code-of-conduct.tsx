@@ -21,7 +21,7 @@ const CodeOfConduct: React.FC = () => {
             </div>
 
             <div className="hero bg-base-200">
-                <div className="py-40 w-700">
+                <div className="py-40">
                     <div className="prose lg:prose-md m-auto">
                         <h2>Decency </h2>
                         <p>The Cambridge dictionary defines decency as a behavior that is good, moral and acceptable in society. We expect every member to be a decent human being.</p>

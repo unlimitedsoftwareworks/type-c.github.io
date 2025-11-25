@@ -25,7 +25,7 @@ const Tour: React.FC = () => {
             </div>
 
             <div className="hero bg-base-100">
-                <div className="py-40 w-700">
+                <div className="py-40">
                     <div className="prose lg:prose-md m-auto">
                         <div className="flex justify-center w-full py-2 gap-2">
                             <a href="#item1" className="btn btn-xs">Rich Data Types</a>

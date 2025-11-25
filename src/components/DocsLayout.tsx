@@ -39,7 +39,7 @@ const DocsLayout: React.FC<DocsLayoutProps> = ({
         <div className="flex flex-1 bg-base-200 striped1">
             <aside
                 className="hidden lg:block sticky top-0 overflow-y-auto bg-base-200 p-4"
-                style={{ height: "calc(100vh - 50px - 66px)", maxWidth: "300px" }}
+                style={{ height: "calc(100vh - 66px)", maxWidth: "300px" }}
             >
                 <Sidebar docsStructure={docsStructure} />
             </aside>
@@ -113,7 +113,7 @@ const DocsLayout: React.FC<DocsLayoutProps> = ({
             </main>
             <aside
                 className="hidden lg:block sticky top-0 overflow-visible bg-base-200 p-4"
-                style={{ height: "calc(100vh - 50px - 66px)", width: "300px" }}
+                style={{ height: "calc(100vh - 66px)", width: "300px" }}
             >
                 <DocsSearch />
                 <div className="overflow-y-auto" style={{ height: "calc(100% - 50px)" }}>

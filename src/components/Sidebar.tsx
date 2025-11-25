@@ -23,7 +23,7 @@ const Sidebar: React.FC<SidebarProps> = ({ docsStructure }) => {
     };
 
     const renderDocs = (items: DocItem[]) => (
-        <ul className="menu bg-base-200 w-200">
+        <ul className="menu bg-base-200">
             {items.map(item => (
                 <React.Fragment key={item.name}>
                     {item.items && item.items.length > 0 ? (

@@ -8,13 +8,16 @@ type LayoutProps = {
 };
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
+  // If under docs/ we hide the footer
+  const isOnDocs = typeof window !== 'undefined' && window.location.pathname.startsWith('/docs/');
+
   return (
     <div className="flex flex-col h-screen">
       <Header/>
       <main className="flex-grow overflow-auto">
         {children}
       </main>
-      <Footer />
+      {!isOnDocs && <Footer />}
     </div>
   );
 };

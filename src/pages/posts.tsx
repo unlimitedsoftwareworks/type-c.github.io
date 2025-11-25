@@ -34,7 +34,7 @@ const BlogPosts: React.FC<{ posts: BlogPost[] }> = ({ posts }) => {
             </div>
 
             <div className="hero bg-base-200">
-                <div className="py-20 w-700">
+                <div className="py-20">
                     <div className="prose lg:prose-md m-auto">
                         {posts.map((post) => (
                             <>

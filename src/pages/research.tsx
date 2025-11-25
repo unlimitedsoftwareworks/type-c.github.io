@@ -23,7 +23,7 @@ const Research: React.FC = () => {
             {/*<div className="hero bg-base-100">*/}
 
             <div className="flex flex-1 h-screen">
-                <div className='hero bg-base-200 py-20 w-200'>
+                <div className='hero bg-base-200 py-20'>
                     <p>Sadly there is nothing here just yet!</p>
                     {/*
                     <div className="prose lg:prose-md m-auto">
