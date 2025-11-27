@@ -42,7 +42,7 @@ const Index: React.FC = () => {
                         {/* Buttons Section */}
                         <div className="text-center">
                             <p className="py-6 text-lg">
-                                An expressive type-safe programming language,
+                                An expressive (work in Progress, hammer, nails and all) type-safe programming language,
                                 tailored for efficiency and speed
                             </p>
                             <div className="flex flex-col sm:flex-row gap-4">

@@ -108,8 +108,8 @@ const DocsSearch = () => {
     }, [results]);
 
     return (
-        <div className="dropdown dropdown-end relative" ref={dropdownRef}>
-            <label className="input input-bordered flex items-center gap-2">
+        <div className="dropdown dropdown-end relative w-full" ref={dropdownRef}>
+            <label className="input input-bordered flex items-center gap-2 w-full">
                 <input
                     type="text"
                     className="grow"
